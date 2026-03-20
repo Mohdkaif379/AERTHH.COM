@@ -1,5 +1,5 @@
 {{-- resources/views/layouts/sidebar.blade.php --}}
-<aside id="sidebar" class="w-64 bg-white/80 backdrop-blur-md border-r border-cyan-100/50 flex flex-col transition-all duration-300 shadow-md">
+<aside id="sidebar" class="fixed md:sticky top-0 inset-y-0 left-0 z-50 w-64 max-w-[18rem] md:max-w-none md:w-64 h-screen md:h-auto bg-white/80 backdrop-blur-md border-r border-cyan-100/50 flex flex-col transition-all duration-300 shadow-md">
 
     {{-- Logo Section with Toggle Button --}}
     <div class="p-5 border-b border-cyan-100/50">
@@ -1050,5 +1050,39 @@
 
     [x-cloak] {
         display: none !important;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 1024px) {
+        #sidebar {
+            max-width: 18rem;
+            width: 90vw;
+            height: 100vh;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        #sidebar .p-5 {
+            padding: 1.25rem 1rem;
+        }
+
+        #sidebar nav {
+            padding: 1rem;
+        }
+    }
+
+    @media (max-width: 640px) {
+        #sidebar {
+            width: 100vw;
+            border-right: none;
+        }
+
+        #sidebar .sidebar-link {
+            padding-left: 0.85rem;
+            padding-right: 0.85rem;
+        }
+
+        #sidebar .sidebar-text.text-xs {
+            font-size: 0.72rem;
+        }
     }
 </style>
