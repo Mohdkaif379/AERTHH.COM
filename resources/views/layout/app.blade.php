@@ -16,8 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        html, body { height: 100%; overflow: hidden; }
-        body { font-family: 'Inter', sans-serif; }
+        html, body { min-height: 100%; }
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; background-color: transparent; }
         
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
@@ -59,25 +59,33 @@
         .sidebar-link.active i {
             color: white;
         }
+
+        /* Mobile padding adjustments */
+        @media (max-width: 1023px) {
+            body {
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
+        }
     </style>
     
     @stack('styles')
 </head>
 <body class="bg-gradient-to-br from-cyan-50 via-white to-emerald-50">
     
-    <div class="flex h-screen overflow-hidden">
+    <div class="flex min-h-screen lg:h-screen">
         
         {{-- Sidebar --}}
         @include('layout.sidebar')
         
         {{-- Main Content Area --}}
-        <main class="flex-1 overflow-y-auto">
+        <main class="flex-1 overflow-y-auto lg:overflow-y-auto">
             
             {{-- Header --}}
             @include('layout.header')
             
             {{-- Page Content --}}
-            <div class="p-6">
+            <div class="p-4 sm:p-6">
                 @yield('content')
             </div>
         </main>

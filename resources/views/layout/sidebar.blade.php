@@ -1,5 +1,11 @@
 {{-- resources/views/layouts/sidebar.blade.php --}}
-<aside id="sidebar" class="w-64 bg-white/80 backdrop-blur-md border-r border-cyan-100/50 flex flex-col transition-all duration-300 shadow-md">
+<button id="mobileSidebarTrigger" class="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-full bg-white shadow-lg text-cyan-500 border border-cyan-100/60 hover:bg-cyan-50 transition">
+    <i class="fas fa-bars text-base"></i>
+</button>
+
+<div id="sidebarOverlay" class="hidden lg:hidden fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
+
+<aside id="sidebar" class="w-64 md:w-60 sm:w-64 max-w-xs h-screen lg:h-auto overflow-y-auto bg-white/80 backdrop-blur-md border-r border-cyan-100/50 flex flex-col transition-all duration-300 shadow-md fixed lg:static inset-y-0 left-0 z-50 transform -translate-x-full lg:translate-x-0">
 
     {{-- Logo Section with Toggle Button --}}
     <div class="p-5 border-b border-cyan-100/50">
@@ -413,7 +419,7 @@
         </div>
 
         {{-- Banner Setup Button --}}
-        <a href="#" class="sidebar-link flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
+        <a href="{{route('admin.banners.index')}}" class="sidebar-link flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
             <i class="fas fa-images w-5 text-pink-500 text-sm flex-shrink-0"></i>
             <span class="sidebar-text text-xs font-medium">Banner Setup</span>
         </a>
@@ -988,31 +994,79 @@
         const sidebar = document.getElementById('sidebar');
         const toggleBtn = document.getElementById('toggleSidebar');
         const sidebarTexts = document.querySelectorAll('.sidebar-text');
+        const mobileTrigger = document.getElementById('mobileSidebarTrigger');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
 
         let isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+        const isMobileView = () => window.innerWidth < 1024;
 
-        if (isCollapsed) {
-            sidebar.classList.add('w-20');
-            sidebar.classList.remove('w-64');
-            sidebarTexts.forEach(el => el.classList.add('hidden'));
-            toggleBtn.innerHTML = '<i class="fas fa-chevron-right text-sm"></i>';
-        } else {
-            sidebar.classList.add('w-64');
+        const openMobileSidebar = () => {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarOverlay.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        };
+
+        const closeMobileSidebar = () => {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        const applyDesktopState = () => {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            toggleBtn.classList.remove('hidden');
+            mobileTrigger.classList.add('hidden');
+
+            if (isCollapsed) {
+                sidebar.classList.add('w-20');
+                sidebar.classList.remove('w-64', 'md:w-60', 'sm:w-64');
+                sidebarTexts.forEach(el => el.classList.add('hidden'));
+                toggleBtn.innerHTML = '<i class="fas fa-chevron-right text-sm"></i>';
+            } else {
+                sidebar.classList.add('w-64', 'md:w-60', 'sm:w-64');
+                sidebar.classList.remove('w-20');
+                sidebarTexts.forEach(el => el.classList.remove('hidden'));
+                toggleBtn.innerHTML = '<i class="fas fa-chevron-left text-sm"></i>';
+            }
+        };
+
+        const applyMobileState = () => {
+            toggleBtn.classList.add('hidden');
+            mobileTrigger.classList.remove('hidden');
             sidebar.classList.remove('w-20');
+            sidebar.classList.add('w-64');
             sidebarTexts.forEach(el => el.classList.remove('hidden'));
-            toggleBtn.innerHTML = '<i class="fas fa-chevron-left text-sm"></i>';
-        }
+            closeMobileSidebar();
+        };
+
+        const handleViewport = () => {
+            if (isMobileView()) {
+                applyMobileState();
+            } else {
+                applyDesktopState();
+            }
+        };
+
+        handleViewport();
+        window.addEventListener('resize', handleViewport);
 
         toggleBtn.addEventListener('click', function() {
+            if (isMobileView()) {
+                const isHidden = sidebar.classList.contains('-translate-x-full');
+                return isHidden ? openMobileSidebar() : closeMobileSidebar();
+            }
+
             isCollapsed = !isCollapsed;
 
             if (isCollapsed) {
                 sidebar.classList.add('w-20');
-                sidebar.classList.remove('w-64');
+                sidebar.classList.remove('w-64', 'md:w-60', 'sm:w-64');
                 sidebarTexts.forEach(el => el.classList.add('hidden'));
                 toggleBtn.innerHTML = '<i class="fas fa-chevron-right text-sm"></i>';
             } else {
-                sidebar.classList.add('w-64');
+                sidebar.classList.add('w-64', 'md:w-60', 'sm:w-64');
                 sidebar.classList.remove('w-20');
                 sidebarTexts.forEach(el => el.classList.remove('hidden'));
                 toggleBtn.innerHTML = '<i class="fas fa-chevron-left text-sm"></i>';
@@ -1020,12 +1074,21 @@
 
             localStorage.setItem('sidebarCollapsed', isCollapsed);
         });
+
+        mobileTrigger.addEventListener('click', openMobileSidebar);
+        sidebarOverlay.addEventListener('click', closeMobileSidebar);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && isMobileView() && !sidebar.classList.contains('-translate-x-full')) {
+                closeMobileSidebar();
+            }
+        });
     });
 </script>
 
 <style>
     #sidebar {
-        transition: width 0.3s ease-in-out;
+        transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
     }
 
     .sidebar-text {
@@ -1050,5 +1113,13 @@
 
     [x-cloak] {
         display: none !important;
+    }
+
+    @media (max-width: 1023px) {
+        #sidebar {
+            width: 80vw;
+            max-width: 18rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
     }
 </style>

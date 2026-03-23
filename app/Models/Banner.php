@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Banner extends Model
+{
+    protected $fillable = [
+        'banner_type',
+        'image',
+        'is_published',
+    ];
+
+    protected $casts = [
+        'is_published' => 'boolean',
+    ];
+}

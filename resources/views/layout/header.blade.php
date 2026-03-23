@@ -1,22 +1,27 @@
 {{-- resources/views/layouts/header.blade.php --}}
-<header class="sticky top-0 z-40 bg-white/70 backdrop-blur-md border-b border-cyan-100/50 px-6 py-3 shadow-md">
-    <div class="flex items-center justify-between">
+<header class="sticky top-0 z-40 bg-white/70 backdrop-blur-md border-b border-cyan-100/50 px-4 sm:px-6 py-3 shadow-md">
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         
         {{-- Page Title --}}
-        <div>
-            <h2 class="text-sm font-semibold text-gray-700">@yield('page-title', 'Dashboard')</h2>
-            <p class="text-[10px] text-gray-400">@yield('page-subtitle', 'Welcome Back ' . session('admin_name', 'Admin'))</p>
+        <div class="flex items-start sm:items-center gap-2 sm:gap-3">
+            <button id="headerMobileSidebar" class="inline-flex lg:hidden p-2 rounded-lg border border-cyan-100 text-cyan-500 bg-white shadow-sm hover:bg-cyan-50 transition">
+                <i class="fas fa-bars text-sm"></i>
+            </button>
+            <div class="flex flex-col leading-tight">
+                <h2 class="text-sm font-semibold text-gray-700">@yield('page-title', 'Dashboard')</h2>
+                <p class="text-[10px] text-gray-400">@yield('page-subtitle', 'Welcome Back ' . session('admin_name', 'Admin'))</p>
+            </div>
         </div>
         
         {{-- Right Icons --}}
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center flex-wrap justify-end gap-3 sm:gap-4">
             
             {{-- Search Input --}}
-            <div class="relative">
+            <div class="relative w-full sm:w-64 md:w-80">
                 <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
                 <input type="text" 
                        placeholder="Search..." 
-                       class="w-80 pl-8 pr-3 py-3 bg-white/90 border border-gray-200 rounded-2xl focus:border-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-100 transition-all duration-300 text-xs text-gray-600 placeholder-gray-400">
+                       class="w-full pl-8 pr-3 py-3 bg-white/90 border border-gray-200 rounded-2xl focus:border-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-100 transition-all duration-300 text-xs text-gray-600 placeholder-gray-400">
             </div>
             
             {{-- Shopping Cart Icon --}}
@@ -221,5 +226,12 @@
                 header.classList.remove('scrolled');
             }
         });
+
+        // Open sidebar from header hamburger on mobile
+        const headerMobileSidebar = document.getElementById('headerMobileSidebar');
+        const sidebarTrigger = document.getElementById('mobileSidebarTrigger');
+        if (headerMobileSidebar && sidebarTrigger) {
+            headerMobileSidebar.addEventListener('click', () => sidebarTrigger.click());
+        }
     });
 </script>

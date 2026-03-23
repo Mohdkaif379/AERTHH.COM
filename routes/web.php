@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\SubSubCategory\SubSubCategoryController;
 use App\Http\Controllers\Admin\Attribute\AttributeController;
 use App\Http\Controllers\Admin\Brand\BrandController;
 use App\Http\Controllers\Admin\Product\ProductController;
+use App\Http\Controllers\Admin\Banner\BannerController;
+use App\Http\Controllers\Website\HomeController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -83,3 +85,17 @@ Route::prefix('admin/products')->group(function () {
     Route::get('/status/{id}', [ProductController::class, 'toggleStatus'])->name('products.status');
     Route::get('/{id}', [ProductController::class, 'show'])->name('products.show');
 });
+
+Route::prefix('admin/banners')->group(function () {
+    Route::get('/', [BannerController::class, 'index'])->name('admin.banners.index');
+    Route::get('/create', [BannerController::class, 'create'])->name('admin.banners.create');
+    Route::post('/store', [BannerController::class, 'store'])->name('admin.banners.store');
+    Route::get('/edit/{banner}', [BannerController::class, 'edit'])->name('admin.banners.edit');
+    Route::post('/update/{banner}', [BannerController::class, 'update'])->name('admin.banners.update');
+    Route::post('/delete/{banner}', [BannerController::class, 'destroy'])->name('admin.banners.destroy');
+    Route::get('/status/{id}', [BannerController::class, 'toggleStatus'])->name('admin.banners.status');
+    Route::get('/{id}', [BannerController::class, 'show'])->name('admin.banners.show');
+});
+
+
+
