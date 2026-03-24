@@ -1,9 +1,4 @@
 @extends('layout.app')
-
-@section('title', 'Vendor Details')
-@section('page-title', 'Vendor Details')
-@section('page-subtitle', 'View vendor information')
-
 @section('content')
     <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-4">
         <div class="flex items-center justify-between">
