@@ -20,7 +20,7 @@
                 </div>
                 {{-- Brand Text - Hidden when collapsed --}}
                 <div class="sidebar-text">
-                    <h1 class="text-lg font-bold text-gray-800">Aerthh</h1>
+                    <h1 class="text-lg font-bold text-gray-800">Aerthh.com</h1>
                     <p class="text-[9px] text-gray-400">Admin Dashboard</p>
                 </div>
             </div>
@@ -567,7 +567,7 @@
             <button @click="salesOpen = !salesOpen" class="w-full sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
                 <div class="flex items-center space-x-3">
                     <i class="fas fa-chart-line w-5 text-emerald-500 text-sm flex-shrink-0"></i>
-                    <span class="sidebar-text text-xs font-medium">Sales & Transaction Repo</span>
+                    <span class="sidebar-text text-xs font-medium">Sales & Transaction Rep</span>
                 </div>
                 <i class="fas fa-chevron-down text-[8px] text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': salesOpen }"></i>
             </button>
@@ -728,15 +728,15 @@
                 class="pl-9 space-y-1">
 
                 {{-- Add New Vendor --}}
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <!-- <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-plus-circle w-4 text-emerald-400 text-[10px]"></i>
                         <span class="sidebar-text">Add New Vendor</span>
                     </div>
-                </a>
+                </a> -->
 
                 {{-- Vendor List --}}
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{ route('vendors.index') }}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-list w-4 text-cyan-400 text-[10px]"></i>
                         <span class="sidebar-text">Vendor List</span>

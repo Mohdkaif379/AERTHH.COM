@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\Attribute\AttributeController;
 use App\Http\Controllers\Admin\Brand\BrandController;
 use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Banner\BannerController;
-use App\Http\Controllers\Website\HomeController;
+use App\Http\Controllers\Admin\Vendor\VendorController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -97,5 +97,9 @@ Route::prefix('admin/banners')->group(function () {
     Route::get('/{id}', [BannerController::class, 'show'])->name('admin.banners.show');
 });
 
-
-
+Route::prefix('admin/vendors')->group(function () {
+    Route::get('/', [VendorController::class, 'index'])->name('vendors.index');
+    Route::get('/{vendor}', [VendorController::class, 'show'])->name('vendors.show');
+    Route::get('/status/{vendor}', [VendorController::class, 'status'])->name('vendors.status');
+    Route::get('/delete/{vendor}', [VendorController::class, 'destroy'])->name('vendors.delete');
+});

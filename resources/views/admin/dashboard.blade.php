@@ -6,22 +6,47 @@
 @section('page-subtitle', 'Welcome back, Admin')
 
 @section('content')
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white rounded-xl p-5 border border-cyan-100/50">
-            <h3 class="text-xs text-gray-400">Total Sales</h3>
-            <p class="text-2xl font-bold text-gray-800">$45,678</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {{-- Vendors --}}
+        <div class="bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 border border-cyan-100 rounded-xl p-5 shadow-sm">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-[11px] uppercase tracking-wide text-cyan-600 font-semibold">Vendors</p>
+                    <p class="text-3xl font-bold text-gray-800 leading-tight">{{ $stats['vendors'] ?? 0 }}</p>
+                    <p class="text-[11px] text-gray-500 mt-1">Active sellers on platform</p>
+                </div>
+                <span class="h-10 w-10 flex items-center justify-center rounded-lg bg-cyan-500 text-white shadow">
+                    <i class="fas fa-store text-sm"></i>
+                </span>
+            </div>
         </div>
-        <div class="bg-white rounded-xl p-5 border border-emerald-100/50">
-            <h3 class="text-xs text-gray-400">Total Orders</h3>
-            <p class="text-2xl font-bold text-gray-800">1,234</p>
+
+        {{-- Customers --}}
+        <div class="bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-100 rounded-xl p-5 shadow-sm">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-[11px] uppercase tracking-wide text-emerald-600 font-semibold">Customers</p>
+                    <p class="text-3xl font-bold text-gray-800 leading-tight">{{ $stats['customers'] ?? 0 }}</p>
+                    <p class="text-[11px] text-gray-500 mt-1">Registered shoppers</p>
+                </div>
+                <span class="h-10 w-10 flex items-center justify-center rounded-lg bg-emerald-500 text-white shadow">
+                    <i class="fas fa-users text-sm"></i>
+                </span>
+            </div>
         </div>
-        <div class="bg-white rounded-xl p-5 border border-cyan-100/50">
-            <h3 class="text-xs text-gray-400">Customers</h3>
-            <p class="text-2xl font-bold text-gray-800">5,678</p>
-        </div>
-        <div class="bg-white rounded-xl p-5 border border-emerald-100/50">
-            <h3 class="text-xs text-gray-400">Products</h3>
-            <p class="text-2xl font-bold text-gray-800">892</p>
+
+        {{-- Products --}}
+        <div class="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-100 rounded-xl p-5 shadow-sm">
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-[11px] uppercase tracking-wide text-blue-600 font-semibold">Products</p>
+                    <p class="text-3xl font-bold text-gray-800 leading-tight">{{ $stats['products'] ?? 0 }}</p>
+                    <p class="text-[11px] text-gray-500 mt-1">Items in catalog</p>
+                </div>
+                    <span class="h-10 w-10 flex items-center justify-center rounded-lg bg-blue-500 text-white shadow">
+                    <i class="fas fa-box-open text-sm"></i>
+                </span>
+            </div>
         </div>
     </div>
 @endsection
