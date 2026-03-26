@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\CustomerLoginController;
 use App\Http\Controllers\Api\VendorController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
 
 Route::get('customers', [CustomerController::class, 'index']);
 Route::post('customer/create', [CustomerController::class, 'store']);
@@ -27,3 +28,4 @@ Route::patch('vendors/{vendor}/status', [VendorController::class, 'updateStatus'
 
 Route::get('banners', [BannerController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
+Route::get('products', [ProductController::class, 'index']);
