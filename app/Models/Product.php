@@ -65,4 +65,14 @@ class Product extends Model
     {
         return $this->belongsTo(Attribute::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 }

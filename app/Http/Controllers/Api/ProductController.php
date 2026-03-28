@@ -48,4 +48,34 @@ class ProductController extends Controller
 
         return response()->json($products);
     }
+
+  
+public function show($id)
+{
+    $product = Product::with(['category', 'subCategory', 'subSubCategory', 'brand', 'attribute'])
+        ->where('status', 1)
+        ->find($id);
+
+    if (!$product) {
+        return response()->json([
+            'message' => 'Product not found'
+        ], 404);
+    }
+
+    // Main image URL fix
+    if ($product->image && !str_starts_with($product->image, 'http')) {
+        $product->image = Storage::disk('public')->url($product->image);
+    }
+
+    // Additional images URL fix
+    $product->additional_image = collect($product->additional_image)->map(function ($image) {
+        if (!$image || str_starts_with($image, 'http')) {
+            return $image;
+        }
+
+        return Storage::disk('public')->url($image);
+    })->values();
+
+    return response()->json($product);
+}
 }

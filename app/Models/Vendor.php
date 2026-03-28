@@ -62,8 +62,16 @@ class Vendor extends Model
         if (str_starts_with($value, 'http://') || str_starts_with($value, 'https://')) {
             return $value;
         }
-
-        // Return raw storage path (storage/app/public/...)
         return 'storage/app/public/' . ltrim($value, '/');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }
