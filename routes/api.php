@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\CartController;
 
 Route::get('customers', [CustomerController::class, 'index']);
 Route::post('customer/create', [CustomerController::class, 'store']);
@@ -29,6 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('order/create', [OrderController::class, 'store']);
     Route::get('orders', [OrderController::class, 'index']);
+    Route::get('cart', [CartController::class, 'index']);
+    Route::post('cart/add', [CartController::class, 'addToCart']);
+    Route::delete('cart/remove/{productId}', [CartController::class, 'removeFromCart']);
 });
 
 Route::get('vendors', [VendorController::class, 'index']);

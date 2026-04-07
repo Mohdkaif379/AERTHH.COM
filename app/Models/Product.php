@@ -73,6 +73,11 @@ class Product extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
