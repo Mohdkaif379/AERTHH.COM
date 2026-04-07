@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Banner\BannerController;
 use App\Http\Controllers\Admin\Vendor\VendorController;
 use App\Http\Controllers\Admin\Customer\CustomerController;
+use App\Http\Controllers\Admin\Vendor\VendorPendingProductController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -72,7 +73,6 @@ Route::prefix('admin/attribute')->group(function () {
     Route::get('/delete/{id}', [AttributeController::class, 'destroy'])->name('attribute.delete');
 });     
 
-
 Route::prefix('admin/products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('products.index');
     Route::get('/create', [ProductController::class, 'create'])->name('products.create');
@@ -105,9 +105,17 @@ Route::prefix('admin/vendors')->group(function () {
     Route::get('/delete/{vendor}', [VendorController::class, 'destroy'])->name('vendors.delete');
 });
 
+
+
 Route::prefix('admin/customers')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('/{customer}', [CustomerController::class, 'show'])->name('customers.show');
     Route::get('/status/{customer}', [CustomerController::class, 'status'])->name('customers.status');
     Route::get('/delete/{customer}', [CustomerController::class, 'destroy'])->name('customers.delete');
+});
+
+
+Route::prefix('admin/vendor/products/pending')->group(function () {
+    Route::get('/', [VendorPendingProductController::class, 'index'])->name('vendor.products.pending');
+    Route::get('/status/{id}/{status}', [VendorPendingProductController::class, 'updateStatus'])->name('vendor.products.pending.status');
 });

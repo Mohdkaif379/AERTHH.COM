@@ -28,10 +28,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('address/{id}', [AddressController::class, 'destroy']);
 
     Route::post('order/create', [OrderController::class, 'store']);
+    Route::get('orders', [OrderController::class, 'index']);
 });
 
 Route::get('vendors', [VendorController::class, 'index']);
 Route::post('vendor/create', [VendorController::class, 'store']);
+Route::post('vendor/login', [VendorController::class, 'login']);
 Route::get('vendors/{vendor}', [VendorController::class, 'show']);
 Route::put('vendors/{vendor}', [VendorController::class, 'update']);
 Route::patch('vendors/{vendor}', [VendorController::class, 'update']);
@@ -42,4 +44,11 @@ Route::get('banners', [BannerController::class, 'index']);
 Route::get('categories', [CategoryController::class, 'index']);
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('product/create', [ProductController::class, 'store']);
+    Route::put('products/{id}', [ProductController::class, 'update']);
+    Route::delete('products/{id}', [ProductController::class, 'destroy']);
+});
+
 Route::get('brands', [BrandController::class, 'index']);

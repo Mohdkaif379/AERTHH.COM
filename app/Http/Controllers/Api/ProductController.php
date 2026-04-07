@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -16,6 +17,10 @@ class ProductController extends Controller
     {
         $query = Product::with(['category', 'subCategory', 'subSubCategory', 'brand', 'attribute'])
             ->where('status', 1)
+            ->where(function ($q) {
+                $q->whereNull('vendor_id')
+                  ->orWhere('vendor_product_status', 'approved');
+            })
             ->latest();
 
         if ($request->filled('search')) {
@@ -54,6 +59,10 @@ public function show($id)
 {
     $product = Product::with(['category', 'subCategory', 'subSubCategory', 'brand', 'attribute'])
         ->where('status', 1)
+        ->where(function ($q) {
+            $q->whereNull('vendor_id')
+              ->orWhere('vendor_product_status', 'approved');
+        })
         ->find($id);
 
     if (!$product) {
@@ -78,4 +87,116 @@ public function show($id)
 
     return response()->json($product);
 }
+
+    // ✅ Store new product
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'product_name' => 'required|string|max:255',
+            'unit_price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png',
+            'description' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()
+            ], 422);
+        }
+
+        $data = $request->all();
+
+        // Assign vendor details from token
+        if ($request->user()) {
+            $data['vendor_id'] = $request->user()->id;
+            $data['vendor_product_status'] = 'pending';
+        }
+
+        // Image upload
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('products', 'public');
+            $data['image'] = $path;
+        }
+
+        $product = Product::create($data);
+
+        // Full URL
+        if ($product->image) {
+            $product->image = url('storage/' . $product->image);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Product created successfully',
+            'data' => $product
+        ], 201);
+    }
+
+    // ✅ Update product
+    public function update(Request $request, $id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Product not found'
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|string|max:255',
+            'price' => 'sometimes|numeric',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png',
+            'description' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()
+            ], 422);
+        }
+
+        $data = $request->all();
+
+        // Image update
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('products', 'public');
+            $data['image'] = $path;
+        }
+
+        $product->update($data);
+
+        if ($product->image) {
+            $product->image = url('storage/' . $product->image);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Product updated successfully',
+            'data' => $product
+        ]);
+    }
+
+    // ✅ Delete product
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Product not found'
+            ], 404);
+        }
+
+        $product->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Product deleted successfully'
+        ]);
+    }
 }

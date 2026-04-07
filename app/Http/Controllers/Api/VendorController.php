@@ -62,6 +62,41 @@ class VendorController extends Controller
         return response()->json($this->withImageUrls($vendor), 201);
     }
 
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        $vendor = Vendor::where('email', $request->email)->first();
+
+        if (!$vendor || !Hash::check($request->password, $vendor->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid email or password.',
+            ], 401);
+        }
+
+        if (!$vendor->status) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Your account is blocked. Please contact support.',
+            ], 403);
+        }
+
+        // Generate token using Sanctum
+        $token = $vendor->createToken('vendor_auth_token')->plainTextToken;
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Vendor logged in successfully.',
+            'token' => $token,
+            'vendor' => $this->withImageUrls($vendor),
+        ]);
+    }
+
+
     public function show(Vendor $vendor)
     {
         return response()->json($this->withImageUrls($vendor));

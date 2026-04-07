@@ -87,4 +87,36 @@ class OrderController extends Controller
             'data' => $order
         ], 201);
     }
+
+
+
+
+    // Fetch logged in customer's orders
+    public function index(Request $request)
+    {
+        // Get the authenticated user's ID
+        $customerId = $request->user()->id;
+
+        // Fetch orders for this customer, order by latest first, maybe along with product details
+        $orders = Order::with('product') 
+            ->where('customer_id', $customerId)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        // Ensure product image is a full URL
+        $orders->each(function ($order) {
+            if ($order->product && $order->product->image) {
+                if (!str_starts_with($order->product->image, 'http')) {
+                    // Prepend the asset URL
+                    $order->product->image = asset($order->product->image);
+                }
+            }
+        });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Orders fetched successfully',
+            'data' => $orders
+        ], 200);
+    }
 }

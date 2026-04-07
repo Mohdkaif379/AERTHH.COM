@@ -369,12 +369,12 @@
                 class="pl-9 space-y-1">
 
                 {{-- New Products Requests --}}
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{ route('vendor.products.pending') }}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-clock w-4 text-yellow-400 text-[10px]"></i>
                         <span class="sidebar-text">New Products Requests</span>
                     </div>
-                    <span class="sidebar-text bg-yellow-100 text-yellow-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">12</span>
+                    <!-- <span class="sidebar-text bg-yellow-100 text-yellow-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">12</span> -->
                 </a>
 
                 {{-- Product Update Request --}}
@@ -383,7 +383,7 @@
                         <i class="fas fa-edit w-4 text-blue-400 text-[10px]"></i>
                         <span class="sidebar-text">Product Update Request</span>
                     </div>
-                    <span class="sidebar-text bg-blue-100 text-blue-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">5</span>
+                    <!-- <span class="sidebar-text bg-blue-100 text-blue-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">5</span> -->
                 </a>
 
                 {{-- Approved Products --}}
@@ -392,7 +392,7 @@
                         <i class="fas fa-check-circle w-4 text-emerald-400 text-[10px]"></i>
                         <span class="sidebar-text">Approved Products</span>
                     </div>
-                    <span class="sidebar-text bg-emerald-100 text-emerald-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">45</span>
+                    <!-- <span class="sidebar-text bg-emerald-100 text-emerald-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">45</span> -->
                 </a>
 
                 {{-- Denied Products --}}
@@ -401,7 +401,7 @@
                         <i class="fas fa-times-circle w-4 text-rose-400 text-[10px]"></i>
                         <span class="sidebar-text">Denied Products</span>
                     </div>
-                    <span class="sidebar-text bg-rose-100 text-rose-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+                    <!-- <span class="sidebar-text bg-rose-100 text-rose-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">3</span> -->
                 </a>
             </div>
         </div>
