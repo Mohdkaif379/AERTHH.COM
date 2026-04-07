@@ -78,6 +78,9 @@ class OrderController extends Controller
             'payment_status' => $payment_status, 
         ]);
 
+        $order->order_no = 'ORD' . str_pad((string) $order->id, 4, '0', STR_PAD_LEFT);
+        $order->save();
+
         // Decrement product stock quantity
         $product->decrement('stock_quantity', $request->quantity);
 

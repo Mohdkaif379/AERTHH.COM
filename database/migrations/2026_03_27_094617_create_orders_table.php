@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('shipping_cost', 10, 2)->default(0);
             $table->string('status')->default('pending');
             $table->string('payment_method');
+            $table->string('order_no')->nullable()->unique()->after('payment_method');
             $table->string('payment_status')->default('pending');
             $table->string('payment_order_id')->nullable();
             $table->timestamps();
