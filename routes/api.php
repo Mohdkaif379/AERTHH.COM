@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\BestSellerController;
+use App\Http\Controllers\Api\TopSellingProductController;
 
 Route::get('customers', [CustomerController::class, 'index']);
 Route::post('customer/create', [CustomerController::class, 'store']);
@@ -50,6 +51,7 @@ Route::get('categories', [CategoryController::class, 'index']);
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/{id}', [ProductController::class, 'show']);
 Route::get('best-sellers', [BestSellerController::class, 'index']);
+Route::get('top-selling', [TopSellingProductController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('product/create', [ProductController::class, 'store']);
