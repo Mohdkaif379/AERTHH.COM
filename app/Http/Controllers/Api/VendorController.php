@@ -13,7 +13,10 @@ class VendorController extends Controller
 {
     public function index()
     {
-        $vendors = Vendor::latest()->paginate(15);
+        $vendors = Vendor::withCount('orders')
+            ->withSum('orders', 'quantity')
+            ->latest()
+            ->paginate(15);
 
         $vendors->getCollection()->transform(function ($vendor) {
             return $this->withImageUrls($vendor);
