@@ -396,7 +396,7 @@
                 </a>
 
                 {{-- Denied Products --}}
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{ route('vendor.products.rejected') }}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-times-circle w-4 text-rose-400 text-[10px]"></i>
                         <span class="sidebar-text">Denied Products</span>

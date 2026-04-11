@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Vendor\VendorController;
 use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\Vendor\VendorPendingProductController;
 use App\Http\Controllers\Admin\Vendor\VendorApprovedProductController;
+use App\Http\Controllers\Admin\Vendor\VendorRejectedProductController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -123,4 +124,8 @@ Route::prefix('admin/vendor/products/pending')->group(function () {
 
 Route::prefix('admin/vendor/products/approved')->group(function () {
     Route::get('/', [VendorApprovedProductController::class, 'index'])->name('vendor.products.approved');
+});
+
+Route::prefix('admin/vendor/products/rejected')->group(function () {
+    Route::get('/', [VendorRejectedProductController::class, 'index'])->name('vendor.products.rejected');
 });
