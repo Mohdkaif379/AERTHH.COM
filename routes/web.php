@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Banner\BannerController;
 use App\Http\Controllers\Admin\Vendor\VendorController;
 use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\Vendor\VendorPendingProductController;
+use App\Http\Controllers\Admin\Vendor\VendorApprovedProductController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -118,4 +119,8 @@ Route::prefix('admin/customers')->group(function () {
 Route::prefix('admin/vendor/products/pending')->group(function () {
     Route::get('/', [VendorPendingProductController::class, 'index'])->name('vendor.products.pending');
     Route::get('/status/{id}/{status}', [VendorPendingProductController::class, 'updateStatus'])->name('vendor.products.pending.status');
+});
+
+Route::prefix('admin/vendor/products/approved')->group(function () {
+    Route::get('/', [VendorApprovedProductController::class, 'index'])->name('vendor.products.approved');
 });
