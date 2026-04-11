@@ -78,6 +78,16 @@ class Product extends Model
         return $this->hasMany(Cart::class);
     }
 
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);

@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\WishlistCotroller;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\BestSellerController;
 use App\Http\Controllers\Api\TopSellingProductController;
 
@@ -35,6 +37,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('cart', [CartController::class, 'index']);
     Route::post('cart/add', [CartController::class, 'addToCart']);
     Route::delete('cart/remove/{productId}', [CartController::class, 'removeFromCart']);
+
+    Route::get('wishlist', [WishlistCotroller::class, 'index']);
+    Route::post('wishlist/add', [WishlistCotroller::class, 'addToWishlist']);
+    Route::delete('wishlist/remove/{productId}', [WishlistCotroller::class, 'removeFromWishlist']);
+
+    Route::get('reviews', [ReviewController::class, 'index']);
+    Route::post('review/add', [ReviewController::class, 'store']);
+    Route::delete('review/remove/{productId}', [ReviewController::class, 'destroy']);
 });
 
 Route::get('vendors', [VendorController::class, 'index']);
