@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
-    // Create a new order
+   
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

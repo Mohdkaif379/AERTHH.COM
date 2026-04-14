@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\WishlistCotroller;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\BestSellerController;
 use App\Http\Controllers\Api\TopSellingProductController;
+use App\Http\Controllers\Api\TrackOrderController;
 
 Route::get('customers', [CustomerController::class, 'index']);
 Route::post('customer/create', [CustomerController::class, 'store']);
@@ -45,6 +46,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('reviews', [ReviewController::class, 'index']);
     Route::post('review/add', [ReviewController::class, 'store']);
     Route::delete('review/remove/{productId}', [ReviewController::class, 'destroy']);
+
+    Route::get('track-order', [TrackOrderController::class, 'trackOrder']);
 });
 
 Route::get('vendors', [VendorController::class, 'index']);
