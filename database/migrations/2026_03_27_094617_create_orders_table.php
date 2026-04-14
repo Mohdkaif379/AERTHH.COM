@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2);
             $table->decimal('shipping_cost', 10, 2)->default(0);
             $table->string('status')->default('pending');
+            $table->string('cancel_reason')->nullable();
             $table->string('payment_method');
             $table->string('order_no')->nullable()->unique()->after('payment_method');
             $table->string('payment_status')->default('pending');
