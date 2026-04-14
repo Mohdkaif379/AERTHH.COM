@@ -38,6 +38,7 @@ class ChatSupportController extends Controller
         $customer = Auth::user();
 
         $chats = ChatSupport::forCustomer($customer->id)
+            ->where('status', '!=', 'completed')
             ->with(['customer', 'support'])
             ->orderBy('created_at', 'asc')
             ->get();
