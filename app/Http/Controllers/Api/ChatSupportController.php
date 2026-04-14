@@ -38,6 +38,7 @@ class ChatSupportController extends Controller
         $customer = Auth::user();
 
         $chats = ChatSupport::forCustomer($customer->id)
+            ->where('status', '!=', 'completed')
             ->with(['customer', 'support'])
             ->orderBy('created_at', 'asc')
             ->get();
@@ -50,8 +51,9 @@ class ChatSupportController extends Controller
 
     public function allChats(Request $request)
     {
-        // Har customer ki latest message aur unread count ke saath
+        // Har customer ki latest message aur unread count ke saath (jo complete nahi hui)
         $chats = ChatSupport::with(['customer', 'support'])
+            ->where('status', '!=', 'completed')
             ->orderBy('created_at', 'desc')
             ->get()
             ->groupBy('customer_id')
@@ -79,6 +81,7 @@ class ChatSupportController extends Controller
     public function customerChat($customerId)
     {
         $chats = ChatSupport::forCustomer($customerId)
+            ->where('status', '!=', 'completed')
             ->with(['customer', 'support'])
             ->orderBy('created_at', 'asc')
             ->get();
@@ -162,6 +165,18 @@ class ChatSupportController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Message delete ho gaya.',
+        ]);
+    }
+
+    public function completeChat($customerId)
+    {
+        $updated = ChatSupport::forCustomer($customerId)
+            ->where('status', '!=', 'completed')
+            ->update(['status' => 'completed']);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Chat successfully marked as completed.',
         ]);
     }
 }

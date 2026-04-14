@@ -88,3 +88,4 @@ Route::get('admin/chats', [ChatSupportController::class, 'allChats']);          
 Route::get('admin/chats/{customer_id}', [ChatSupportController::class, 'customerChat']);       // Ek customer ki chat
 Route::post('admin/chats/{customer_id}/reply', [ChatSupportController::class, 'replyMessage']); // Reply karo
 Route::patch('admin/chats/{customer_id}/read', [ChatSupportController::class, 'markAsRead']);   // Messages read mark karo
+Route::patch('admin/chats/{customer_id}/complete', [ChatSupportController::class, 'completeChat']); // Complete mark karo

@@ -10,6 +10,7 @@ class ChatSupport extends Model
         'customer_id',
         'support_id',
         'message',
+        'status',
         'sender_type',
         'is_read',
     ];

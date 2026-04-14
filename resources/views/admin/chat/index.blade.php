@@ -73,6 +73,11 @@
                             class="w-full max-h-32 p-3 bg-transparent border-none outline-none resize-none text-sm text-slate-700 placeholder-slate-400"
                             oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
                     </div>
+                    <button type="button" id="completeQueryBtn" onclick="markQueryComplete()"
+                        class="h-[46px] px-3 md:px-4 rounded-2xl bg-white border border-emerald-200 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-300 font-medium text-sm flex items-center gap-2 shadow-sm transition-all hover:-translate-y-0.5" title="Mark query as completed">
+                        <i class="fa-solid fa-check-double text-xs"></i>
+                        <span class="hidden md:inline">Complete</span>
+                    </button>
                     <button type="submit" id="sendReplyBtn" disabled
                         class="h-[46px] px-5 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-medium text-sm flex items-center gap-2 shadow-md hover:shadow-lg transition-transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
                         <span>Send</span>
@@ -412,6 +417,47 @@
             btn.disabled = false;
             btn.innerHTML = '<span>Send</span><i class="fa-solid fa-paper-plane text-xs"></i>';
             input.focus();
+        }
+    }
+
+    async function markQueryComplete() {
+        if (!currentCustomerId) return;
+        if (!confirm('Are you sure you want to mark this query as completed? This will close the chat.')) return;
+
+        const btn = document.getElementById('completeQueryBtn');
+        const ogContent = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-sm"></i>';
+
+        try {
+            const res = await fetch(`${MAIN_API_BASE}/admin/chats/${currentCustomerId}/complete`, {
+                method: 'PATCH',
+                headers: { 'Accept': 'application/json' }
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                // Exit current chat
+                if (window.innerWidth < 768) {
+                    document.getElementById('backToChatsBtn').click();
+                } else {
+                    document.getElementById('emptyChatState').classList.remove('hidden');
+                    document.getElementById('chatWorkspace').classList.add('hidden');
+                    currentCustomerId = null;
+                    if (activeChatInterval) clearInterval(activeChatInterval);
+                }
+                
+                // Reload left bar
+                loadConversations();
+            } else {
+                alert(data.message || 'Failed to complete chat.');
+            }
+        } catch (error) {
+            console.error('Complete query error:', error);
+            alert('A network error occurred.');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = ogContent;
         }
     }
 </script>
