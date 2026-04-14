@@ -74,13 +74,13 @@
                             oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
                     </div>
                     <button type="button" id="completeQueryBtn" onclick="markQueryComplete()"
-                        class="h-[46px] px-3 md:px-4 rounded-2xl bg-white border border-emerald-200 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-300 font-medium text-sm flex items-center gap-2 shadow-sm transition-all hover:-translate-y-0.5" title="Mark query as completed">
-                        <i class="fa-solid fa-check-double text-xs"></i>
+                        class="h-[46px] w-[46px] md:w-auto md:px-4 rounded-2xl bg-white border border-emerald-100 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-300 font-medium text-sm flex justify-center items-center gap-2 shadow-sm transition-all" title="Mark Query as Complete">
+                        <i class="fa-solid fa-check-circle text-base md:text-sm"></i>
                         <span class="hidden md:inline">Complete</span>
                     </button>
                     <button type="submit" id="sendReplyBtn" disabled
-                        class="h-[46px] px-5 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 text-white font-medium text-sm flex items-center gap-2 shadow-md hover:shadow-lg transition-transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
-                        <span>Send</span>
+                        class="h-[46px] px-5 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white font-medium text-sm flex items-center gap-2 shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span class="hidden md:inline">Send</span>
                         <i class="fa-solid fa-paper-plane text-xs"></i>
                     </button>
                 </form>
