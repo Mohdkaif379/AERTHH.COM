@@ -821,8 +821,7 @@
                         <i class="fas fa-phone w-4 text-rose-400 text-[10px]"></i>
                         <span class="sidebar-text">Emergency Contact</span>
                     </div>
-                    <span class="sidebar-text bg-rose-100 text-rose-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">3</span>
-                </a>
+                </a>    
             </div>
         </div>
 
