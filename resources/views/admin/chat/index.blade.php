@@ -104,10 +104,7 @@
 @push('scripts')
 <script>
     const MAIN_API_BASE = '{{ url("/api") }}';
-    // Admin user ID is generally available or can be set manually, but API expects support_id.
-    // Replace 1 with the actual authenticated admin ID if your API requires it. In real usage, 
-    // support_id should ideally be set in backend using Auth::id(). But API needs it explicitly:
-    const ADMIN_ID = {{ Auth::guard('admin')->user()->id }}; 
+    const ADMIN_ID = {{ session('admin_id', 1) }}; 
 
     let currentCustomerId = null;
     let chatsInterval = null;
