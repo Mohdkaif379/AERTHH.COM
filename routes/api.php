@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\BestSellerController;
 use App\Http\Controllers\Api\TopSellingProductController;
 use App\Http\Controllers\Api\TrackOrderController;
+use App\Http\Controllers\Api\ChatSupportController;
 
 Route::get('customers', [CustomerController::class, 'index']);
 Route::post('customer/create', [CustomerController::class, 'store']);
@@ -49,6 +50,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('review/remove/{productId}', [ReviewController::class, 'destroy']);
 
     Route::get('track-order', [TrackOrderController::class, 'trackOrder']);
+
+    // ---------------- Chat Support (Customer) ----------------
+    Route::post('chat/send', [ChatSupportController::class, 'sendMessage']);      // Message bhejo
+    Route::get('chat/history', [ChatSupportController::class, 'myHistory']);      // Apni chat history
+    Route::patch('chat/read', [ChatSupportController::class, 'customerMarkAsRead']); // Support reply read karo
+    Route::delete('chat/{id}', [ChatSupportController::class, 'destroy']);         // Message delete
 });
 
 Route::get('vendors', [VendorController::class, 'index']);
@@ -74,3 +81,10 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('brands', [BrandController::class, 'index']);
+
+// ---------------- Chat Support (Admin/Support) ----------------
+// Note: Production mein yahan admin auth middleware lagao
+Route::get('admin/chats', [ChatSupportController::class, 'allChats']);                         // Saare customers ki chats
+Route::get('admin/chats/{customer_id}', [ChatSupportController::class, 'customerChat']);       // Ek customer ki chat
+Route::post('admin/chats/{customer_id}/reply', [ChatSupportController::class, 'replyMessage']); // Reply karo
+Route::patch('admin/chats/{customer_id}/read', [ChatSupportController::class, 'markAsRead']);   // Messages read mark karo

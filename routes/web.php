@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\Vendor\VendorPendingProductController;
 use App\Http\Controllers\Admin\Vendor\VendorApprovedProductController;
 use App\Http\Controllers\Admin\Vendor\VendorRejectedProductController;
+use App\Http\Controllers\Admin\ChatSupportController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -108,6 +109,10 @@ Route::prefix('admin/vendors')->group(function () {
 });
 
 
+
+Route::prefix('admin/chats')->group(function () {
+    Route::get('/', [ChatSupportController::class, 'index'])->name('admin.chats.index');
+});
 
 Route::prefix('admin/customers')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customers.index');

@@ -552,6 +552,14 @@
             <span class="sidebar-text bg-purple-100 text-purple-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">3</span>
         </a>
 
+        {{-- Chat Support Button --}}
+        <a href="{{ route('admin.chats.index') }}" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 {{ request()->routeIs('admin.chats.*') ? 'active bg-gradient-to-r from-cyan-50 to-emerald-50' : '' }}">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-comments w-5 text-sky-500 text-sm flex-shrink-0"></i>
+                <span class="sidebar-text text-xs font-medium">Chat Support</span>
+            </div>
+            <!-- Unread badge can be dynamic here later -->
+        </a>
 
 
         {{-- REPORTS & ANALYSIS SECTION --}}
