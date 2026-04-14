@@ -233,6 +233,16 @@
     }
 
     async function openChat(customerId, name, initials) {
+        // Agar same customer par click kiya hai, toh spinner mat dikhao, bas mobile me view toggle karo
+        if (currentCustomerId === customerId) {
+            if (window.innerWidth < 768) {
+                document.querySelector('.md\\:w-1\\/3').classList.add('hidden');
+                document.getElementById('activeChatArea').classList.remove('hidden');
+                document.getElementById('activeChatArea').classList.add('flex');
+            }
+            return;
+        }
+
         currentCustomerId = customerId;
         
         // Update UI state
@@ -261,7 +271,9 @@
         document.getElementById('chatHeaderInitials').textContent = initials;
         
         // Loading animation in chat area
-        document.getElementById('chatMessages').innerHTML = '<div class="flex justify-center p-8"><i class="fa-solid fa-spinner fa-spin text-sky-400 text-xl"></i></div>';
+        const container = document.getElementById('chatMessages');
+        container.innerHTML = '<div class="flex justify-center p-8"><i class="fa-solid fa-spinner fa-spin text-sky-400 text-xl"></i></div>';
+        container.removeAttribute('data-last-html'); // Cache clear karo takki next render miss na ho
         
         // Clear interval for previous chat and start for new one
         if (activeChatInterval) clearInterval(activeChatInterval);
