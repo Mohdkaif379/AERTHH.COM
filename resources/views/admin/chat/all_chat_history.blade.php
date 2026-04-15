@@ -20,6 +20,9 @@
                 <div class="p-8 text-center text-slate-400 text-sm">No completed chat history found.</div>
             @else
                 @foreach($completedChats as $chat)
+                    @if(($chat['status'] ?? null) !== 'completed')
+                        @continue
+                    @endif
                     @php
                         $customer = $chat['customer'];
                         $name = $customer ? trim(($customer->first_name ?? '') . ' ' . ($customer->last_name ?? '')) : 'Unknown Customer';
@@ -87,6 +90,9 @@
 
             <div id="historyThreadsWrapper" class="hidden flex-1 overflow-y-auto p-4 md:p-6 bg-[#f8fafc]">
                 @foreach($completedChats as $chat)
+                    @if(($chat['status'] ?? null) !== 'completed')
+                        @continue
+                    @endif
                     @php
                         $customer = $chat['customer'];
                         $name = $customer ? trim(($customer->first_name ?? '') . ' ' . ($customer->last_name ?? '')) : 'Unknown Customer';

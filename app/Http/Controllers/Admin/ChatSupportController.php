@@ -35,6 +35,7 @@ class ChatSupportController extends Controller
                     'completed_at'   => $messages->max('updated_at'),
                     'total_messages' => $messages->count(),
                     'support_name'   => $supportName,
+                    'status'         => $lastMessage->status,
                 ];
             })
             ->sortByDesc('completed_at')

@@ -58,6 +58,11 @@
                         </p>
                     </div>
                 </div>
+                <button type="button" id="completeQueryBtn" onclick="markQueryComplete()"
+                    class="h-7 px-3 rounded-full bg-white border border-emerald-100 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-300 font-medium text-xs flex items-center gap-1.5 shadow-sm transition-all" title="Mark Query as Complete">
+                    <i class="fa-solid fa-check-circle text-[11px]"></i>
+                    <span>Complete</span>
+                </button>
             </div>
 
             {{-- Messages Area --}}
@@ -73,11 +78,6 @@
                             class="w-full max-h-32 p-3 bg-transparent border-none outline-none resize-none text-sm text-slate-700 placeholder-slate-400"
                             oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
                     </div>
-                    <button type="button" id="completeQueryBtn" onclick="markQueryComplete()"
-                        class="h-[46px] w-[46px] md:w-auto md:px-4 rounded-2xl bg-white border border-emerald-100 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-300 font-medium text-sm flex justify-center items-center gap-2 shadow-sm transition-all" title="Mark Query as Complete">
-                        <i class="fa-solid fa-check-circle text-base md:text-sm"></i>
-                        <span class="hidden md:inline">Complete</span>
-                    </button>
                     <button type="submit" id="sendReplyBtn" disabled
                         class="h-[46px] px-5 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white font-medium text-sm flex items-center gap-2 shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                         <span class="hidden md:inline">Send</span>
@@ -156,6 +156,23 @@
         });
     });
 
+    function updateChatUnreadBadge(chats) {
+        const badge = document.getElementById('chatUnreadBadge');
+        if (!badge) return;
+
+        const unreadCount = (chats || []).reduce((sum, chat) => {
+            return sum + Number(chat.unread_count || 0);
+        }, 0);
+
+        if (unreadCount > 0) {
+            badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+            badge.classList.remove('hidden');
+        } else {
+            badge.textContent = '';
+            badge.classList.add('hidden');
+        }
+    }
+
     async function loadConversations() {
         try {
             const res = await fetch(`${MAIN_API_BASE}/admin/chats`, {
@@ -165,6 +182,7 @@
             
             if (data.success) {
                 renderConversations(data.data);
+                updateChatUnreadBadge(data.data);
             }
         } catch (error) {
             console.error('Error loading conversations:', error);
