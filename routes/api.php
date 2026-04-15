@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\BestSellerController;
 use App\Http\Controllers\Api\TopSellingProductController;
 use App\Http\Controllers\Api\TrackOrderController;
 use App\Http\Controllers\Api\ChatSupportController;
+use App\Http\Controllers\Api\SubscrberController;
 
 Route::get('customers', [CustomerController::class, 'index']);
 Route::post('customer/create', [CustomerController::class, 'store']);
@@ -80,8 +81,8 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('brands', [BrandController::class, 'index']);
-
-
+Route::post('/subscribe', [SubscrberController::class, 'subscribe']);
+    
 Route::get('admin/chats', [ChatSupportController::class, 'allChats']);                         
 Route::get('admin/chats/{customer_id}', [ChatSupportController::class, 'customerChat']);       
 Route::post('admin/chats/{customer_id}/reply', [ChatSupportController::class, 'replyMessage']); 
