@@ -319,14 +319,12 @@
             
             if (msg.sender_type === 'customer') {
                 html += `
-                    <div class="flex items-end gap-2 max-w-[85%]">
+                    <div class="flex items-end gap-2 max-w-[45%] md:max-w-[45%]">
                         <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px] shrink-0 mb-5">
                             <i class="fa-solid fa-user"></i>
                         </div>
-                        <div class="flex flex-col gap-1 items-start">
-                            <div class="bg-white p-3 rounded-2xl rounded-bl-sm border border-slate-200 shadow-sm text-[13px] text-slate-700 leading-relaxed whitespace-pre-wrap">
-                                ${msg.message}
-                            </div>
+                        <div class="flex flex-col gap-1 items-start max-w-full">
+                            <div class="inline-flex w-max max-w-full justify-start text-left bg-white px-1 py-1 rounded-2xl rounded-bl-sm border border-slate-200 shadow-sm text-[12px] text-slate-700 leading-tight whitespace-pre-wrap break-words">${msg.message}</div>
                             <span class="text-[10px] text-slate-400 ml-1">${time}</span>
                         </div>
                     </div>
@@ -337,11 +335,9 @@
                     : '<i class="fa-solid fa-check text-slate-400 ml-1"></i>';
 
                 html += `
-                    <div class="flex items-end gap-2 max-w-[85%] ml-auto justify-end">
-                        <div class="flex flex-col gap-1 items-end">
-                            <div class="bg-gradient-to-br from-sky-500 to-blue-600 p-3 rounded-2xl rounded-br-sm shadow border border-sky-400/50 text-[13px] text-white leading-relaxed whitespace-pre-wrap">
-                                ${msg.message}
-                            </div>
+                    <div class="flex items-end gap-2 max-w-[45%] md:max-w-[45%] ml-auto justify-end">
+                        <div class="flex flex-col gap-1 items-end max-w-full">
+                            <div class="inline-flex w-max max-w-full justify-start text-left self-end bg-gradient-to-br from-sky-500 to-blue-600 px-1 py-1 rounded-2xl rounded-br-sm shadow border border-sky-400/50 text-[12px] text-white leading-tight whitespace-pre-wrap break-words">${msg.message}</div>
                             <span class="text-[10px] text-slate-400 mr-1 flex items-center gap-1">${time} ${readIcon}</span>
                         </div>
                     </div>
