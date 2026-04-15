@@ -88,6 +88,49 @@
         </div>
     </div>
 </div>
+
+{{-- Message Modal --}}
+<div id="chatMessageModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 px-4">
+    <div class="w-full max-w-md rounded-2xl bg-white shadow-2xl border border-slate-100 overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <h3 class="text-sm font-semibold text-slate-800" id="chatMessageModalTitle">Notice</h3>
+            <button type="button" class="text-slate-400 hover:text-slate-600" onclick="closeChatMessageModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="px-5 py-4">
+            <p class="text-sm text-slate-600 leading-relaxed" id="chatMessageModalBody"></p>
+        </div>
+        <div class="px-5 py-4 border-t border-slate-100 flex justify-end">
+            <button type="button" class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-sm font-medium transition-colors" onclick="closeChatMessageModal()">
+                Okay
+            </button>
+        </div>
+    </div>
+</div>
+
+{{-- Confirm Modal --}}
+<div id="chatConfirmModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 px-4">
+    <div class="w-full max-w-md rounded-2xl bg-white shadow-2xl border border-slate-100 overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+            <h3 class="text-sm font-semibold text-slate-800" id="chatConfirmModalTitle">Confirm</h3>
+            <button type="button" class="text-slate-400 hover:text-slate-600" onclick="closeChatConfirmModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="px-5 py-4">
+            <p class="text-sm text-slate-600 leading-relaxed" id="chatConfirmModalBody"></p>
+        </div>
+        <div class="px-5 py-4 border-t border-slate-100 flex items-center justify-end gap-2">
+            <button type="button" class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-700 text-sm font-medium hover:bg-slate-50 transition-colors" onclick="closeChatConfirmModal()">
+                Cancel
+            </button>
+            <button type="button" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium transition-colors" id="chatConfirmModalOkBtn">
+                Complete
+            </button>
+        </div>
+    </div>
+</div>
 @endsection
 
 @stack('styles')
@@ -114,6 +157,9 @@
     let currentCustomerId = null;
     let chatsInterval = null;
     let activeChatInterval = null;
+    let chatMessageModalEscHandler = null;
+    let chatConfirmModalEscHandler = null;
+    let pendingCompleteAction = null;
 
     document.addEventListener('DOMContentLoaded', () => {
         loadConversations();
@@ -170,6 +216,92 @@
         } else {
             badge.textContent = '';
             badge.classList.add('hidden');
+        }
+    }
+
+    function openChatMessageModal(message, title = 'Notice') {
+        const modal = document.getElementById('chatMessageModal');
+        const modalTitle = document.getElementById('chatMessageModalTitle');
+        const modalBody = document.getElementById('chatMessageModalBody');
+
+        if (!modal || !modalTitle || !modalBody) return;
+
+        modalTitle.textContent = title;
+        modalBody.textContent = message || '';
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        if (chatMessageModalEscHandler) {
+            document.removeEventListener('keydown', chatMessageModalEscHandler);
+        }
+
+        chatMessageModalEscHandler = (e) => {
+            if (e.key === 'Escape') {
+                closeChatMessageModal();
+            }
+        };
+        document.addEventListener('keydown', chatMessageModalEscHandler);
+    }
+
+    function closeChatMessageModal() {
+        const modal = document.getElementById('chatMessageModal');
+        if (!modal) return;
+
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+
+        if (chatMessageModalEscHandler) {
+            document.removeEventListener('keydown', chatMessageModalEscHandler);
+            chatMessageModalEscHandler = null;
+        }
+    }
+
+    function openChatConfirmModal(message, title = 'Confirm') {
+        const modal = document.getElementById('chatConfirmModal');
+        const modalTitle = document.getElementById('chatConfirmModalTitle');
+        const modalBody = document.getElementById('chatConfirmModalBody');
+        const okBtn = document.getElementById('chatConfirmModalOkBtn');
+
+        if (!modal || !modalTitle || !modalBody || !okBtn) return;
+
+        modalTitle.textContent = title;
+        modalBody.textContent = message || '';
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        if (chatConfirmModalEscHandler) {
+            document.removeEventListener('keydown', chatConfirmModalEscHandler);
+        }
+
+        chatConfirmModalEscHandler = (e) => {
+            if (e.key === 'Escape') {
+                closeChatConfirmModal();
+            }
+        };
+        document.addEventListener('keydown', chatConfirmModalEscHandler);
+    }
+
+    function closeChatConfirmModal() {
+        const modal = document.getElementById('chatConfirmModal');
+        if (!modal) return;
+
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+
+        if (chatConfirmModalEscHandler) {
+            document.removeEventListener('keydown', chatConfirmModalEscHandler);
+            chatConfirmModalEscHandler = null;
+        }
+
+        pendingCompleteAction = null;
+    }
+
+    function confirmQueryComplete() {
+        if (typeof pendingCompleteAction === 'function') {
+            const action = pendingCompleteAction;
+            pendingCompleteAction = null;
+            closeChatConfirmModal();
+            action();
         }
     }
 
@@ -422,11 +554,11 @@
                 // Refresh sidebar to bump chat to top
                 loadConversations();
             } else {
-                alert(data.message || 'Failed to send reply');
+                openChatMessageModal(data.message || 'Failed to send reply', 'Send Failed');
             }
         } catch (error) {
             console.error('Send reply error:', error);
-            alert('A network error occurred.');
+            openChatMessageModal('A network error occurred.', 'Send Failed');
         } finally {
             btn.disabled = false;
             btn.innerHTML = '<span>Send</span><i class="fa-solid fa-paper-plane text-xs"></i>';
@@ -436,7 +568,14 @@
 
     async function markQueryComplete() {
         if (!currentCustomerId) return;
-        if (!confirm('Are you sure you want to mark this query as completed? This will close the chat.')) return;
+        pendingCompleteAction = executeMarkQueryComplete;
+        openChatConfirmModal('Are you sure you want to mark this query as completed? This will close the chat.', 'Mark as Complete');
+        const okBtn = document.getElementById('chatConfirmModalOkBtn');
+        if (okBtn) okBtn.onclick = confirmQueryComplete;
+    }
+
+    async function executeMarkQueryComplete() {
+        if (!currentCustomerId) return;
 
         const btn = document.getElementById('completeQueryBtn');
         const ogContent = btn.innerHTML;
@@ -464,11 +603,11 @@
                 // Reload left bar
                 loadConversations();
             } else {
-                alert(data.message || 'Failed to complete chat.');
+                openChatMessageModal(data.message || 'Failed to complete chat.', 'Complete Failed');
             }
         } catch (error) {
             console.error('Complete query error:', error);
-            alert('A network error occurred.');
+            openChatMessageModal('A network error occurred.', 'Complete Failed');
         } finally {
             btn.disabled = false;
             btn.innerHTML = ogContent;
