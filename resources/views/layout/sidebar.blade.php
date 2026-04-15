@@ -879,7 +879,7 @@
             </div>
         </div>
         {{-- SUBSCRIBERS BUTTON --}}
-        <a href="#" class="sidebar-link flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
+        <a href="{{route('admin.subscribers.index')}}" class="sidebar-link flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
             <span class="w-5 text-cyan-500 text-sm flex-shrink-0">人</span>
             <span class="sidebar-text text-xs font-medium">Subscribers</span>
         </a>
