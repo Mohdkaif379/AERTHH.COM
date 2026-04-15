@@ -113,6 +113,7 @@ Route::prefix('admin/vendors')->group(function () {
 
 Route::prefix('admin/chats')->group(function () {
     Route::get('/', [ChatSupportController::class, 'index'])->name('admin.chats.index');
+    Route::get('/history', [ChatSupportController::class, 'get_all_chat'])->name('admin.chats.history');
 });
 
 Route::prefix('admin/customers')->group(function () {
