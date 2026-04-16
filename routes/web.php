@@ -140,4 +140,5 @@ Route::prefix('admin/vendor/products/rejected')->group(function () {
 
 Route::prefix('admin/subscribers')->group(function () {
     Route::get('/', [SubscriberController::class, 'index'])->name('admin.subscribers.index');
+    Route::get('/delete/{id}', [SubscriberController::class, 'destroy'])->name('admin.subscribers.delete');
 });

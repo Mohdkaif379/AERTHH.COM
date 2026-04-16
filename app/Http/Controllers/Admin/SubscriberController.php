@@ -13,4 +13,11 @@ class SubscriberController extends Controller
         $subscribe = Subscriber::all();
         return view('admin.subscribers.index', compact('subscribe'));
     }
+
+    public function destroy($id)
+    {
+        $subscribe = Subscriber::findOrFail($id);
+        $subscribe->delete();
+        return redirect()->back()->with('success', 'Subscriber deleted successfully.');
+    }
 }
