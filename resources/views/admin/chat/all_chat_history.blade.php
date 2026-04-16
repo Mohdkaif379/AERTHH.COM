@@ -110,16 +110,21 @@
                     <div id="history-chat-{{ $chat['customer_id'] }}" class="history-chat-thread hidden space-y-3">
                         <div class="space-y-3">
                             @foreach($chat['messages'] as $message)
-                                <div class="flex {{ $message->sender_type === 'support' ? 'justify-end' : 'justify-start' }}">
-                                    <div class="flex flex-col {{ $message->sender_type === 'support' ? 'items-end' : 'items-start' }} w-fit max-w-[85%] sm:max-w-[75%] md:max-w-[60%] lg:max-w-[45%]">
-                                        <div class="text-[10px] mb-1 {{ $message->sender_type === 'support' ? 'text-right text-sky-600' : 'text-left text-slate-500' }}">
-                                            {{ $message->sender_type === 'support' ? 'Support' : 'Customer' }}
+                                @php
+                                    $isSupport = strtolower($message->sender_type ?? '') === 'support';
+                                @endphp
+                                <div class="flex w-full {{ $isSupport ? 'justify-end' : 'justify-start' }}">
+                                    <div class="flex flex-col {{ $isSupport ? 'items-end ml-auto' : 'items-start mr-auto' }} w-fit max-w-[70%] sm:max-w-[62%] md:max-w-[52%] lg:max-w-[38%]">
+                                        <div class="text-[10px] mb-1 {{ $isSupport ? 'text-right text-sky-600' : 'text-left text-slate-500' }}">
+                                            {{ $isSupport ? 'Support' : 'Customer' }}
                                             <span class="text-slate-400 ml-1">
                                                 {{ \Carbon\Carbon::parse($message->created_at)->format('h:i A') }}
                                             </span>
                                         </div>
-                                        <div class="{{ $message->sender_type === 'support' ? 'self-end bg-sky-500 text-white rounded-br-sm border-sky-400/50 px-2 py-1' : 'self-start bg-white text-slate-700 rounded-bl-sm border-slate-200 px-1 py-1' }} inline-block w-fit max-w-full rounded-2xl shadow-sm border text-[12px] leading-tight text-left whitespace-pre-wrap break-words">
-                                            {!! nl2br(e(trim($message->message))) !!}
+                                        <div class="{{ $isSupport ? 'bg-sky-500 text-white rounded-br-sm border-sky-400/50' : 'bg-white text-slate-700 rounded-bl-sm border-slate-200' }} inline-flex w-fit max-w-full min-w-0 px-2 py-0.5 rounded-xl shadow-sm border text-[11px] leading-none text-left">
+                                            <span class="block w-fit max-w-full text-left whitespace-normal break-words">
+                                                {{ preg_replace('/\s+/', ' ', trim($message->message)) }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

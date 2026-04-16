@@ -96,7 +96,7 @@
                     <span class="sidebar-text bg-gray-100 text-gray-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">22</span>
                 </a>
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.pending-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-clock w-4 text-yellow-400 text-[10px]"></i>
                         <span class="sidebar-text">Pending</span>

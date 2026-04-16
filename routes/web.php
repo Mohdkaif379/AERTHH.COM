@@ -11,6 +11,9 @@ use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Banner\BannerController;
 use App\Http\Controllers\Admin\Vendor\VendorController;
 use App\Http\Controllers\Admin\Customer\CustomerController;
+use App\Http\Controllers\Admin\ConfirmedOrder\ConfirmedOrderController;
+use App\Http\Controllers\Admin\PackagingOrder\PackagingOrderController;
+use App\Http\Controllers\Admin\PendingOrder\PendingOrderController;
 use App\Http\Controllers\Admin\Vendor\VendorPendingProductController;
 use App\Http\Controllers\Admin\Vendor\VendorApprovedProductController;
 use App\Http\Controllers\Admin\Vendor\VendorRejectedProductController;
@@ -121,6 +124,20 @@ Route::prefix('admin/customers')->group(function () {
     Route::get('/{customer}', [CustomerController::class, 'show'])->name('customers.show');
     Route::get('/status/{customer}', [CustomerController::class, 'status'])->name('customers.status');
     Route::get('/delete/{customer}', [CustomerController::class, 'destroy'])->name('customers.delete');
+});
+
+Route::prefix('admin/pending-orders')->group(function () {
+    Route::get('/', [PendingOrderController::class, 'index'])->name('admin.pending-orders.index');
+});
+
+Route::prefix('admin/confirmed-orders')->group(function () {
+    Route::get('/', [ConfirmedOrderController::class, 'index'])->name('admin.confirmed-orders.index');
+    Route::get('/confirm/{id}', [ConfirmedOrderController::class, 'confirm'])->name('admin.confirmed-orders.confirm');
+});
+
+Route::prefix('admin/packaging-orders')->group(function () {
+    Route::get('/', [PackagingOrderController::class, 'index'])->name('admin.packaging-orders.index');
+    Route::get('/move/{id}', [PackagingOrderController::class, 'markAsPackaging'])->name('admin.packaging-orders.move');
 });
 
 
