@@ -5,21 +5,21 @@
 @section('page-subtitle', 'Manage customer inquiries and support requests')
 
 @section('content')
-<div class="h-[calc(100vh-140px)] flex flex-col md:flex-row bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+<div id="chatShell" class="relative h-[calc(100dvh-140px)] min-h-[620px] flex flex-col md:flex-row bg-white rounded-none md:rounded-xl shadow-sm border border-slate-100 overflow-hidden">
     
     {{-- Sidebar: Chat List --}}
-    <div class="w-full md:w-1/3 flex flex-col border-r border-slate-100 bg-slate-50/50">
+    <div id="chatSidebar" class="w-full md:w-[360px] lg:w-[380px] shrink-0 flex flex-col min-h-0 border-r border-slate-100 bg-slate-50/50">
         {{-- Search / Header --}}
         <div class="p-4 border-b border-slate-100 bg-white">
             <div class="relative">
                 <input type="text" id="searchChats" placeholder="Search customers..." 
-                    class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 bg-slate-50 relative z-10 transition-colors">
+                    class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-[16px] sm:text-sm focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 bg-slate-50 relative z-10 transition-colors">
                 <i class="fa-solid fa-search absolute left-3.5 top-3 text-slate-400 text-sm z-20"></i>
             </div>
         </div>
 
         {{-- Conversations List --}}
-        <div id="chatsList" class="flex-1 overflow-y-auto w-full p-2 space-y-1">
+        <div id="chatsList" class="flex-1 min-h-0 overflow-y-auto w-full p-2 space-y-1">
             <div class="flex flex-col items-center justify-center h-40 text-slate-400">
                 <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-sky-400"></i>
                 <span class="text-sm">Loading chats...</span>
@@ -29,10 +29,10 @@
     </div>
 
     {{-- Main Chat Area --}}
-    <div class="w-full md:w-2/3 flex flex-col bg-white hidden md:flex" id="activeChatArea">
+    <div class="w-full flex-1 flex-col min-h-0 bg-white hidden md:flex" id="activeChatArea">
         
         {{-- Empty State (Default) --}}
-        <div id="emptyChatState" class="flex-1 flex flex-col items-center justify-center bg-slate-50/50 text-slate-400">
+        <div id="emptyChatState" class="flex-1 min-h-0 flex flex-col items-center justify-center bg-slate-50/50 text-slate-400 px-6 text-center">
             <div class="w-24 h-24 bg-sky-50 rounded-full flex items-center justify-center mb-4">
                 <i class="fa-regular fa-comments text-4xl text-sky-400"></i>
             </div>
@@ -41,45 +41,45 @@
         </div>
 
         {{-- Active Chat Workspace --}}
-        <div id="chatWorkspace" class="hidden flex-1 flex flex-col h-full">
+        <div id="chatWorkspace" class="hidden flex-1 min-h-0 flex flex-col h-full">
             {{-- Chat Header --}}
-            <div class="h-16 border-b border-slate-100 px-6 flex items-center justify-between shrink-0 bg-white">
-                <div class="flex items-center gap-3">
-                    <button class="md:hidden text-slate-400 hover:text-slate-600 mr-2" id="backToChatsBtn">
+            <div class="min-h-16 border-b border-slate-100 px-4 sm:px-6 py-3 flex items-center justify-between gap-3 shrink-0 bg-white">
+                <div class="flex items-center gap-3 min-w-0">
+                    <button class="md:hidden shrink-0 text-slate-400 hover:text-slate-600 mr-1" id="backToChatsBtn">
                         <i class="fa-solid fa-arrow-left"></i>
                     </button>
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 text-white flex items-center justify-center font-bold text-sm shadow-sm" id="chatHeaderInitials">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 text-white flex items-center justify-center font-bold text-sm shadow-sm shrink-0" id="chatHeaderInitials">
                         -
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-slate-800 text-sm" id="chatHeaderName">Loading...</h3>
+                    <div class="min-w-0">
+                        <h3 class="font-semibold text-slate-800 text-sm truncate max-w-[180px] sm:max-w-[260px] md:max-w-none" id="chatHeaderName">Loading...</h3>
                         <p class="text-xs text-emerald-500 flex items-center gap-1">
                             <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Active
                         </p>
                     </div>
                 </div>
                 <button type="button" id="completeQueryBtn" onclick="markQueryComplete()"
-                    class="h-7 px-3 rounded-full bg-white border border-emerald-100 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-300 font-medium text-xs flex items-center gap-1.5 shadow-sm transition-all" title="Mark Query as Complete">
+                    class="h-8 px-3 sm:px-4 rounded-full bg-white border border-emerald-100 text-emerald-600 hover:bg-emerald-50 hover:border-emerald-300 font-medium text-xs flex items-center gap-1.5 shadow-sm transition-all shrink-0" title="Mark Query as Complete">
                     <i class="fa-solid fa-check-circle text-[11px]"></i>
-                    <span>Complete</span>
+                    <span class="hidden sm:inline">Complete</span>
                 </button>
             </div>
 
             {{-- Messages Area --}}
-            <div id="chatMessages" class="flex-1 overflow-y-auto p-4 md:p-6 bg-[#f8fafc] space-y-4">
+            <div id="chatMessages" class="flex-1 min-h-0 overflow-y-auto p-4 md:p-6 bg-[#f8fafc] space-y-4">
                 <!-- Messages injected via JS -->
             </div>
 
             {{-- Input Area --}}
-            <div class="p-4 bg-white border-t border-slate-100 shrink-0">
-                <form id="replyForm" class="flex items-end gap-2" onsubmit="handleReplySubmit(event)">
+            <div class="p-3 sm:p-4 bg-white border-t border-slate-100 shrink-0">
+                <form id="replyForm" class="flex items-end gap-2 sm:gap-3" onsubmit="handleReplySubmit(event)">
                     <div class="flex-1 bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden focus-within:border-sky-400 focus-within:ring-1 focus-within:ring-sky-400 transition-all">
                         <textarea id="replyMessage" rows="1" placeholder="Type your reply here..." 
-                            class="w-full max-h-32 p-3 bg-transparent border-none outline-none resize-none text-sm text-slate-700 placeholder-slate-400"
+                            class="w-full max-h-32 p-3 bg-transparent border-none outline-none resize-none text-[16px] sm:text-sm text-slate-700 placeholder-slate-400"
                             oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
                     </div>
                     <button type="submit" id="sendReplyBtn" disabled
-                        class="h-[46px] px-5 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white font-medium text-sm flex items-center gap-2 shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        class="h-[46px] px-4 sm:px-5 rounded-2xl bg-sky-500 hover:bg-sky-600 text-white font-medium text-sm flex items-center gap-2 shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0">
                         <span class="hidden md:inline">Send</span>
                         <i class="fa-solid fa-paper-plane text-xs"></i>
                     </button>
@@ -161,11 +161,28 @@
     let chatConfirmModalEscHandler = null;
     let pendingCompleteAction = null;
 
+    function setMobileChatView(isChatOpen) {
+        const sidebar = document.getElementById('chatSidebar');
+        const activeArea = document.getElementById('activeChatArea');
+
+        if (!sidebar || !activeArea) return;
+
+        if (window.innerWidth < 768) {
+            sidebar.classList.toggle('hidden', isChatOpen);
+            activeArea.classList.toggle('hidden', !isChatOpen);
+            activeArea.classList.toggle('flex', isChatOpen);
+        } else {
+            sidebar.classList.remove('hidden');
+            activeArea.classList.remove('hidden');
+            activeArea.classList.add('flex');
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         loadConversations();
         
         // Auto-refresh chat list every 15s
-        chatsInterval = setInterval(loadConversations, 15000);
+        chatsInterval = setInterval(loadConversations, 1000);
 
         // Enter key to submit
         const textarea = document.getElementById('replyMessage');
@@ -182,14 +199,23 @@
             }
         });
 
+        setMobileChatView(false);
+
         // Mobile back button
-        document.getElementById('backToChatsBtn').addEventListener('click', () => {
-            document.querySelector('.md\\:w-1\\/3').classList.remove('hidden');
-            document.getElementById('activeChatArea').classList.add('hidden');
-            document.getElementById('activeChatArea').classList.remove('flex');
-            currentCustomerId = null;
-            if (activeChatInterval) clearInterval(activeChatInterval);
-            document.querySelectorAll('.chat-item').forEach(el => el.classList.remove('active'));
+        const backBtn = document.getElementById('backToChatsBtn');
+        if (backBtn) {
+            backBtn.addEventListener('click', () => {
+                setMobileChatView(false);
+                currentCustomerId = null;
+                if (activeChatInterval) clearInterval(activeChatInterval);
+                document.querySelectorAll('.chat-item').forEach(el => el.classList.remove('active'));
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                setMobileChatView(Boolean(currentCustomerId));
+            }
         });
 
         // Search
@@ -390,11 +416,7 @@
     async function openChat(customerId, name, initials) {
         // Agar same customer par click kiya hai, toh spinner mat dikhao, bas mobile me view toggle karo
         if (currentCustomerId === customerId) {
-            if (window.innerWidth < 768) {
-                document.querySelector('.md\\:w-1\\/3').classList.add('hidden');
-                document.getElementById('activeChatArea').classList.remove('hidden');
-                document.getElementById('activeChatArea').classList.add('flex');
-            }
+            setMobileChatView(true);
             return;
         }
 
@@ -411,11 +433,7 @@
         });
 
         // Mobile specific logic
-        if (window.innerWidth < 768) {
-            document.querySelector('.md\\:w-1\\/3').classList.add('hidden');
-            document.getElementById('activeChatArea').classList.remove('hidden');
-            document.getElementById('activeChatArea').classList.add('flex');
-        }
+        setMobileChatView(true);
 
         // Toggle Workspace Panels
         document.getElementById('emptyChatState').classList.add('hidden');
@@ -469,7 +487,7 @@
             
             if (msg.sender_type === 'customer') {
                 html += `
-                    <div class="flex items-end gap-2 max-w-[45%] md:max-w-[45%]">
+                    <div class="flex items-end gap-2 max-w-[85%] sm:max-w-[75%] md:max-w-[60%] lg:max-w-[45%]">
                         <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px] shrink-0 mb-5">
                             <i class="fa-solid fa-user"></i>
                         </div>
@@ -485,7 +503,7 @@
                     : '<i class="fa-solid fa-check text-slate-400 ml-1"></i>';
 
                 html += `
-                    <div class="flex items-end gap-2 max-w-[45%] md:max-w-[45%] ml-auto justify-end">
+                    <div class="flex items-end gap-2 max-w-[85%] sm:max-w-[75%] md:max-w-[60%] lg:max-w-[45%] ml-auto justify-end">
                         <div class="flex flex-col gap-1 items-end max-w-full">
                             <div class="inline-flex w-max max-w-full justify-start text-left self-end bg-gradient-to-br from-sky-500 to-blue-600 px-1 py-1 rounded-2xl rounded-br-sm shadow border border-sky-400/50 text-[12px] text-white leading-tight whitespace-pre-wrap break-words">${msg.message}</div>
                             <span class="text-[10px] text-slate-400 mr-1 flex items-center gap-1">${time} ${readIcon}</span>
@@ -592,7 +610,9 @@
             if (data.success) {
                 // Exit current chat
                 if (window.innerWidth < 768) {
-                    document.getElementById('backToChatsBtn').click();
+                    setMobileChatView(false);
+                    currentCustomerId = null;
+                    if (activeChatInterval) clearInterval(activeChatInterval);
                 } else {
                     document.getElementById('emptyChatState').classList.remove('hidden');
                     document.getElementById('chatWorkspace').classList.add('hidden');
