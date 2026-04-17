@@ -5,7 +5,7 @@
 @section('page-subtitle', 'Manage customer inquiries and support requests')
 
 @section('content')
-<div id="chatShell" class="relative h-[calc(100dvh-140px)] min-h-[620px] flex flex-col md:flex-row bg-white rounded-none md:rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+<div id="chatShell" class="relative h-[calc(100dvh-140px)] min-h-[420px] flex flex-col md:flex-row bg-white rounded-none md:rounded-xl shadow-sm border border-slate-100 overflow-hidden">
     
     {{-- Sidebar: Chat List --}}
     <div id="chatSidebar" class="w-full md:w-[360px] lg:w-[380px] shrink-0 flex flex-col min-h-0 border-r border-slate-100 bg-slate-50/50">

@@ -100,7 +100,7 @@ class OrderController extends Controller
 
         // Fetch orders for this customer, order by latest first, maybe along with product details
         $orders = Order::with('product') 
-            ->where('customer_id', $customerId)
+            ->where('customer_id', $customerId)->whereNotIn('status', ['delivered', 'cancelled'])
             ->orderBy('id', 'desc')
             ->get();
 
@@ -146,7 +146,7 @@ class OrderController extends Controller
             ], 404);
         }
 
-        if (strtolower($order->status) === 'canceled') {
+        if (strtolower($order->status) === 'cancelled') {
             return response()->json([
                 'status' => false,
                 'message' => 'Order is already canceled',
