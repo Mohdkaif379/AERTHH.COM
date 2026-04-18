@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendor Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<style>
+    ::-webkit-scrollbar { display: none; }
+    .sidebar-transition {
+      transition: all 0.3s ease-in-out;
+    }
+    .content-expanded {
+      margin-left: 0;
+      transition: margin-left 0.3s ease-in-out;
+    }
+    @media (min-width: 768px) {
+      .content-collapsed {
+        margin-left: 70px;
+      }
+      .content-expanded {
+        margin-left: 256px;
+      }
+    }
+    .sidebar-text {
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+    .collapse-btn {
+      transition: all 0.3s ease;
+    }
+    .collapse-btn:hover {
+      transform: scale(1.05);
+      background: rgba(249, 115, 22, 0.1);
+    }
+</style>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen transition-colors duration-300">
+
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
+  
+  <aside id="sidebar" class="fixed top-0 left-0 h-full z-50 sidebar-transition shadow-2xl
+    bg-white/95 dark:bg-black/95 backdrop-blur-2xl border-r border-gray-200/50 dark:border-gray-800/50 overflow-hidden"
+    style="width: 256px;">
+    
+    <div class="flex flex-col h-full relative">
+      <div class="px-4 py-4 border-b border-gray-200/50 dark:border-gray-800/50">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2.5" id="logoContainer">
+            <img src="https://aerthh.com/storage/app/public/company/2025-03-26-67e3da8f9b411.webp" 
+                 class="w-10 h-10 rounded-md shadow-sm transition-transform hover:scale-105 object-cover flex-shrink-0" alt="Logo">
+            <div class="sidebar-text transition-all duration-200 overflow-hidden">
+              <h1 class="text-base font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
+                Aerthh.com
+              </h1>
+              <p class="text-[10px] text-gray-500 dark:text-gray-400 whitespace-nowrap">Vendor Dashboard</p>
+            </div>
+          </div>
+          
+          <button id="collapseSidebarBtn" class="collapse-btn hidden md:flex p-0 text-orange-600 dark:text-gray-400  rounded-lg transition-all duration-200">
+            <i id="collapseIcon" class="fa fa-chevron-left text-sm"></i>
+          </button>
+          
+          <button id="closeSidebarBtn" class="md:hidden text-orange-500">
+            <i class="fa fa-times text-xl"></i>
+          </button>
+        </div>
+      </div>
+
+      <nav class="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
+        <a href="{{ route('vendor.dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 bg-orange-500/10 text-orange-500 group">
+          <i class="fa fa-tachometer-alt w-5 text-base flex-shrink-0"></i>
+          <span class="sidebar-text whitespace-nowrap transition-all duration-200">Dashboard</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
+          <i class="fa fa-box w-5 text-base flex-shrink-0"></i>
+          <span class="sidebar-text whitespace-nowrap transition-all duration-200">Products</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
+          <i class="fa fa-shopping-cart w-5 text-base flex-shrink-0"></i>
+          <span class="sidebar-text whitespace-nowrap transition-all duration-200">Orders</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
+          <i class="fa fa-chart-line w-5 text-base flex-shrink-0"></i>
+          <span class="sidebar-text whitespace-nowrap transition-all duration-200">Analytics</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
+          <i class="fa fa-cog w-5 text-base flex-shrink-0"></i>
+          <span class="sidebar-text whitespace-nowrap transition-all duration-200">Settings</span>
+        </a>
+      </nav>
+
+      <div class="p-4 border-t border-gray-200/50 dark:border-gray-800/50">
+        <div class="sidebar-text text-center">
+          <div class="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
+            <i class="fa fa-shield-alt mr-1"></i> Secure Portal
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div id="mainContent" class="flex flex-col min-h-screen content-expanded transition-all duration-300">
+    
+    <header class="sticky top-0 z-30 bg-white/80 dark:bg-black backdrop-blur-2xl border-b border-gray-200/50 dark:border-gray-800/50">
+      <div class="px-4 sm:px-6 py-2.5 flex items-center justify-between">
+        
+        <div class="flex items-center gap-3">
+          <button id="openSidebarBtn" class="md:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all">
+            <i class="fa fa-bars text-xl"></i>
+          </button>
+          
+          <div class="hidden sm:block">
+            <p class="text-sm text-gray-500 dark:text-gray-400">Welcome back, <span class="text-black dark:text-orange-500 font-semibold" id="headerVendorName"></span></p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button class="relative p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500  rounded-lg transition-all">
+            <i class="fa fa-bell text-lg"></i>
+            <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-orange-500 rounded-full border-2 border-white dark:border-gray-900"></span>
+          </button>
+
+          <button id="themeToggle" class="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500  rounded-lg transition-all">
+            <i id="themeIcon" class="fa fa-moon text-lg"></i>
+          </button>
+
+          <div class="relative">
+            <button id="userMenuBtn" class="flex items-center gap-2 p-1.5 pr-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all shadow-2xl border-2 border-white dark:border-white">
+              <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-white/50 dark:border-gray-700 shadow-md" id="vendorAvatar">
+                <img id="vendorAvatarImg" src="" alt="Vendor Avatar" class="w-full h-full object-cover rounded-full" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <i class="fa fa-user text-white text-xs font-medium absolute inset-0 flex items-center justify-center bg-gradient-to-r from-orange-500 to-amber-500 rounded-full" style="display:none;"></i>
+              </div>
+            </button>
+
+            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-xl shadow-2xl py-1.5 z-50">
+              <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-800 bg-gradient-to-r from-gray-50 dark:from-gray-900/50 rounded-t-xl">
+                <p class="font-semibold text-sm" id="dropdownVendorName"></p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 truncate" id="dropdownVendorEmail"></p>
+              </div>
+              <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200">
+                <i class="fa fa-user mr-2"></i> Profile
+              </a>
+              <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200">
+                <i class="fa fa-cog mr-2"></i> Settings
+              </a>
+              <hr class="my-1 border-gray-200 dark:border-gray-800">
+              <button onclick="logout()" class="w-full text-left px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200">
+                <i class="fa fa-sign-out-alt mr-2 text-xs"></i> Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto ">
+      @yield('content')
+    </main>
+  </div>
+
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const html = document.documentElement;
+    
+    function updateTheme() {
+      if (localStorage.theme === 'light' || (!localStorage.theme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+        html.classList.remove('dark');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      } else {
+        html.classList.add('dark');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+    }
+
+    updateTheme();
+    themeToggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+      updateTheme();
+    });
+
+    // Sidebar Collapse
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    const collapseBtn = document.getElementById('collapseSidebarBtn');
+    const collapseIcon = document.getElementById('collapseIcon');
+    const logoContainer = document.getElementById('logoContainer');
+    const logoImg = document.querySelector('#logoContainer img');
+    
+    let isSidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+    
+    function applySidebarState() {
+      if (window.innerWidth >= 768) {
+        if (isSidebarCollapsed) {
+          sidebar.style.width = '70px';
+          mainContent.classList.remove('content-expanded');
+          mainContent.classList.add('content-collapsed');
+          
+          if (collapseIcon) {
+            collapseIcon.className = 'fa fa-chevron-right text-sm';
+          }
+          
+          document.querySelectorAll('.sidebar-text').forEach(el => {
+            el.style.opacity = '0';
+            el.style.visibility = 'hidden';
+            el.style.width = '0';
+            el.style.display = 'none';
+          });
+          
+          document.querySelectorAll('#sidebar nav a').forEach(el => {
+            el.style.justifyContent = 'center';
+            el.style.padding = '0.625rem 0';
+          });
+          
+          // Fix logo cut: reduce size and center without margin
+          if (logoContainer) {
+            logoContainer.style.marginLeft = '0';
+            logoContainer.style.justifyContent = 'center';
+            logoContainer.style.gap = '0';
+          }
+          if (logoImg) {
+            logoImg.style.width = '32px';
+            logoImg.style.height = '32px';
+          }
+          
+        } else {
+          sidebar.style.width = '256px';
+          mainContent.classList.remove('content-collapsed');
+          mainContent.classList.add('content-expanded');
+          
+          if (collapseIcon) {
+            collapseIcon.className = 'fa fa-chevron-left text-sm';
+          }
+          
+          document.querySelectorAll('.sidebar-text').forEach(el => {
+            el.style.opacity = '1';
+            el.style.visibility = 'visible';
+            el.style.width = 'auto';
+            el.style.display = 'block';
+          });
+          
+          document.querySelectorAll('#sidebar nav a').forEach(el => {
+            el.style.justifyContent = 'flex-start';
+            el.style.padding = '0.625rem 0.75rem';
+          });
+          
+          if (logoContainer) {
+            logoContainer.style.marginLeft = '0';
+            logoContainer.style.justifyContent = 'flex-start';
+            logoContainer.style.gap = '0.625rem';
+          }
+          if (logoImg) {
+            logoImg.style.width = '40px';
+            logoImg.style.height = '40px';
+          }
+        }
+      } else {
+        sidebar.style.width = '256px';
+        mainContent.classList.remove('content-collapsed');
+        mainContent.classList.add('content-expanded');
+        document.querySelectorAll('.sidebar-text').forEach(el => {
+          el.style.opacity = '1';
+          el.style.visibility = 'visible';
+          el.style.width = 'auto';
+          el.style.display = 'block';
+        });
+        if (logoContainer) {
+          logoContainer.style.marginLeft = '0';
+          logoContainer.style.justifyContent = 'flex-start';
+          logoContainer.style.gap = '0.625rem';
+        }
+        if (logoImg) {
+          logoImg.style.width = '40px';
+          logoImg.style.height = '40px';
+        }
+        if (collapseIcon) {
+          collapseIcon.className = 'fa fa-chevron-left text-sm';
+        }
+      }
+    }
+    
+    function toggleSidebarCollapse() {
+      isSidebarCollapsed = !isSidebarCollapsed;
+      localStorage.setItem('sidebar_collapsed', isSidebarCollapsed);
+      applySidebarState();
+    }
+    
+    if (collapseBtn) {
+      collapseBtn.addEventListener('click', toggleSidebarCollapse);
+    }
+    
+    applySidebarState();
+    
+    window.addEventListener('resize', () => {
+      applySidebarState();
+      if (window.innerWidth >= 768) {
+        if (overlay) overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      } else {
+        if (!sidebar.classList.contains('-translate-x-full')) {
+          sidebar.classList.add('-translate-x-full');
+        }
+        sidebar.style.width = '256px';
+        mainContent.classList.remove('content-collapsed');
+        mainContent.classList.add('content-expanded');
+      }
+    });
+
+    // Mobile sidebar
+    const overlay = document.getElementById('sidebarOverlay');
+    const openBtn = document.getElementById('openSidebarBtn');
+    const closeBtn = document.getElementById('closeSidebarBtn');
+
+    function openMobileSidebar() {
+      sidebar.classList.remove('-translate-x-full');
+      sidebar.classList.add('translate-x-0');
+      if (overlay) overlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileSidebar() {
+      sidebar.classList.add('-translate-x-full');
+      sidebar.classList.remove('translate-x-0');
+      if (overlay) overlay.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openMobileSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', closeMobileSidebar);
+    if (overlay) overlay.addEventListener('click', closeMobileSidebar);
+
+    // User Dropdown
+    const userBtn = document.getElementById('userMenuBtn');
+    const userDropdown = document.getElementById('userDropdown');
+    
+    if (userBtn) {
+      userBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDropdown.classList.toggle('hidden');
+      });
+    }
+
+    document.addEventListener('click', () => {
+      if (userDropdown) userDropdown.classList.add('hidden');
+    });
+
+    // Vendor Data
+    window.getVendorDetails = function() {
+      try {
+        return JSON.parse(localStorage.getItem('vendor_data') || '{}');
+      } catch (e) {
+        console.error('Vendor data parse error:', e);
+        return {};
+      }
+    };
+
+    window.updateAllVendorUI = function() {
+      const vendor = window.getVendorDetails();
+      const vendorName = vendor.name || 'Vendor';
+      const vendorEmail = vendor.email || 'vendor@example.com';
+      const vendorImage = vendor.image || '';
+      
+      const headerName = document.getElementById('headerVendorName');
+      if (headerName) headerName.textContent = vendorName;
+      
+      const dropdownName = document.getElementById('dropdownVendorName');
+      if (dropdownName) dropdownName.textContent = vendorName;
+      
+      const dropdownEmail = document.getElementById('dropdownVendorEmail');
+      if (dropdownEmail) dropdownEmail.textContent = vendorEmail;
+      
+      // Update vendor avatar
+      const avatarEl = document.getElementById('vendorAvatarImg');
+      if (avatarEl && vendorImage) {
+        avatarEl.src = vendorImage;
+        avatarEl.style.display = 'block';
+        avatarEl.nextElementSibling.style.display = 'none';
+      }
+      
+      window.dispatchEvent(new CustomEvent('vendorDataUpdated', { detail: vendor }));
+      return vendor;
+    };
+
+    if (!localStorage.getItem('vendor_token')) {
+      window.location.href = '/vendor/login';
+    } else {
+      window.updateAllVendorUI();
+    }
+
+    window.logout = function() {
+      localStorage.removeItem('vendor_token');
+      localStorage.removeItem('vendor_data');
+      window.location.href = '/vendor/login';
+    }
+  </script>
+</body>
+</html>

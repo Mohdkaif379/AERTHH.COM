@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Vendor\Login\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\SubCategory\SubCategoryController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Admin\Vendor\VendorRejectedProductController;
 use App\Http\Controllers\Admin\ChatSupportController;
 use App\Http\Controllers\Admin\SubscriberController;
 use Illuminate\Support\Facades\Route;
+
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -158,4 +160,13 @@ Route::prefix('admin/vendor/products/rejected')->group(function () {
 Route::prefix('admin/subscribers')->group(function () {
     Route::get('/', [SubscriberController::class, 'index'])->name('admin.subscribers.index');
     Route::get('/delete/{id}', [SubscriberController::class, 'destroy'])->name('admin.subscribers.delete');
+});
+
+
+Route::prefix('vendor/login')->group(function () {
+    Route::get('/', [LoginController::class, 'login'])->name('vendor.login');
+});
+
+Route::prefix('vendor/dashboard')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\Dashboard\DashboardController::class, 'vendor_dashboard'])->name('vendor.dashboard');
 });
