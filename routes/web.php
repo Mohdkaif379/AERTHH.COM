@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Vendor\Login\LoginController;
@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\Vendor\VendorApprovedProductController;
 use App\Http\Controllers\Admin\Vendor\VendorRejectedProductController;
 use App\Http\Controllers\Admin\ChatSupportController;
 use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Vendor\Approved\ApprovedProductController as VendorOwnApprovedProductController;
+use App\Http\Controllers\Vendor\Pending\PendingProductController as VendorOwnPendingProductController;
 use App\Http\Controllers\Vendor\Product\ProductController as ProductProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -177,10 +179,51 @@ Route::prefix('vendor/dashboard')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Dashboard\DashboardController::class, 'vendor_dashboard'])->name('vendor.dashboard');
 });
 
+Route::prefix('vendor/pending-products')->group(function () {
+    Route::get('/', [VendorOwnPendingProductController::class, 'index'])->name('vendor.pending-products.index');
+});
+
+Route::prefix('vendor/approved-products')->group(function () {
+    Route::get('/', [VendorOwnApprovedProductController::class, 'index'])->name('vendor.approved-products.index');
+});
+
+Route::prefix('vendor/confirmed-orders')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\ConfirmedOrder\ConfirmedOrderController::class, 'index'])->name('vendor.confirmed-orders.index');
+    Route::post('/{id}/update-status', [\App\Http\Controllers\Vendor\ConfirmedOrder\ConfirmedOrderController::class, 'updateStatus'])->name('vendor.confirmed-orders.update-status');
+});
+
+Route::prefix('vendor/packaging-orders')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\PackagingOrder\PackagingOrderController::class, 'index'])->name('vendor.packaging-orders.index');
+    Route::post('/{id}/update-status', [\App\Http\Controllers\Vendor\PackagingOrder\PackagingOrderController::class, 'updateStatus'])->name('vendor.packaging-orders.update-status');
+});
+
+Route::prefix('vendor/out-for-delivery-orders')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\OutForDeliveryOrder\OutForDeliveryOrderController::class, 'index'])->name('vendor.out-for-delivery-orders.index');
+    Route::post('/{id}/update-status', [\App\Http\Controllers\Vendor\OutForDeliveryOrder\OutForDeliveryOrderController::class, 'updateStatus'])->name('vendor.out-for-delivery-orders.update-status');
+});
+
+Route::prefix('vendor/delivered-orders')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\DeliveredOrder\DeliveredOrderController::class, 'index'])->name('vendor.delivered-orders.index');
+});
+
+Route::prefix('vendor/rejected-products')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\Rejected\RejectedProductController::class, 'index'])->name('vendor.rejected-products.index');
+});
+
+Route::prefix('vendor/pending-orders')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\PendingOrder\PendingOrderController::class, 'index'])->name('vendor.pending-orders.index');
+    Route::post('/{id}/update-status', [\App\Http\Controllers\Vendor\PendingOrder\PendingOrderController::class, 'updateStatus'])->name('vendor.pending-orders.update-status');
+});
+
+Route::prefix('vendor/failed/delivery')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\FailedDeliveryOrder\FailedDeliveryOrderController::class, 'index'])->name('vendor.failed.delivery.index');
+});
 
 Route::prefix('vendor/products')->group(function () {
     Route::get('/', [ProductProductController::class, 'index'])->name('vendor.products.index');
     Route::get('/create', [ProductProductController::class, 'create'])->name('vendor.products.create');
     Route::post('/', [ProductProductController::class, 'store'])->name('vendor.products.store');
+    Route::get('/{id}/edit', [ProductProductController::class, 'edit'])->name('vendor.products.edit');
+    Route::put('/{id}', [ProductProductController::class, 'update'])->name('vendor.products.update');
     Route::delete('/{id}', [ProductProductController::class, 'destroy'])->name('vendor.products.delete');
 });

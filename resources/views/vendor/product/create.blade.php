@@ -255,10 +255,10 @@
                                 <i class="fa fa-image text-3xl text-gray-400 mb-2"></i>
                                 <input type="file" name="image" accept="image/*" class="hidden" id="main-image-input" onchange="previewMainImage(this)">
                                 <p class="text-xs text-gray-500">Click or drag main image (preview below)</p>
-                                <div id="main-image-preview" class="mt-3 p-2 bg-gray-50 rounded-lg hidden">
-                                    <img id="main-preview-img" class="max-h-32 rounded object-cover">
-                                    <button type="button" onclick="clearMainImage()" class="mt-1 px-2 py-1 text-xs bg-red-500 text-white rounded">Remove</button>
-                                </div>
+                            </div>
+
+                            <div id="main-image-preview" class="mt-3 p-2 bg-gray-50 rounded-lg hidden">
+                                <img id="main-preview-img" class="max-h-32 rounded object-cover">
                             </div>
                         </div>
                         <div>
@@ -270,8 +270,8 @@
                                 <i class="fa fa-images text-3xl text-gray-400 mb-2"></i>
                                 <input type="file" name="additional_images[]" multiple accept="image/*" class="hidden" id="additional-image-input" onchange="previewAdditionalImages(this)">	
                                 <p class="text-xs text-gray-500">Click or drag additional images (preview below)</p>
-                                <div id="additional-images-preview" class="mt-3 p-2 bg-gray-50 rounded-lg hidden grid grid-cols-2 md:grid-cols-3 gap-2"></div>
                             </div>
+                            <div id="additional-images-preview" class="mt-3 p-2 bg-gray-50 rounded-lg hidden grid grid-cols-2 md:grid-cols-3 gap-2"></div>
 
                         </div>
                     </div>
@@ -318,11 +318,6 @@
                 };
                 reader.readAsDataURL(file);
             }
-        }
-
-        function clearMainImage() {
-            document.getElementById('main-image-input').value = '';
-            document.getElementById('main-image-preview').classList.add('hidden');
         }
 
         function previewAdditionalImages(input) {

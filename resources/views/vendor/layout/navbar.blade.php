@@ -88,28 +88,148 @@
           <i class="fa fa-tachometer-alt w-5 text-base flex-shrink-0"></i>
           <span class="sidebar-text whitespace-nowrap transition-all duration-200">Dashboard</span>
         </a>
-        <a href="{{route('vendor.products.index')}}" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
-          <i class="fa fa-box w-5 text-base flex-shrink-0"></i>
-          <span class="sidebar-text whitespace-nowrap transition-all duration-200">Products</span>
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
-          <i class="fa fa-shopping-cart w-5 text-base flex-shrink-0"></i>
-          <span class="sidebar-text whitespace-nowrap transition-all duration-200">Orders</span>
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
-          <i class="fa fa-chart-line w-5 text-base flex-shrink-0"></i>
-          <span class="sidebar-text whitespace-nowrap transition-all duration-200">Analytics</span>
-        </a>
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
-          <i class="fa fa-cog w-5 text-base flex-shrink-0"></i>
-          <span class="sidebar-text whitespace-nowrap transition-all duration-200">Settings</span>
-        </a>
+        <div>
+          <button id="productsMenuBtn" type="button" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
+            <span class="flex items-center gap-3">
+              <i class="fa fa-box w-5 text-orange-500 flex-shrink-0"></i>
+              <span class="sidebar-text whitespace-nowrap text-orange-500 transition-all duration-200">Products</span>
+            </span>
+            <i id="productsMenuIcon" class="fa fa-chevron-down text-xs sidebar-text text-orange-500 transition-transform duration-200"></i>
+          </button>
+
+          <div id="productsSubMenu" class="hidden mt-1 ml-2 space-y-1 border-l border-gray-200 dark:border-gray-700 pl-3">
+            <a href="{{ route('vendor.products.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-list w-3.5 text-blue-500"></i>
+              <span class="text-gray-900 dark:text-white">All Products</span>
+            </a>
+            <a href="{{ route('vendor.products.create') }}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-plus-circle w-3.5 text-orange-500"></i>
+              <span class="text-gray-900 dark:text-white">Add Product</span>
+            </a>
+            <a href="{{ route('vendor.pending-products.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-hourglass-half w-3.5 text-amber-500"></i>
+              <span class="text-gray-900 dark:text-white">Pending Products</span>
+            </a>
+            <a href="{{ route('vendor.approved-products.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-circle-check w-3.5 text-green-500"></i>
+              <span class="text-gray-900 dark:text-white">Approved Products</span>
+            </a>
+            <a href="{{route('vendor.rejected-products.index')}}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-circle-xmark w-3.5 text-red-500"></i>
+              <span class="text-gray-900 dark:text-white">Rejected Products</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <button id="ordersMenuBtn" type="button" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
+            <span class="flex items-center gap-3">
+              <i class="fa fa-shopping-cart w-5 text-orange-500 flex-shrink-0"></i>
+              <span class="sidebar-text whitespace-nowrap text-orange-500 transition-all duration-200">Orders</span>
+            </span>
+            <i id="ordersMenuIcon" class="fa fa-chevron-down text-xs sidebar-text text-orange-500 transition-transform duration-200"></i>
+          </button>
+
+          <div id="ordersSubMenu" class="hidden mt-1 ml-2 space-y-1 border-l border-gray-200 dark:border-gray-700 pl-3">
+            <a href="{{route('vendor.pending-orders.index')}}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-hourglass-half w-3.5 text-amber-500"></i>
+              <span class="text-gray-900 dark:text-white">Pending</span>
+            </a>
+            <a href="{{route('vendor.confirmed-orders.index')}}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-circle-check w-3.5 text-green-500"></i>
+              <span class="text-gray-900 dark:text-white">Confirmed</span>
+            </a>
+            <a href="{{route('vendor.packaging-orders.index')}}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-box w-3.5 text-blue-500"></i>
+              <span class="text-gray-900 dark:text-white">Packaging</span>
+            </a>
+            <a href="{{route('vendor.out-for-delivery-orders.index')}}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-truck w-3.5 text-purple-500"></i>
+              <span class="text-gray-900 dark:text-white">Out for Delivery</span>
+            </a>
+            <a href="{{route('vendor.delivered-orders.index')}}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-check-circle w-3.5 text-emerald-500"></i>
+              <span class="text-gray-900 dark:text-white">Delivered</span>
+            </a>
+            <a href="{{route('vendor.failed.delivery.index')}}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-spinner w-3.5 text-yellow-500"></i>
+              <span class="text-gray-900 dark:text-white">Failed to Deliver</span>
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-times-circle w-3.5 text-red-500"></i>
+              <span class="text-gray-900 dark:text-white">Cancelled</span>
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-undo w-3.5 text-indigo-500"></i>
+              <span class="text-gray-900 dark:text-white">Returned</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <button id="analyticsMenuBtn" type="button" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
+            <span class="flex items-center gap-3">
+              <i class="fa fa-chart-line w-5 text-orange-500 flex-shrink-0"></i>
+              <span class="sidebar-text whitespace-nowrap text-orange-500 transition-all duration-200">Analytics</span>
+            </span>
+            <i id="analyticsMenuIcon" class="fa fa-chevron-down text-xs sidebar-text text-orange-500 transition-transform duration-200"></i>
+          </button>
+
+          <div id="analyticsSubMenu" class="hidden mt-1 ml-2 space-y-1 border-l border-gray-200 dark:border-gray-700 pl-3">
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-shopping-bag w-3.5 text-blue-500"></i>
+              <span class="text-gray-900 dark:text-white">Order Insights</span>
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-coins w-3.5 text-green-500"></i>
+              <span class="text-gray-900 dark:text-white">Revenue & Profit</span>
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-file-export w-3.5 text-purple-500"></i>
+              <span class="text-gray-900 dark:text-white">Reports / Exports</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <button id="settingsMenuBtn" type="button" class="w-full flex items-center justify-between gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 group">
+            <span class="flex items-center gap-3">
+              <i class="fa fa-cog w-5 text-orange-500 flex-shrink-0"></i>
+              <span class="sidebar-text whitespace-nowrap text-orange-500 transition-all duration-200">Settings</span>
+            </span>
+            <i id="settingsMenuIcon" class="fa fa-chevron-down text-xs sidebar-text text-orange-500 transition-transform duration-200"></i>
+          </button>
+
+          <div id="settingsSubMenu" class="hidden mt-1 ml-2 space-y-1 border-l border-gray-200 dark:border-gray-700 pl-3">
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-user-gear w-3.5 text-blue-500"></i>
+              <span class="text-gray-900 dark:text-white">Account Settings</span>
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-wallet w-3.5 text-green-500"></i>
+              <span class="text-gray-900 dark:text-white">Wallet</span>
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-question-circle w-3.5 text-purple-500"></i>
+              <span class="text-gray-900 dark:text-white">FAQ</span>
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-shield-alt w-3.5 text-indigo-500"></i>
+              <span class="text-gray-900 dark:text-white">Privacy Policy</span>
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-key w-3.5 text-red-500"></i>
+              <span class="text-gray-900 dark:text-white">Password Manager</span>
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+              <i class="fa fa-history w-3.5 text-cyan-400"></i>
+              <span class="text-gray-900 dark:text-white">History</span>
+            </a>
+          </div>
+        </div>
       </nav>
 
       <div class="p-4 border-t border-gray-200/50 dark:border-gray-800/50">
         <div class="sidebar-text text-center">
           <div class="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-            <i class="fa fa-shield-alt mr-1"></i> Secure Portal
+            <i class="fa fa-shield-alt mr-1"></i> Aerthh.com &copy; {{ date('Y') }}
           </div>
         </div>
       </div>
@@ -263,6 +383,9 @@
     const collapseIcon = document.getElementById('collapseIcon');
     const logoContainer = document.getElementById('logoContainer');
     const logoImg = document.querySelector('#logoContainer img');
+    const productsMenuBtn = document.getElementById('productsMenuBtn');
+    const productsSubMenu = document.getElementById('productsSubMenu');
+    const productsMenuIcon = document.getElementById('productsMenuIcon');
 
     let isSidebarCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
 
@@ -298,6 +421,13 @@
           if (logoImg) {
             logoImg.style.width = '32px';
             logoImg.style.height = '32px';
+          }
+
+          if (productsSubMenu) {
+            productsSubMenu.classList.add('hidden');
+          }
+          if (productsMenuIcon) {
+            productsMenuIcon.classList.remove('rotate-180');
           }
 
         } else {
@@ -364,6 +494,61 @@
 
     if (collapseBtn) {
       collapseBtn.addEventListener('click', toggleSidebarCollapse);
+    }
+
+    if (productsMenuBtn) {
+      productsMenuBtn.addEventListener('click', () => {
+        if (window.innerWidth >= 768 && isSidebarCollapsed) {
+          return;
+        }
+        productsSubMenu.classList.toggle('hidden');
+        productsMenuIcon.classList.toggle('rotate-180');
+      });
+    }
+
+    // Orders menu toggle
+    const ordersMenuBtn = document.getElementById('ordersMenuBtn');
+    const ordersSubMenu = document.getElementById('ordersSubMenu');
+    const ordersMenuIcon = document.getElementById('ordersMenuIcon');
+
+    if (ordersMenuBtn) {
+      ordersMenuBtn.addEventListener('click', () => {
+        if (window.innerWidth >= 768 && isSidebarCollapsed) {
+          return;
+        }
+        ordersSubMenu.classList.toggle('hidden');
+        ordersMenuIcon.classList.toggle('rotate-180');
+      });
+    }
+
+    // Settings menu toggle
+    const settingsMenuBtn = document.getElementById('settingsMenuBtn');
+    const settingsSubMenu = document.getElementById('settingsSubMenu');
+    const settingsMenuIcon = document.getElementById('settingsMenuIcon');
+    
+    if (settingsMenuBtn) {
+      settingsMenuBtn.addEventListener('click', () => {
+        if (window.innerWidth >= 768 && isSidebarCollapsed) {
+          return;
+        }
+        settingsSubMenu.classList.toggle('hidden');
+        settingsMenuIcon.classList.toggle('rotate-180');
+      });
+    }
+
+    // Analytics menu toggle
+    const analyticsMenuBtn = document.getElementById('analyticsMenuBtn');
+    const analyticsSubMenu = document.getElementById('analyticsSubMenu');
+    const analyticsMenuIcon = document.getElementById('analyticsMenuIcon');
+    
+    if (analyticsMenuBtn) {
+      analyticsMenuBtn.addEventListener('click', () => {
+        if (window.innerWidth >= 768 && isSidebarCollapsed) {
+          return;
+        }
+        analyticsSubMenu.classList.toggle('hidden');
+        analyticsMenuIcon.classList.toggle('rotate-180');
+      });
     }
 
     applySidebarState();

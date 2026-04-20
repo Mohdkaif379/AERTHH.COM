@@ -552,7 +552,9 @@ function getImageUrl(path) {
 
   // Placeholder actions
   window.viewProduct = viewProduct;
-  window.editProduct = (id) => alert(`Edit product ${id}`);
+  window.editProduct = (id) => {
+    window.location.href = `${vendorProductsBaseUrl}/${id}/edit`;
+  };
   window.deleteProduct = deleteProduct;
   window.closeProductModal = closeProductModal;
   window.closeDeleteModal = closeDeleteModal;
