@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\Vendor\VendorApprovedProductController;
 use App\Http\Controllers\Admin\Vendor\VendorRejectedProductController;
 use App\Http\Controllers\Admin\ChatSupportController;
 use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Vendor\Product\ProductController as ProductProductController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -163,10 +164,23 @@ Route::prefix('admin/subscribers')->group(function () {
 });
 
 
+
+
 Route::prefix('vendor/login')->group(function () {
     Route::get('/', [LoginController::class, 'login'])->name('vendor.login');
 });
 
+Route::post('vendor/login/submit', [LoginController::class, 'loginSubmit'])->name('vendor.login.submit');
+Route::post('vendor/logout', [LoginController::class, 'logout'])->name('vendor.logout');
+
 Route::prefix('vendor/dashboard')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Dashboard\DashboardController::class, 'vendor_dashboard'])->name('vendor.dashboard');
 });
+
+
+Route::prefix('vendor/products')->group(function () {
+    Route::get('/', [ProductProductController::class, 'index'])->name('vendor.products.index');
+    Route::get('/create', [ProductProductController::class, 'create'])->name('vendor.products.create');
+    Route::post('/', [ProductProductController::class, 'store'])->name('vendor.products.store');
+});
+

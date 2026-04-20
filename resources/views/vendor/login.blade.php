@@ -43,7 +43,8 @@
       <h2 class="text-3xl font-semibold mb-2">Vendor Access</h2>
       <p class="text-gray-400 mb-8">Enter your credentials to access your account</p>
 
-      <form id="loginForm" class="space-y-6">
+      <form id="loginForm" class="space-y-6 " action="{{route('vendor.login.submit')}}" method="POST">
+       @csrf
 
         <!-- Email -->
         <div>
@@ -69,7 +70,7 @@
           <label class="text-sm text-gray-400">Captcha</label>
           <div class="flex items-center gap-3 mt-1 border-b border-gray-700 px-1 focus-within:border-orange-400 transition">
             <div id="captchaBox" class="text-orange-400 font-semibold tracking-widest"></div>
-            <input id="captchaInput" type="text" name="captcha" placeholder="Enter" class="flex-1 py-2 bg-black outline-none text-white">
+            <input id="captchaInput" type="text" name="captcha" placeholder="Enter" class="flex-1 py-2 bg-black outline-none text-white" required>
             <button type="button" onclick="generateCaptcha()" class="text-orange-400 text-lg">
               <i class="fa-solid fa-rotate"></i>
             </button>
@@ -125,71 +126,8 @@
     }
 
     // Login API integration
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const captchaInput = document.getElementById('captchaInput').value;
-      
-      if (!email || !password) {
-        alert('Please fill email and password');
-        return;
-      }
-      
-      // Validate captcha (client-side)
-      if (captchaInput !== window.generatedCaptcha) {
-        document.getElementById('errorMsg').textContent = 'Captcha does not match!';
-        document.getElementById('errorMsg').classList.remove('hidden');
-        generateCaptcha();
-        document.getElementById('captchaInput').value = '';
-        return;
-      }
-      
-      // Show loading
-      const loadingEl = document.getElementById('loading');
-      const errorEl = document.getElementById('errorMsg');
-      const btn = document.getElementById('loginBtn');
-      loadingEl.classList.remove('hidden');
-      errorEl.classList.add('hidden');
-      btn.disabled = true;
-      
-      try {
-        const response = await fetch('https://aerthh.newhopeindia17.com/api/vendor/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password
-          })
-        });
-        
-        const data = await response.json();
-        
-        if (data.status === true) {
-          // Save token and vendor data to localStorage
-          localStorage.setItem('vendor_token', data.token);
-          localStorage.setItem('vendor_data', JSON.stringify(data.vendor));
-          // Redirect to dashboard
-          window.location.href = '/vendor/dashboard';
-        } else {
-          throw new Error(data.message || 'Login failed');
-        }
-      } catch (error) {
-        errorEl.textContent = error.message || 'Network error. Please try again.';
-        errorEl.classList.remove('hidden');
-      } finally {
-        loadingEl.classList.add('hidden');
-        btn.disabled = false;
-        generateCaptcha();
-        document.getElementById('captchaInput').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('password').value = '';
-      }
-    });
+    // Form already has action="{{route('vendor.login.submit')}}", normal submit
+
 
     // Init captcha
     generateCaptcha();
