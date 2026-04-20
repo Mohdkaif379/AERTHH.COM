@@ -268,7 +268,7 @@
 <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-orange-400 dark:hover:border-orange-400 transition cursor-pointer" onclick="document.getElementById('additional-image-input').click()">
 
                                 <i class="fa fa-images text-3xl text-gray-400 mb-2"></i>
-                                <input type="file" name="additional_image[]" multiple accept="image/*" class="hidden" id="additional-image-input" onchange="previewAdditionalImages(this)">
+                                <input type="file" name="additional_images[]" multiple accept="image/*" class="hidden" id="additional-image-input" onchange="previewAdditionalImages(this)">	
                                 <p class="text-xs text-gray-500">Click or drag additional images (preview below)</p>
                                 <div id="additional-images-preview" class="mt-3 p-2 bg-gray-50 rounded-lg hidden grid grid-cols-2 md:grid-cols-3 gap-2"></div>
                             </div>

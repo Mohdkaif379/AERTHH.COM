@@ -30,9 +30,11 @@ class Product extends Model
         'attribute_id',
         'attribute_value',
         'additional_image'
-    ];
 
+    ];
+    
     protected $casts = [
+
         'tags' => 'array',
         'additional_image' => 'array',
         'status' => 'boolean',
@@ -40,6 +42,7 @@ class Product extends Model
         'discount' => 'decimal:2',
         'shipping_cost' => 'decimal:2',
         'tax_amount' => 'decimal:2',
+
     ];
 
     // Relationships

@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Vendor\Product;
 
+use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
-public function index()
+    public function index()
     {
         $vendor = session('vendor');
         if (!$vendor) {
             return redirect()->route('vendor.login')->with('error', 'Please login first');
         }
 
-        $products = \App\Models\Product::with(['category', 'subCategory', 'subSubCategory', 'brand'])
+        $products = Product::with(['category', 'subCategory', 'subSubCategory', 'brand'])
             ->where('vendor_id', $vendor['id'])->get();
 
         return view('vendor.product.index', compact('products'));
@@ -76,7 +77,7 @@ public function index()
                 'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
 
                 'additional_images' => 'nullable|array',
-                'additional_images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+                'additional_images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
 
                 'description' => 'nullable|string',
 
@@ -84,7 +85,9 @@ public function index()
                 'tags.*' => 'string|max:50',
             ]);
 
-            $data = $request->except(['image', 'additional_images']);
+
+            $data = $request->except(['image', 'additional_image', 'additional_images']);
+
 
             // ✅ vendor id from session
             $data['vendor_id'] = $vendor['id'];
@@ -102,22 +105,29 @@ public function index()
                 $data['image'] = $request->file('image')->store('products', 'public');
             }
 
-            // ✅ additional images
-            $additionalImages = [];
+         
+
+            // Multiple images:
+            // form uses additional_images[], DB column is additional_image
+            $uploadedAdditionalImages = [];
 
             if ($request->hasFile('additional_images')) {
-                foreach ($request->file('additional_images') as $file) {
-                    if ($file) {
-                        $additionalImages[] = $file->store('products', 'public');
-                    }
+                $uploadedAdditionalImages = $request->file('additional_images');
+            } elseif ($request->hasFile('additional_image')) {
+                // backward compatibility for old field name
+                $uploadedAdditionalImages = $request->file('additional_image');
+            }
+
+            if (!empty($uploadedAdditionalImages)) {
+                $images = [];
+                foreach ($uploadedAdditionalImages as $img) {
+                    $images[] = $img->store('products', 'public');
                 }
+                // Product model casts this field to array
+                $data['additional_image'] = $images;
             }
 
-            if (!empty($additionalImages)) {
-                $data['additional_images'] = $additionalImages;
-            }
-
-            $product = \App\Models\Product::create($data);
+            $product = Product::create($data);
 
             Log::info('Product created', ['id' => $product->id]);
 
@@ -131,5 +141,27 @@ public function index()
 
             return back()->with('error', $e->getMessage());
         }
+    }
+
+    public function destroy($id)
+    {
+        $vendor = session('vendor');
+        if (!$vendor) {
+            return redirect()->route('vendor.login')->with('error', 'Please login first');
+        }
+
+        $product = Product::where('id', $id)
+            ->where('vendor_id', $vendor['id'])
+            ->first();
+
+        if (!$product) {
+            return redirect()->route('vendor.products.index')
+                ->with('error', 'Product not found or unauthorized.');
+        }
+
+        $product->delete();
+
+        return redirect()->route('vendor.products.index')
+            ->with('success', 'Product deleted successfully.');
     }
 }

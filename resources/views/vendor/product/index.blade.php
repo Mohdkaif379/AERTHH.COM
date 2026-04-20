@@ -2,6 +2,17 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  @if(session('success'))
+    <div class="mb-4 rounded-lg border border-green-200 bg-green-50 text-green-700 px-4 py-3">
+      {{ session('success') }}
+    </div>
+  @endif
+
+  @if(session('error'))
+    <div class="mb-4 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3">
+      {{ session('error') }}
+    </div>
+  @endif
   
   <!-- Header (unchanged) -->
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
@@ -77,6 +88,37 @@
     <div id="noResults" class="hidden flex flex-col items-center justify-center py-12 text-gray-500 dark:text-gray-400">
       <i class="fa fa-box-open text-3xl mb-3"></i>
       <p>No products found matching your filters.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DELETE CONFIRMATION MODAL ========== -->
+<div id="deleteConfirmModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden p-4" onclick="closeDeleteModal()">
+  <div class="flex items-center justify-center min-h-full" onclick="event.stopPropagation()">
+    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+      <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-800">
+        <h3 class="text-base font-semibold text-gray-900 dark:text-white">Delete Product</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">This action cannot be undone.</p>
+      </div>
+      <div class="px-5 py-4">
+        <p class="text-sm text-gray-700 dark:text-gray-300">
+          Are you sure you want to delete
+          <span id="deleteProductName" class="font-semibold"></span>
+          ?
+        </p>
+      </div>
+      <div class="px-5 py-4 border-t border-gray-200 dark:border-gray-800 flex items-center justify-end gap-2">
+        <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+          Cancel
+        </button>
+        <form id="deleteProductForm" method="POST" action="">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition">
+            Confirm Delete
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -220,6 +262,10 @@
   const loadingState = document.getElementById('loadingState');
   const errorState = document.getElementById('errorState');
   const noResultsDiv = document.getElementById('noResults');
+  const deleteModal = document.getElementById('deleteConfirmModal');
+  const deleteForm = document.getElementById('deleteProductForm');
+  const deleteProductName = document.getElementById('deleteProductName');
+  const vendorProductsBaseUrl = "{{ url('vendor/products') }}";
 
   let currentProduct = null;
 
@@ -277,11 +323,11 @@
     return `<div>${finalPriceHtml}${originalHtml}${discountHtml}</div>`;
   }
 
-  function getImageUrl(path) {
-    if (!path) return null;
+function getImageUrl(path) {
+    if (!path || typeof path !== 'string' || path.trim() === '') return null;
     if (path.startsWith('http')) return path;
     // Adjust base URL if needed – here we assume storage path relative to public
-    return '/storage/' + path;
+    return '/storage/' + path.trim();
   }
 
   function getFallbackGradient(category) {
@@ -487,11 +533,29 @@
     document.body.style.overflow = '';
   }
 
+  function deleteProduct(id) {
+    const product = allProducts.find(p => p.id == id);
+    if (!product) return;
+
+    deleteProductName.textContent = product.product_name || `#${id}`;
+    deleteForm.action = `${vendorProductsBaseUrl}/${id}`;
+    deleteModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDeleteModal() {
+    deleteModal.classList.add('hidden');
+    deleteForm.action = '';
+    deleteProductName.textContent = '';
+    document.body.style.overflow = '';
+  }
+
   // Placeholder actions
   window.viewProduct = viewProduct;
   window.editProduct = (id) => alert(`Edit product ${id}`);
-  window.deleteProduct = (id) => alert(`Delete product ${id}`);
+  window.deleteProduct = deleteProduct;
   window.closeProductModal = closeProductModal;
+  window.closeDeleteModal = closeDeleteModal;
 
   // Event listeners
   searchInput.addEventListener('input', renderProducts);

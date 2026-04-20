@@ -182,5 +182,5 @@ Route::prefix('vendor/products')->group(function () {
     Route::get('/', [ProductProductController::class, 'index'])->name('vendor.products.index');
     Route::get('/create', [ProductProductController::class, 'create'])->name('vendor.products.create');
     Route::post('/', [ProductProductController::class, 'store'])->name('vendor.products.store');
+    Route::delete('/{id}', [ProductProductController::class, 'destroy'])->name('vendor.products.delete');
 });
-
