@@ -15,7 +15,7 @@ class DashboardController extends Controller
         return redirect()->route('vendor.login')
             ->with('error', 'Please login first');
     }
-    $vendor = session('vendor');
+$vendor = \App\Models\Vendor::find(session('vendor')['id']);
     
     $vendorId = $vendor['id'];
 

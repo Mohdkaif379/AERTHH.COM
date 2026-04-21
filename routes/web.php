@@ -244,3 +244,7 @@ Route::prefix('vendor/revenue-profit')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\RevenueProfit\RevenueProfitController::class, 'index'])->name('vendor.revenue-profit.index');
 });
 
+Route::prefix('vendor/faq')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\Faq\FaqController::class, 'index'])->name('vendor.faq.index');
+});
+

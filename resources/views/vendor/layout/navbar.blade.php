@@ -207,7 +207,7 @@
               <i class="fa fa-wallet w-3.5 text-green-500"></i>
               <span class="text-gray-900 dark:text-white">Wallet</span>
             </a>
-            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+            <a href="{{ route('vendor.faq.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
               <i class="fa fa-question-circle w-3.5 text-purple-500"></i>
               <span class="text-gray-900 dark:text-white">FAQ</span>
             </a>
