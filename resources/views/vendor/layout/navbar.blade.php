@@ -154,11 +154,11 @@
               <i class="fa fa-spinner w-3.5 text-yellow-500"></i>
               <span class="text-gray-900 dark:text-white">Failed to Deliver</span>
             </a>
-            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+            <a href="{{route('vendor.cancel-orders.index')}}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
               <i class="fa fa-times-circle w-3.5 text-red-500"></i>
               <span class="text-gray-900 dark:text-white">Cancelled</span>
             </a>
-            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+            <a href="{{route('vendor.returned-orders.index')}}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
               <i class="fa fa-undo w-3.5 text-indigo-500"></i>
               <span class="text-gray-900 dark:text-white">Returned</span>
             </a>
@@ -174,7 +174,7 @@
           </button>
 
           <div id="analyticsSubMenu" class="hidden mt-1 ml-2 space-y-1 border-l border-gray-200 dark:border-gray-700 pl-3">
-            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+            <a href="{{route('vendor.order-insight.index')}}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
               <i class="fa fa-shopping-bag w-3.5 text-blue-500"></i>
               <span class="text-gray-900 dark:text-white">Order Insights</span>
             </a>

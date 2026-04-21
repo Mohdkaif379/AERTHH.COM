@@ -227,3 +227,15 @@ Route::prefix('vendor/products')->group(function () {
     Route::put('/{id}', [ProductProductController::class, 'update'])->name('vendor.products.update');
     Route::delete('/{id}', [ProductProductController::class, 'destroy'])->name('vendor.products.delete');
 });
+
+Route::prefix('vendor/cancel-orders')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\CancelOrder\CancelOrderController::class, 'index'])->name('vendor.cancel-orders.index');
+});
+
+Route::prefix('vendor/returned-orders')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\ReurnedOrder\ReturnedOrderController::class, 'index'])->name('vendor.returned-orders.index');
+});
+
+Route::prefix('vendor/order-insight')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\OrderInsight\OrderInsightController::class, 'index'])->name('vendor.order-insight.index');
+});
