@@ -239,3 +239,8 @@ Route::prefix('vendor/returned-orders')->group(function () {
 Route::prefix('vendor/order-insight')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\OrderInsight\OrderInsightController::class, 'index'])->name('vendor.order-insight.index');
 });
+
+Route::prefix('vendor/revenue-profit')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\RevenueProfit\RevenueProfitController::class, 'index'])->name('vendor.revenue-profit.index');
+});
+
