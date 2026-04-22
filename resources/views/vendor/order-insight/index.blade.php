@@ -5,7 +5,7 @@
 
     <!-- Header -->
     <div class="mb-8">
-        <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-800 dark:from-white dark:to-gray-200 bg-clip-text text-transparent mb-2">Order Insights</h1>
+        <h1 class="text-3xl md:text-4xl font-bold bg-orange-500 dark:from-white dark:to-gray-200 bg-clip-text text-transparent mb-2">Order Insights</h1>
         <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl">Analytics and trends for your store performance (Last 7 days)</p>
     </div>
 
