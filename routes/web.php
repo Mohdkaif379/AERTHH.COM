@@ -248,3 +248,8 @@ Route::prefix('vendor/faq')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Faq\FaqController::class, 'index'])->name('vendor.faq.index');
 });
 
+Route::prefix('vendor/report')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'index'])->name('vendor.report.index');
+    Route::get('/export', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'export'])->name('vendor.report.export');
+});
+
