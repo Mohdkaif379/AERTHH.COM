@@ -15,7 +15,7 @@
                 <a href="{{route('vendor.faq.index')}}" class="px-2 py-1 bg-orange-500 dark:bg-slate-700 text-slate-100 rounded-full text-sm font-medium hover:bg-orange-600 dark:hover:bg-slate-600 transition-colors">
                     <i class="fa-solid fa-circle-question mr-1"></i> FAQ
                 </a>
-                <a href="#" class="px-2 py-1 bg-orange-500 dark:bg-slate-700 text-slate-100 rounded-full text-sm font-medium hover:bg-orange-600 dark:hover:bg-slate-600 transition-colors">
+                <a href="{{ route('vendor.privacy-policy.index') }}" class="px-2 py-1 bg-orange-500 dark:bg-slate-700 text-slate-100 rounded-full text-sm font-medium hover:bg-orange-600 dark:hover:bg-slate-600 transition-colors">
                     <i class="fa-solid fa-file-lines mr-1"></i> Policy
                 </a>
             </div>

@@ -248,8 +248,15 @@ Route::prefix('vendor/faq')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Faq\FaqController::class, 'index'])->name('vendor.faq.index');
 });
 
+Route::prefix('vendor/privacy-policy')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\PrivacyPolicy\PrivacyPolicyController::class, 'index'])->name('vendor.privacy-policy.index');
+});
+
+Route::prefix('vendor/wallet')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\Wallet\WalletController::class, 'index'])->name('vendor.wallet.index');
+});
+
 Route::prefix('vendor/report')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'index'])->name('vendor.report.index');
     Route::get('/export', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'export'])->name('vendor.report.export');
 });
-
