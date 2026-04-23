@@ -238,6 +238,24 @@
   </aside>
 
   <div id="mainContent" class="flex flex-col min-h-screen content-expanded transition-all duration-300">
+    @php
+      $navVendor = session('vendor');
+      $navAvailableBalance = 0;
+
+      if ($navVendor) {
+          $navDeliveredOrdersQuery = \App\Models\Order::where('vendor_id', $navVendor['id'])
+              ->where('status', 'delivered');
+
+          $navTotalEarnings = (clone $navDeliveredOrdersQuery)
+              ->get()
+              ->sum(function (\App\Models\Order $order) {
+                  return (float) $order->total_price + (float) ($order->shipping_cost ?? 0);
+              });
+
+          $navPendingPayout = 0;
+          $navAvailableBalance = $navTotalEarnings - $navPendingPayout;
+      }
+    @endphp
 
     <header class="sticky top-0 z-30 bg-white/80 dark:bg-black backdrop-blur-2xl border-b border-gray-200/50 dark:border-gray-800/50">
       <div class="px-4 sm:px-6 py-2.5 flex items-center justify-between">
@@ -253,6 +271,13 @@
         </div>
 
         <div class="flex items-center gap-2 sm:gap-3">
+          <div class="hidden sm:flex items-center gap-2 rounded-2xl bg-white/90 dark:bg-gray-900/90 px-3 py-2 shadow-lg border border-gray-200/70 dark:border-gray-800/70">
+            <div class="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.65)]"></div>
+            <div class="leading-tight">
+              <div class="text-sm font-bold text-gray-900 dark:text-white">&#8377;{{ number_format($navAvailableBalance, 2) }}</div>
+            </div>
+          </div>
+
           <button class="relative p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500  rounded-lg transition-all">
             <i class="fa fa-bell text-lg"></i>
             <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-orange-500 rounded-full border-2 border-white dark:border-gray-900"></span>
@@ -270,7 +295,7 @@
               </div>
             </button>
 
-            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-xl shadow-2xl py-1.5 z-50">
+            <div id="userDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-2xl shadow-lg shadow-black/10 dark:shadow-black/40 py-1.5 z-50">
               <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-800 bg-gradient-to-r from-gray-50 dark:from-gray-900/50 rounded-t-xl">
 
                 <p class="font-semibold text-sm" id="dropdownVendorName">{{ session('vendor.name', 'Vendor') }}</p>
