@@ -278,6 +278,13 @@
             </div>
           </div>
 
+          <div class="flex items-center gap-2 rounded-2xl bg-white/90 dark:bg-gray-900/90 px-3 py-2 shadow-lg border border-gray-200/70 dark:border-gray-800/70">
+            <div class="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.65)]"></div>
+            <div class="leading-tight text-center">
+              <div id="indiaTime" class="text-sm font-bold text-gray-900 dark:text-white whitespace-nowrap"> --:--:--</div>
+            </div>
+          </div>
+
           <button class="relative p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500  rounded-lg transition-all">
             <i class="fa fa-bell text-lg"></i>
             <span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-orange-500 rounded-full border-2 border-white dark:border-gray-900"></span>
@@ -285,6 +292,10 @@
 
           <button id="themeToggle" class="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500  rounded-lg transition-all">
             <i id="themeIcon" class="fa fa-moon text-lg"></i>
+          </button>
+
+          <button id="escActionBtn" type="button" class="p-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 rounded-lg transition-all" title="Fullscreen">
+            <i id="escActionIcon" class="fa fa-expand text-lg"></i>
           </button>
 
           <div class="relative">
@@ -364,6 +375,61 @@
       document.body.style.overflow = '';
     };
 
+    function closeTransientHeaderUI() {
+      const userDropdown = document.getElementById('userDropdown');
+      if (userDropdown) {
+        userDropdown.classList.add('hidden');
+      }
+
+      const logoutModal = document.getElementById('logoutModal');
+      if (logoutModal && !logoutModal.classList.contains('hidden')) {
+        closeLogoutModal();
+      }
+    }
+
+    const escActionBtn = document.getElementById('escActionBtn');
+    const escActionIcon = document.getElementById('escActionIcon');
+
+    function updateFullscreenIcon() {
+      if (!escActionIcon) {
+        return;
+      }
+
+      if (document.fullscreenElement) {
+        escActionIcon.classList.remove('fa-expand');
+        escActionIcon.classList.add('fa-compress');
+        if (escActionBtn) {
+          escActionBtn.title = 'Exit Fullscreen';
+        }
+      } else {
+        escActionIcon.classList.remove('fa-compress');
+        escActionIcon.classList.add('fa-expand');
+        if (escActionBtn) {
+          escActionBtn.title = 'Fullscreen';
+        }
+      }
+    }
+
+    if (escActionBtn) {
+      escActionBtn.addEventListener('click', async () => {
+        closeTransientHeaderUI();
+
+        try {
+          if (!document.fullscreenElement) {
+            await document.documentElement.requestFullscreen();
+          } else {
+            await document.exitFullscreen();
+          }
+          updateFullscreenIcon();
+        } catch (error) {
+          console.error('Fullscreen toggle failed:', error);
+        }
+      });
+    }
+
+    document.addEventListener('fullscreenchange', updateFullscreenIcon);
+    updateFullscreenIcon();
+
     window.performLogout = function() {
       document.getElementById('logoutForm').submit();
     };
@@ -373,9 +439,38 @@
     // Close modal on Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
-        closeLogoutModal();
+        closeTransientHeaderUI();
       }
     });
+
+    const indiaTimeEl = document.getElementById('indiaTime');
+
+    function updateIndiaTime() {
+      if (!indiaTimeEl) {
+        return;
+      }
+
+      const parts = new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      }).formatToParts(new Date());
+
+      const timeString = parts.map((part) => {
+        if (part.type === 'dayPeriod') {
+          return part.value.toUpperCase();
+        }
+
+        return part.value;
+      }).join('');
+
+      indiaTimeEl.textContent = timeString;
+    }
+
+    updateIndiaTime();
+    setInterval(updateIndiaTime, 1000);
 
     // Theme Toggle
     const themeToggle = document.getElementById('themeToggle');
