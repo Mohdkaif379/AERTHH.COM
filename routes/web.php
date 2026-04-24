@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Vendor\Login\LoginController;
 use App\Http\Controllers\Vendor\VendorSignup\VendorSignupController;
+use App\Http\Controllers\Vendor\AccountSetting\AccountSettingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\SubCategory\SubCategoryController;
@@ -186,6 +187,10 @@ Route::post('vendor/logout', [LoginController::class, 'logout'])->name('vendor.l
 
 Route::prefix('vendor/dashboard')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Dashboard\DashboardController::class, 'vendor_dashboard'])->name('vendor.dashboard');
+});
+
+Route::prefix('vendor/account-setting')->group(function () {
+    Route::get('/', [AccountSettingController::class, 'index'])->name('vendor.account-setting.index');
 });
 
 Route::prefix('vendor/pending-products')->group(function () {
