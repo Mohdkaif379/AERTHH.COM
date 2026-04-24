@@ -1,9 +1,8 @@
- <?php
+<?php
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Vendor\Login\LoginController;
-use App\Http\Controllers\Vendor\VendorSignup\VendorSignupController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Vendor\Login\LoginController;
 use App\Http\Controllers\Admin\Category\CategoryController;
 use App\Http\Controllers\Admin\SubCategory\SubCategoryController;
 use App\Http\Controllers\Admin\SubSubCategory\SubSubCategoryController;
@@ -12,20 +11,19 @@ use App\Http\Controllers\Admin\Brand\BrandController;
 use App\Http\Controllers\Admin\Product\ProductController;
 use App\Http\Controllers\Admin\Banner\BannerController;
 use App\Http\Controllers\Admin\Vendor\VendorController;
-use App\Http\Controllers\Admin\Customer\CustomerController;
-use App\Http\Controllers\Admin\ConfirmedOrder\ConfirmedOrderController;
-use App\Http\Controllers\Admin\PackagingOrder\PackagingOrderController;
-use App\Http\Controllers\Admin\PendingOrder\PendingOrderController;
 use App\Http\Controllers\Admin\Vendor\VendorPendingProductController;
 use App\Http\Controllers\Admin\Vendor\VendorApprovedProductController;
 use App\Http\Controllers\Admin\Vendor\VendorRejectedProductController;
+use App\Http\Controllers\Admin\Customer\CustomerController;
 use App\Http\Controllers\Admin\ChatSupportController;
 use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Admin\PendingOrder\PendingOrderController;
+use App\Http\Controllers\Admin\ConfirmedOrder\ConfirmedOrderController;
+use App\Http\Controllers\Admin\PackagingOrder\PackagingOrderController;
 use App\Http\Controllers\Vendor\Approved\ApprovedProductController as VendorOwnApprovedProductController;
 use App\Http\Controllers\Vendor\Pending\PendingProductController as VendorOwnPendingProductController;
 use App\Http\Controllers\Vendor\Product\ProductController as ProductProductController;
 use Illuminate\Support\Facades\Route;
-
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -86,6 +84,7 @@ Route::prefix('admin/attribute')->group(function () {
     Route::get('/delete/{id}', [AttributeController::class, 'destroy'])->name('attribute.delete');
 });     
 
+
 Route::prefix('admin/products')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->name('products.index');
     Route::get('/create', [ProductController::class, 'create'])->name('products.create');
@@ -111,6 +110,7 @@ Route::prefix('admin/banners')->group(function () {
     Route::get('/{id}', [BannerController::class, 'show'])->name('admin.banners.show');
 });
 
+
 Route::prefix('admin/vendors')->group(function () {
     Route::get('/', [VendorController::class, 'index'])->name('vendors.index');
     Route::get('/{vendor}', [VendorController::class, 'show'])->name('vendors.show');
@@ -125,12 +125,14 @@ Route::prefix('admin/chats')->group(function () {
     Route::get('/history', [ChatSupportController::class, 'get_all_chat'])->name('admin.chats.history');
 });
 
+
 Route::prefix('admin/customers')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('/{customer}', [CustomerController::class, 'show'])->name('customers.show');
     Route::get('/status/{customer}', [CustomerController::class, 'status'])->name('customers.status');
     Route::get('/delete/{customer}', [CustomerController::class, 'destroy'])->name('customers.delete');
 });
+
 
 Route::prefix('admin/pending-orders')->group(function () {
     Route::get('/', [PendingOrderController::class, 'index'])->name('admin.pending-orders.index');
@@ -147,19 +149,19 @@ Route::prefix('admin/packaging-orders')->group(function () {
 });
 
 
+
 Route::prefix('admin/vendor/products/pending')->group(function () {
     Route::get('/', [VendorPendingProductController::class, 'index'])->name('vendor.products.pending');
     Route::get('/status/{id}/{status}', [VendorPendingProductController::class, 'updateStatus'])->name('vendor.products.pending.status');
 });
 
+
 Route::prefix('admin/vendor/products/approved')->group(function () {
     Route::get('/', [VendorApprovedProductController::class, 'index'])->name('vendor.products.approved');
 });
-
 Route::prefix('admin/vendor/products/rejected')->group(function () {
     Route::get('/', [VendorRejectedProductController::class, 'index'])->name('vendor.products.rejected');
 });
-
 
 Route::prefix('admin/subscribers')->group(function () {
     Route::get('/', [SubscriberController::class, 'index'])->name('admin.subscribers.index');
@@ -169,16 +171,10 @@ Route::prefix('admin/subscribers')->group(function () {
 
 
 
+
+
 Route::prefix('vendor/login')->group(function () {
     Route::get('/', [LoginController::class, 'login'])->name('vendor.login');
-});
-
-Route::prefix('vendor/signup')->group(function () {
-    Route::get('/', [VendorSignupController::class, 'signup'])->name('vendor.signup');
-    Route::post('/', [VendorSignupController::class, 'signupSubmit'])->name('vendor.signup.submit');
-    Route::get('/thanks', function () {
-        return view('vendor.thanks');
-    })->name('vendor.signup.thanks');
 });
 
 Route::post('vendor/login/submit', [LoginController::class, 'loginSubmit'])->name('vendor.login.submit');
@@ -237,6 +233,7 @@ Route::prefix('vendor/products')->group(function () {
     Route::delete('/{id}', [ProductProductController::class, 'destroy'])->name('vendor.products.delete');
 });
 
+
 Route::prefix('vendor/cancel-orders')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\CancelOrder\CancelOrderController::class, 'index'])->name('vendor.cancel-orders.index');
 });
@@ -257,15 +254,15 @@ Route::prefix('vendor/faq')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Faq\FaqController::class, 'index'])->name('vendor.faq.index');
 });
 
+Route::prefix('vendor/report')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'index'])->name('vendor.report.index');
+    Route::get('/export', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'export'])->name('vendor.report.export');
+});
+
 Route::prefix('vendor/privacy-policy')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\PrivacyPolicy\PrivacyPolicyController::class, 'index'])->name('vendor.privacy-policy.index');
 });
 
 Route::prefix('vendor/wallet')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Wallet\WalletController::class, 'index'])->name('vendor.wallet.index');
-});
-
-Route::prefix('vendor/report')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'index'])->name('vendor.report.index');
-    Route::get('/export', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'export'])->name('vendor.report.export');
 });

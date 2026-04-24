@@ -17,20 +17,20 @@
     }
   </style>
 </head>
-<body class="bg-black min-h-screen flex items-center justify-center">
+<body class="bg-black min-h-screen py-4 flex items-center justify-center">
 
   <div class="w-full max-w-4xl grid md:grid-cols-2 rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.6)]">
 
     <!-- LEFT PREMIUM DARK -->
-    <div class="hidden md:flex flex-col justify-center px-14 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white relative">
+    <div class="hidden md:flex flex-col justify-center px-10 py-8 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white relative">
       <!-- Logo -->
-      <img src="https://aerthh.com/storage/app/public/company/2025-03-26-67e3da8f9b411.webp" alt="logo" class="w-12 h-12 mb-6 rounded-lg shadow-xl shadow-black/50">
+      <img src="https://aerthh.com/storage/app/public/company/2025-03-26-67e3da8f9b411.webp" alt="logo" class="w-12 h-12 mb-4 rounded-lg shadow-xl shadow-black/50">
       <div class="absolute top-10 left-10 w-32 h-32 bg-orange-500/10 blur-3xl rounded-full"></div>
 
-      <h1 class="text-4xl font-bold mb-4 leading-tight">Vendor Dashboard</h1>
-      <p class="text-gray-400 mb-10">Control your business with powerful tools, insights and real-time sales tracking.</p>
+      <h1 class="text-4xl font-bold mb-3 leading-tight">Vendor Dashboard</h1>
+      <p class="text-gray-400 mb-6">Control your business with powerful tools, insights and real-time sales tracking.</p>
 
-      <div class="space-y-6">
+      <div class="space-y-4">
         <div class="flex items-center gap-4">
           <i class="fa-solid fa-user text-orange-400 text-xl"></i>
           <p class="text-gray-300 text-sm">Secure vendor access</p>
@@ -49,11 +49,11 @@
     </div>
 
     <!-- RIGHT GLASS LOGIN -->
-    <div class="bg-white/5 backdrop-blur-2xl p-8 md:p-10 text-white border-l border-white/10">
-      <h2 class="text-3xl font-semibold mb-2">Vendor Access</h2>
-      <p class="text-gray-400 mb-8">Enter your credentials to access your account</p>
+    <div class="bg-white/5 backdrop-blur-2xl p-7 md:p-8 text-white border-l border-white/10">
+      <h2 class="text-2xl font-semibold mb-2">Vendor Access</h2>
+      <p class="text-gray-400 mb-6">Enter your credentials to access your account</p>
 
-      <form id="loginForm" class="space-y-6 " action="{{route('vendor.login.submit')}}" method="POST">
+      <form id="loginForm" class="space-y-4" action="{{route('vendor.login.submit')}}" method="POST">
 @csrf
         <!-- Hidden field for captcha verification -->
         <input type="hidden" name="captcha_verified" id="captchaVerified" value="0">
@@ -81,7 +81,7 @@
         <!-- CAPTCHA -->
         <div>
           <label class="text-sm text-gray-400">Captcha</label>
-          <div id="captchaErrorMsg" class="text-red-400 text-xs mt-1 hidden mb-2"></div>
+          <div id="captchaErrorMsg" class="text-red-400 text-xs mt-1 hidden mb-1"></div>
           <div class="flex items-center gap-3 mt-1 border-b border-gray-700 px-1 focus-within:border-orange-400 transition">
             <div id="captchaBox" class="text-orange-400 font-semibold tracking-widest"></div>
             <input id="captchaInput" type="text" name="captcha" placeholder="Enter" class="flex-1 py-2 bg-black outline-none text-white" required>
@@ -111,6 +111,10 @@
         <button type="submit" id="loginBtn" class="w-full bg-gradient-to-r from-orange-500 to-amber-400 hover:from-orange-600 hover:to-amber-500 text-black font-semibold py-2 rounded-xl transition shadow-lg shadow-orange-500/20">
           Login
         </button>
+
+        <p class="text-center text-sm text-gray-400">
+          Don't have an account? <a href="{{ route('vendor.signup') }}" class="text-orange-400 hover:text-orange-300 font-semibold transition">Sign Up</a>
+        </p>
       </form>
     </div>
 
