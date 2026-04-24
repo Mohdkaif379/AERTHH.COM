@@ -22,7 +22,7 @@ class RevenueProfitController extends Controller
 
         // Fetch all orders for this vendor
         $ordersQuery = Order::where('vendor_id', $vendorId)
-            ->where('status', '!=', 'cancelled')
+            ->where('status',  'delivered')
             ->select('total_price', 'shipping_cost');
 
         // Revenue = sum(total_price)
@@ -38,7 +38,7 @@ class RevenueProfitController extends Controller
 
         // Monthly breakdown (last 6 months)
         $monthlyData = Order::where('vendor_id', $vendorId)
-            ->where('status', '!=', 'cancelled')
+            ->where('status',  'delivered')
             ->whereYear('created_at', '>=', now()->subMonths(6)->year)
             ->selectRaw('
                 DATE_FORMAT(created_at, "%Y-%m") as month,

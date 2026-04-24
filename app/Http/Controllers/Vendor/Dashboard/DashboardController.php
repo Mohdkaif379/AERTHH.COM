@@ -21,7 +21,7 @@ $vendor = \App\Models\Vendor::find(session('vendor')['id']);
 
     // Revenue, Shipping, Profit (all time)
     $ordersQuery = \App\Models\Order::where('vendor_id', $vendorId)
-      ->where('status', '!=', 'cancelled') // only consider completed/shipped orders for revenue
+      ->where('status',  'delivered') // only consider completed/shipped orders for revenue
         ->select('total_price', 'shipping_cost');
 
     $revenue = $ordersQuery->sum('total_price') ?? 0;
@@ -36,7 +36,7 @@ $vendor = \App\Models\Vendor::find(session('vendor')['id']);
 
     // Monthly revenue/profit (last 6 months)
     $monthlyData = \App\Models\Order::where('vendor_id', $vendorId)
-    ->where('status', '!=', 'cancelled')
+    ->where('status',  'delivered')
         ->whereYear('created_at', '>=', now()->subMonths(6)->year)
         ->selectRaw('
             DATE_FORMAT(created_at, "%Y-%m") as month,
