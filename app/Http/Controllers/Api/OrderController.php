@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Razorpay\Api\Api;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
@@ -17,7 +18,7 @@ class OrderController extends Controller
         $validator = Validator::make($request->all(), [
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
-            'payment_method' => 'required|string',
+            'payment_method' => 'required|in:cod,online,razorpay',
         ]);
 
         if ($validator->fails()) {
@@ -37,6 +38,8 @@ class OrderController extends Controller
             ], 400);
         }
 
+        $paymentMethod = strtolower($request->payment_method);
+        $isOnlinePayment = in_array($paymentMethod, ['online', 'razorpay'], true);
         $unit_price = $product->unit_price;
         $discount = $product->discount ?? 0;
         $discount_type = strtolower($product->discount_type ?? '');
@@ -55,41 +58,94 @@ class OrderController extends Controller
             }
         }
 
-        $total_price = $unit_price * $request->quantity;
+        $base_price = $unit_price * $request->quantity;
         $shipping_cost = $product->shipping_cost ?? 0;
+        $tax_amount = (float) ($product->tax_amount ?? 0);
+        $total_price = $base_price + $tax_amount;
+        $payable_amount = $total_price + $shipping_cost;
 
         // Default statuses
         $status = 'pending';
         $payment_status = 'pending';
 
         // If Cash On Delivery is chosen
-        if (strtolower($request->payment_method) === 'cod') {
+        if ($paymentMethod === 'cod') {
             $status = 'confirmed';
         }
 
-        $order = Order::create([
-            'customer_id' => $request->user()->id,
-            'vendor_id' => $product->vendor_id,
-            'product_id' => $product->id,
-            'quantity' => $request->quantity,
-            'total_price' => $total_price,
-            'shipping_cost' => $shipping_cost,
-            'status' => $status,
-            'payment_method' => $request->payment_method,
-            'payment_status' => $payment_status, 
-        ]);
+        try {
+            $response = DB::transaction(function () use (
+                $request,
+                $product,
+                $status,
+                $payment_status,
+                $paymentMethod,
+                $isOnlinePayment,
+                $total_price,
+                $shipping_cost,
+                $tax_amount,
+                $payable_amount
+            ) {
+                $order = Order::create([
+                    'customer_id' => $request->user()->id,
+                    'vendor_id' => $product->vendor_id,
+                    'product_id' => $product->id,
+                    'quantity' => $request->quantity,
+                    'total_price' => $total_price,
+                    'shipping_cost' => $shipping_cost,
+                    'status' => $status,
+                    'payment_method' => $paymentMethod,
+                    'payment_status' => $payment_status,
+                ]);
 
-        $order->order_no = 'ORD' . str_pad((string) $order->id, 4, '0', STR_PAD_LEFT);
-        $order->save();
+                $order->order_no = 'ORD' . str_pad((string) $order->id, 4, '0', STR_PAD_LEFT);
+                $order->save();
 
-        // Decrement product stock quantity
-        $product->decrement('stock_quantity', $request->quantity);
+                // Reserve stock as soon as the order is created.
+                $product->decrement('stock_quantity', $request->quantity);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Order created successfully',
-            'data' => $order
-        ], 201);
+                $responseData = [
+                    'order' => $order,
+                    'gateway' => null,
+                ];
+
+                if ($isOnlinePayment) {
+                    $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
+
+                    $razorpayOrder = $api->order->create([
+                        'receipt' => $order->order_no,
+                        'amount' => (int) round($payable_amount * 100),
+                        'currency' => config('services.razorpay.currency', 'INR'),
+                    ]);
+
+                    $order->payment_order_id = $razorpayOrder['id'];
+                    $order->save();
+
+                    $responseData['order'] = $order;
+                    $responseData['gateway'] = [
+                        'razorpay_order_id' => $razorpayOrder['id'],
+                        'razorpay_key' => config('services.razorpay.key'),
+                        'amount' => $payable_amount,
+                        'currency' => config('services.razorpay.currency', 'INR'),
+                    ];
+                }
+
+                return $responseData;
+            });
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Order created successfully',
+                'data' => $response['order'],
+                'payment_gateway' => $response['gateway'],
+            ], 201);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to create order',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     // Fetch logged in customer's orders
