@@ -274,3 +274,8 @@ Route::prefix('vendor/report')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'index'])->name('vendor.report.index');
     Route::get('/export', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'export'])->name('vendor.report.export');
 });
+
+Route::prefix('vendor/password-manager')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\PasswordManager\PasswordManagerController::class, 'index'])->name('vendor.password-manager.index');
+    Route::post('/update', [\App\Http\Controllers\Vendor\PasswordManager\PasswordManagerController::class, 'updatePassword'])->name('vendor.password.manager.update');
+});

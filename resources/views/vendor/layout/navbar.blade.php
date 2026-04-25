@@ -215,7 +215,7 @@
               <i class="fa fa-shield-alt w-3.5 text-indigo-500"></i>
               <span class="text-gray-900 dark:text-white">Privacy Policy</span>
             </a>
-            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+            <a href="{{ route('vendor.password-manager.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
               <i class="fa fa-key w-3.5 text-red-500"></i>
               <span class="text-gray-900 dark:text-white">Password Manager</span>
             </a>

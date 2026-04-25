@@ -9,7 +9,7 @@
     <div class="mb-6">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">
-                Welcome, {{ $vendor->name ?? 'Vendor' }}
+                Welcome, <span class="text-orange-500">{{ $vendor->name ?? 'Vendor' }}</span>
             </h2>
             <div class="flex gap-2">
                 <a href="{{route('vendor.faq.index')}}" class="px-2 py-1 bg-orange-500 dark:bg-slate-700 text-slate-100 rounded-full text-sm font-medium hover:bg-orange-600 dark:hover:bg-slate-600 transition-colors">
@@ -65,45 +65,65 @@
         <!-- 4 Stats Cards -->
         <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <!-- Revenue -->
-            <div class="bg-gradient-to-br from-emerald-400 to-teal-400 p-4 rounded-2xl text-white shadow-xl hover:shadow-2xl transition-all">
-                <div class="flex items-center gap-2 mb-2">
-                    <div class="p-2 bg-white/30 rounded-xl">
-                        <i class="fa-solid fa-coins text-xl"></i>
-                    </div>
-                    <span class="text-xs font-bold uppercase tracking-wide">Revenue</span>
-                </div>
-                <div class="text-2xl font-bold">₹{{ number_format($revenue ?? 0, 0) }}</div>
-            </div>
+           <div class="bg-gradient-to-br from-white via-emerald-50 to-teal-100 p-4 rounded-2xl text-gray-800 shadow-xl hover:shadow-2xl transition-all border border-emerald-100">
+    
+    <div class="flex items-center gap-2 mb-2">
+        <div class="p-2 bg-emerald-100 rounded-xl">
+            <i class="fa-solid fa-coins text-xl text-emerald-600"></i>
+        </div>
+        <span class="text-xs font-bold uppercase tracking-wide text-gray-600">Revenue</span>
+    </div>
+
+    <div class="text-2xl font-bold text-emerald-700">
+        ₹{{ number_format($revenue ?? 0, 0) }}
+    </div>
+
+</div>
             <!-- Profit -->
-            <div class="bg-gradient-to-br from-purple-400 to-indigo-400 p-4 rounded-2xl text-white shadow-xl hover:shadow-2xl transition-all">
-                <div class="flex items-center gap-2 mb-2">
-                    <div class="p-2 bg-white/30 rounded-xl">
-                        <i class="fa-solid fa-chart-line text-xl"></i>
-                    </div>
-                    <span class="text-xs font-bold uppercase tracking-wide">Profit</span>
-                </div>
-                <div class="text-2xl font-bold">₹{{ number_format($profit ?? 0, 0) }}</div>
-            </div>
+          <div class="bg-gradient-to-br from-white via-purple-50 to-indigo-100 p-4 rounded-2xl text-gray-800 shadow-xl hover:shadow-2xl transition-all border border-purple-100">
+    
+    <div class="flex items-center gap-2 mb-2">
+        <div class="p-2 bg-purple-100 rounded-xl">
+            <i class="fa-solid fa-chart-line text-xl text-purple-600"></i>
+        </div>
+        <span class="text-xs font-bold uppercase tracking-wide text-gray-600">Profit</span>
+    </div>
+
+    <div class="text-2xl font-bold {{ ($profit ?? 0) > 0 ? 'text-purple-600' : 'text-red-500' }}">
+        ₹{{ number_format($profit ?? 0, 0) }}
+    </div>
+
+</div>
             <!-- Orders -->
-            <div class="bg-gradient-to-br from-blue-400 to-cyan-400 p-4 rounded-2xl text-white shadow-xl hover:shadow-2xl transition-all">
-                <div class="flex items-center gap-2 mb-2">
-                    <div class="p-2 bg-white/30 rounded-xl">
-                        <i class="fa-solid fa-shopping-cart text-xl"></i>
-                    </div>
-                    <span class="text-xs font-bold uppercase tracking-wide">Orders</span>
-                </div>
-                <div class="text-2xl font-bold">{{ \App\Models\Order::where('vendor_id', $vendor->id)->count() ?? 0 }}</div>
-            </div>
+            <div class="bg-gradient-to-br from-white via-blue-50 to-cyan-100 p-4 rounded-2xl text-gray-800 shadow-xl hover:shadow-2xl transition-all border border-blue-100">
+    
+    <div class="flex items-center gap-2 mb-2">
+        <div class="p-2 bg-blue-100 rounded-xl">
+            <i class="fa-solid fa-shopping-cart text-xl text-blue-600"></i>
+        </div>
+        <span class="text-xs font-bold uppercase tracking-wide text-gray-600">Orders</span>
+    </div>
+
+    <div class="text-2xl font-bold text-blue-700">
+        {{ \App\Models\Order::where('vendor_id', $vendor->id)->count() ?? 0 }}
+    </div>
+
+</div>
             <!-- Pending -->
-            <div class="bg-gradient-to-br from-orange-400 to-red-400 p-4 rounded-2xl text-white shadow-xl hover:shadow-2xl transition-all">
-                <div class="flex items-center gap-2 mb-2">
-                    <div class="p-2 bg-white/30 rounded-xl">
-                        <i class="fa-solid fa-clock text-xl"></i>
-                    </div>
-                    <span class="text-xs font-bold uppercase tracking-wide">Pending</span>
-                </div>
-                <div class="text-2xl font-bold">{{ $statusCounts['pending'] ?? 0 }}</div>
-            </div>
+           <div class="bg-gradient-to-br from-white via-orange-50 to-red-100 p-4 rounded-2xl text-gray-800 shadow-xl hover:shadow-2xl transition-all border border-orange-100">
+    
+    <div class="flex items-center gap-2 mb-2">
+        <div class="p-2 bg-orange-100 rounded-xl">
+            <i class="fa-solid fa-clock text-xl text-orange-600"></i>
+        </div>
+        <span class="text-xs font-bold uppercase tracking-wide text-gray-600">Pending</span>
+    </div>
+
+    <div class="text-2xl font-bold text-orange-700">
+        {{ $statusCounts['pending'] ?? 0 }}
+    </div>
+
+</div>
         </div>
     </div>
 
