@@ -9,17 +9,38 @@
     $statusClass = $isVerified
         ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200'
         : 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-200';
+
+    $vendorRawImage = $vendor ? $vendor->getRawOriginal('image') : null;
+    $vendorImageUrl = null;
+    if (!empty($vendorRawImage)) {
+        if (str_starts_with($vendorRawImage, 'http://') || str_starts_with($vendorRawImage, 'https://')) {
+            $vendorImageUrl = $vendorRawImage;
+        } elseif (str_starts_with($vendorRawImage, 'storage/app/public/')) {
+            $vendorImageUrl = asset(str_replace('storage/app/public/', 'storage/', $vendorRawImage));
+        } elseif (str_starts_with($vendorRawImage, 'storage/')) {
+            $vendorImageUrl = asset($vendorRawImage);
+        } else {
+            $vendorImageUrl = asset('storage/' . ltrim($vendorRawImage, '/'));
+        }
+    }
 @endphp
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen">
     {{-- Header --}}
-    <div class="mb-8">
-        <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent mb-2">
-            Account Settings
-        </h1>
-        <p class="text-base text-gray-500 dark:text-gray-400">
-            View and manage your vendor profile information, documents, security, and appearance preferences.
-        </p>
+    <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent mb-2">
+                Account Settings
+            </h1>
+            <p class="text-base text-gray-500 dark:text-gray-400">
+                View and manage your vendor profile information, documents, security, and appearance preferences.
+            </p>
+        </div>
+        <a href="{{ route('vendor.account-setting.edit') }}"
+           class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-400 text-black font-semibold shadow-lg shadow-orange-500/20 hover:from-orange-600 hover:to-amber-500 transition">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Edit Profile
+        </a>
     </div>
 
     {{-- Tabs in Row --}}
@@ -50,8 +71,8 @@
                     <div class="flex items-center gap-4">
                         {{-- Vendor Image --}}
                         <div class="w-12 h-12 rounded-xl overflow-hidden bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white text-lg font-bold shadow-md shrink-0">
-                            @if(!empty($vendor->image))
-                                <img src="{{ $vendor->image }}" alt="{{ $vendor->name ?? 'Vendor' }}" class="w-full h-full object-cover">
+                            @if(!empty($vendorImageUrl))
+                                <img src="{{ $vendorImageUrl }}" alt="{{ $vendor->name ?? 'Vendor' }}" class="w-full h-full object-cover">
                             @else
                                 {{ strtoupper(substr($vendor->name ?? 'V', 0, 1)) }}
                             @endif

@@ -50,6 +50,22 @@
     background: rgba(249, 115, 22, 0.1);
   }
 </style>
+@php
+  $navVendorRawImage = session('vendor.image');
+  $navVendorImage = null;
+
+  if (!empty($navVendorRawImage)) {
+    if (str_starts_with($navVendorRawImage, 'http://') || str_starts_with($navVendorRawImage, 'https://')) {
+      $navVendorImage = $navVendorRawImage;
+    } elseif (str_starts_with($navVendorRawImage, 'storage/app/public/')) {
+      $navVendorImage = asset(str_replace('storage/app/public/', 'storage/', $navVendorRawImage));
+    } elseif (str_starts_with($navVendorRawImage, 'storage/')) {
+      $navVendorImage = asset($navVendorRawImage);
+    } else {
+      $navVendorImage = asset('storage/' . ltrim($navVendorRawImage, '/'));
+    }
+  }
+@endphp
 
 <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen transition-colors duration-300">
 
@@ -234,6 +250,15 @@
             <span class="text-orange-500">Support Tickets</span>
 
           </a>
+
+          <a href="{{ route('vendor.my-product-reviews.index') }}"
+            class="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl 
+            text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+
+            <i class="fa fa-star w-5 text-orange-500"></i>
+            <span class="text-orange-500">Reviews</span>
+
+          </a>
         </div>
       </nav>
 
@@ -309,12 +334,12 @@
           </button>
 
           <div class="relative">
-            <button id="userMenuBtn" class="flex items-center gap-2  rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all shadow-2xl">
-              <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-white/50 dark:border-gray-700 shadow-md" id="vendorAvatar">
-                <img id="vendorAvatarImg" src="{{ session('vendor.image') ?: '' }}" alt="Vendor Avatar" class="w-full h-full object-cover rounded-full" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" loading="lazy">
-                <i class="fa fa-user text-white text-xs font-medium absolute inset-0 flex items-center justify-center bg-gradient-to-r from-orange-500 to-amber-500 rounded-full" style="display:none;"></i>
-              </div>
-            </button>
+              <button id="userMenuBtn" class="flex items-center gap-2  rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all shadow-2xl">
+                <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-white/50 dark:border-gray-700 shadow-md" id="vendorAvatar">
+                <img id="vendorAvatarImg" src="{{ $navVendorImage ?: '' }}" alt="Vendor Avatar" class="w-full h-full object-cover rounded-full" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" loading="lazy">
+                  <i class="fa fa-user text-white text-xs font-medium absolute inset-0 flex items-center justify-center bg-gradient-to-r from-orange-500 to-amber-500 rounded-full" style="display:none;"></i>
+                </div>
+              </button>
 
             <div id="userDropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-2xl shadow-lg shadow-black/10 dark:shadow-black/40 py-1.5 z-50">
               <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-800 bg-gradient-to-r from-gray-50 dark:from-gray-900/50 rounded-t-xl">
@@ -325,11 +350,11 @@
                 </p>
 
               </div>
-              <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200">
+              <a href="{{route('vendor.account-setting.index')}}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200">
                 <i class="fa fa-user mr-2"></i> Profile
               </a>
-              <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200">
-                <i class="fa fa-cog mr-2"></i> Settings
+              <a href="{{ route('vendor.password-manager.index') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200">
+                <i class="fa fa-cog mr-2"></i> Password Manager
               </a>
               <hr class="my-1 border-gray-200 dark:border-gray-800">
 
@@ -738,20 +763,33 @@
     });
 
     // Vendor Data
-    window.getVendorDetails = function() {
-      try {
-        return JSON.parse(localStorage.getItem('vendor_data') || '{}');
-      } catch (e) {
-        console.error('Vendor data parse error:', e);
+      window.getVendorDetails = function() {
+        try {
+          return JSON.parse(localStorage.getItem('vendor_data') || '{}');
+        } catch (e) {
+          console.error('Vendor data parse error:', e);
         return {};
-      }
-    };
+        }
+      };
 
-    window.updateAllVendorUI = function() {
-      const vendor = window.getVendorDetails();
-      const vendorName = vendor.name || 'Vendor';
-      const vendorEmail = vendor.email || 'vendor@example.com';
-      const vendorImage = vendor.image || '';
+      window.resolveVendorImageUrl = function(path) {
+        const baseUrl = "{{ url('/') }}";
+        if (!path) return '';
+        if (path.startsWith('http://') || path.startsWith('https://')) return path;
+        if (path.startsWith('storage/app/public/')) {
+          return baseUrl + '/' + path.replace('storage/app/public/', 'storage/');
+        }
+        if (path.startsWith('storage/')) {
+          return baseUrl + '/' + path;
+        }
+        return baseUrl + '/storage/' + path.replace(/^\/+/, '');
+      };
+
+      window.updateAllVendorUI = function() {
+        const vendor = window.getVendorDetails();
+        const vendorName = vendor.name || 'Vendor';
+        const vendorEmail = vendor.email || 'vendor@example.com';
+        const vendorImage = window.resolveVendorImageUrl(vendor.image || '');
 
       const headerName = document.getElementById('headerVendorName');
       if (headerName) headerName.textContent = vendorName;
@@ -763,11 +801,11 @@
       if (dropdownEmail) dropdownEmail.textContent = vendorEmail;
 
       // Update vendor avatar
-      const avatarEl = document.getElementById('vendorAvatarImg');
-      if (avatarEl && vendorImage) {
-        avatarEl.src = vendorImage;
-        avatarEl.style.display = 'block';
-        avatarEl.nextElementSibling.style.display = 'none';
+        const avatarEl = document.getElementById('vendorAvatarImg');
+        if (avatarEl && vendorImage) {
+          avatarEl.src = vendorImage;
+          avatarEl.style.display = 'block';
+          avatarEl.nextElementSibling.style.display = 'none';
       }
 
       window.dispatchEvent(new CustomEvent('vendorDataUpdated', {

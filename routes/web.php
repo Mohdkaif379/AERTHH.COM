@@ -126,6 +126,10 @@ Route::prefix('admin/chats')->group(function () {
     Route::get('/history', [ChatSupportController::class, 'get_all_chat'])->name('admin.chats.history');
 });
 
+Route::prefix('admin/support-ticket')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Admin\SupportTicket\SupportTcketController::class, 'index'])->name('admin.support-ticket.index');
+});
+
 Route::prefix('admin/customers')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customers.index');
     Route::get('/{customer}', [CustomerController::class, 'show'])->name('customers.show');
@@ -191,6 +195,8 @@ Route::prefix('vendor/dashboard')->group(function () {
 
 Route::prefix('vendor/account-setting')->group(function () {
     Route::get('/', [AccountSettingController::class, 'index'])->name('vendor.account-setting.index');
+    Route::get('/edit', [AccountSettingController::class, 'edit'])->name('vendor.account-setting.edit');
+    Route::post('/update', [AccountSettingController::class, 'update'])->name('vendor.account-setting.update');
 });
 
 Route::prefix('vendor/pending-products')->group(function () {
@@ -283,4 +289,8 @@ Route::prefix('vendor/password-manager')->group(function () {
 Route::prefix('vendor/support-ticket')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\SupportTicket\SupportTicketController::class, 'index'])->name('vendor.support-ticket.index');
     Route::post('/store', [\App\Http\Controllers\Vendor\SupportTicket\SupportTicketController::class, 'store'])->name('vendor.support-ticket.store');
+});
+
+Route::prefix('vendor/my-product-reviews')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\MyProductReviews\MyProductReviewController::class, 'index'])->name('vendor.my-product-reviews.index');
 });

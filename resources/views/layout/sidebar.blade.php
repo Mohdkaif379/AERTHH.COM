@@ -526,25 +526,25 @@
         </div>
 
         {{-- Inbox Button --}}
-        <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
+        <!-- <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
             <div class="flex items-center space-x-3">
                 <i class="fas fa-inbox w-5 text-cyan-500 text-sm flex-shrink-0"></i>
                 <span class="sidebar-text text-xs font-medium">Inbox</span>
             </div>
             <span class="sidebar-text bg-cyan-100 text-cyan-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">5</span>
-        </a>
+        </a> -->
 
         {{-- Messages Button --}}
-        <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
+        <!-- <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
             <div class="flex items-center space-x-3">
                 <i class="fas fa-envelope w-5 text-emerald-500 text-sm flex-shrink-0"></i>
                 <span class="sidebar-text text-xs font-medium">Messages</span>
             </div>
             <span class="sidebar-text bg-emerald-100 text-emerald-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">7</span>
-        </a>
+        </a> -->
 
         {{-- Support Ticket Button --}}
-        <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
+        <a href="{{route('admin.support-ticket.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
             <div class="flex items-center space-x-3">
                 <i class="fas fa-ticket-alt w-5 text-purple-500 text-sm flex-shrink-0"></i>
                 <span class="sidebar-text text-xs font-medium">Support Ticket</span>
