@@ -361,8 +361,6 @@
               <button onclick="openLogoutModal()" class="w-full text-left px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200">
                 <i class="fa fa-sign-out-alt mr-2 text-xs"></i> Logout
               </button>
-
-
             </div>
           </div>
         </div>
