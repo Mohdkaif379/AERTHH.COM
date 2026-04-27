@@ -224,6 +224,16 @@
               <span class="text-gray-900 dark:text-white">History</span>
             </a>
           </div>
+
+
+          <a href="{{ route('vendor.support-ticket.index') }}"
+            class="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl 
+             text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+
+            <i class="fa fa-ticket-alt w-5 text-orange-500"></i>
+            <span class="text-orange-500">Support Tickets</span>
+
+          </a>
         </div>
       </nav>
 
@@ -239,22 +249,22 @@
 
   <div id="mainContent" class="flex flex-col min-h-screen content-expanded transition-all duration-300">
     @php
-      $navVendor = session('vendor');
-      $navAvailableBalance = 0;
+    $navVendor = session('vendor');
+    $navAvailableBalance = 0;
 
-      if ($navVendor) {
-          $navDeliveredOrdersQuery = \App\Models\Order::where('vendor_id', $navVendor['id'])
-              ->where('status', 'delivered');
+    if ($navVendor) {
+    $navDeliveredOrdersQuery = \App\Models\Order::where('vendor_id', $navVendor['id'])
+    ->where('status', 'delivered');
 
-          $navTotalEarnings = (clone $navDeliveredOrdersQuery)
-              ->get()
-              ->sum(function (\App\Models\Order $order) {
-                  return (float) $order->total_price + (float) ($order->shipping_cost ?? 0);
-              });
+    $navTotalEarnings = (clone $navDeliveredOrdersQuery)
+    ->get()
+    ->sum(function (\App\Models\Order $order) {
+    return (float) $order->total_price + (float) ($order->shipping_cost ?? 0);
+    });
 
-          $navPendingPayout = 0;
-          $navAvailableBalance = $navTotalEarnings - $navPendingPayout;
-      }
+    $navPendingPayout = 0;
+    $navAvailableBalance = $navTotalEarnings - $navPendingPayout;
+    }
     @endphp
 
     <header class="sticky top-0 z-30 bg-white/80 dark:bg-black backdrop-blur-2xl border-b border-gray-200/50 dark:border-gray-800/50">
@@ -646,7 +656,7 @@
     const settingsMenuBtn = document.getElementById('settingsMenuBtn');
     const settingsSubMenu = document.getElementById('settingsSubMenu');
     const settingsMenuIcon = document.getElementById('settingsMenuIcon');
-    
+
     if (settingsMenuBtn) {
       settingsMenuBtn.addEventListener('click', () => {
         if (window.innerWidth >= 768 && isSidebarCollapsed) {
@@ -661,7 +671,7 @@
     const analyticsMenuBtn = document.getElementById('analyticsMenuBtn');
     const analyticsSubMenu = document.getElementById('analyticsSubMenu');
     const analyticsMenuIcon = document.getElementById('analyticsMenuIcon');
-    
+
     if (analyticsMenuBtn) {
       analyticsMenuBtn.addEventListener('click', () => {
         if (window.innerWidth >= 768 && isSidebarCollapsed) {

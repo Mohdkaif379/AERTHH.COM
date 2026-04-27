@@ -279,3 +279,8 @@ Route::prefix('vendor/password-manager')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\PasswordManager\PasswordManagerController::class, 'index'])->name('vendor.password-manager.index');
     Route::post('/update', [\App\Http\Controllers\Vendor\PasswordManager\PasswordManagerController::class, 'updatePassword'])->name('vendor.password.manager.update');
 });
+
+Route::prefix('vendor/support-ticket')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\SupportTicket\SupportTicketController::class, 'index'])->name('vendor.support-ticket.index');
+    Route::post('/store', [\App\Http\Controllers\Vendor\SupportTicket\SupportTicketController::class, 'store'])->name('vendor.support-ticket.store');
+});
