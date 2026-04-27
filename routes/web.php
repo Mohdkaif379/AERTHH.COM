@@ -276,6 +276,10 @@ Route::prefix('vendor/wallet')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Wallet\WalletController::class, 'index'])->name('vendor.wallet.index');
 });
 
+Route::prefix('vendor/history')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\VendorHistory\VendorHistoryController::class, 'index'])->name('vendor.history.index');
+});
+
 Route::prefix('vendor/report')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'index'])->name('vendor.report.index');
     Route::get('/export', [\App\Http\Controllers\Vendor\Report\ReportController::class, 'export'])->name('vendor.report.export');
