@@ -79,7 +79,7 @@ $navVendorImage = asset('storage/' . ltrim($navVendorRawImage, '/'));
       <div class="px-4 py-4 border-b border-gray-200/50 dark:border-gray-800/50">
         <div class="flex items-center justify-between gap-2">
           <div class="flex items-center gap-2.5" id="logoContainer">
-            <img src="https://aerthh.com/storage/app/public/company/2025-03-26-67e3da8f9b411.webp"
+            <img src="{{ asset('logo.webp') }}"
               class="w-10 h-10 rounded-md shadow-sm transition-transform hover:scale-105 object-cover flex-shrink-0" alt="Logo">
             <div class="sidebar-text transition-all duration-200 overflow-hidden">
               <h1 class="text-base font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
