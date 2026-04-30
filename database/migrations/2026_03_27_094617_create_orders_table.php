@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->string('cancel_reason')->nullable();
             $table->string('payment_method');
-            $table->string('order_no')->nullable()->unique()->after('payment_method');
+            $table->string('order_no')->nullable()->unique();
             $table->string('payment_status')->default('pending');
             $table->string('payment_order_id')->nullable();
             $table->timestamps();
