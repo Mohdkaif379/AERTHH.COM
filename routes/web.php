@@ -28,6 +28,9 @@ use App\Http\Controllers\Admin\Withdrawal\RejectedWithdrawalController;
 use App\Http\Controllers\Admin\OutDelivery\OutForDeliveryController;
 use App\Http\Controllers\Admin\Delivered\DeliveredController;
 use App\Http\Controllers\Admin\AllOrder\OrderController;
+use App\Http\Controllers\Admin\ReturnedOrder\ReturnedOrderController;
+use App\Http\Controllers\Admin\CancelledOrder\CancelledOrderController;
+use App\Http\Controllers\Admin\FailedDeliverOrder\FailedDeliverOrderController;
 use App\Http\Controllers\Vendor\Approved\ApprovedProductController as VendorOwnApprovedProductController;
 use App\Http\Controllers\Vendor\Pending\PendingProductController as VendorOwnPendingProductController;
 use App\Http\Controllers\Vendor\Product\ProductController as ProductProductController;
@@ -204,6 +207,18 @@ Route::prefix('admin/delivered-orders')->group(function () {
 
 Route::prefix('admin/all-orders')->group(function () {
     Route::get('/', [OrderController::class, 'index'])->name('admin.all-orders.index');
+});
+
+Route::prefix('admin/returned-orders')->group(function () {
+    Route::get('/', [ReturnedOrderController::class, 'index'])->name('admin.returned-orders.index');
+});
+
+Route::prefix('admin/cancelled-orders')->group(function () {
+    Route::get('/', [CancelledOrderController::class, 'index'])->name('admin.cancelled-orders.index');
+});
+
+Route::prefix('admin/failed-orders')->group(function () {
+    Route::get('/', [FailedDeliverOrderController::class, 'index'])->name('admin.failed-orders.index');
 });
 
 

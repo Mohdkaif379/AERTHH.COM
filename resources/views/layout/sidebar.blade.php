@@ -129,24 +129,24 @@
                     </div>
                 </a>
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.returned-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-undo-alt w-4 text-orange-400 text-[10px]"></i>
                         <span class="sidebar-text">Returned</span>
                     </div>
                 </a>
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.failed-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-exclamation-circle w-4 text-rose-400 text-[10px]"></i>
                         <span class="sidebar-text">Failed to Deliver</span>
                     </div>
                 </a>
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.cancelled-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-times-circle w-4 text-red-400 text-[10px]"></i>
-                        <span class="sidebar-text">Canceled</span>
+                        <span class="sidebar-text">Cancelled</span>
                     </div>
                 </a>
             </div>
