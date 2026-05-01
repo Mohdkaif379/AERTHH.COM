@@ -172,7 +172,6 @@
                     <span class="sidebar-text text-xs font-medium">Requests</span>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <span class="sidebar-text bg-cyan-100 text-cyan-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">8</span>
                     <i class="fas fa-chevron-down text-[8px] text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': requestsOpen }"></i>
                 </div>
             </button>
@@ -189,37 +188,25 @@
 
 
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.pending-withdrawals.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-clock w-4 text-yellow-400 text-[10px]"></i>
                         <span class="sidebar-text">Pending</span>
                     </div>
-                    <span class="sidebar-text bg-yellow-100 text-yellow-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">4</span>
                 </a>
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.approved-withdrawals')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-check-circle w-4 text-emerald-400 text-[10px]"></i>
                         <span class="sidebar-text">Approved</span>
                     </div>
-                    <span class="sidebar-text bg-emerald-100 text-emerald-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">2</span>
                 </a>
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.rejected-withdrawals')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
-                        <i class="fas fa-hourglass-half w-4 text-purple-400 text-[10px]"></i>
-                        <span class="sidebar-text">Refunded</span>
-                    </div>
-                    <span class="sidebar-text bg-red-100 text-red-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">1</span>
-                </a>
-
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
-                    <div class="flex items-center space-x-2">
-
                         <i class="fas fa-times-circle w-4 text-red-400 text-[10px]"></i>
                         <span class="sidebar-text">Rejected</span>
                     </div>
-                    <span class="sidebar-text bg-purple-100 text-purple-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">1</span>
                 </a>
             </div>
         </div>

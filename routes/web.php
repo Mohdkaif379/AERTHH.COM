@@ -22,6 +22,9 @@ use App\Http\Controllers\Admin\Vendor\VendorApprovedProductController;
 use App\Http\Controllers\Admin\Vendor\VendorRejectedProductController;
 use App\Http\Controllers\Admin\ChatSupportController;
 use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Admin\Withdrawal\PendingWithdrawalController;
+use App\Http\Controllers\Admin\Withdrawal\ApprovedWithdrawalController;
+use App\Http\Controllers\Admin\Withdrawal\RejectedWithdrawalController;
 use App\Http\Controllers\Vendor\Approved\ApprovedProductController as VendorOwnApprovedProductController;
 use App\Http\Controllers\Vendor\Pending\PendingProductController as VendorOwnPendingProductController;
 use App\Http\Controllers\Vendor\Product\ProductController as ProductProductController;
@@ -170,6 +173,34 @@ Route::prefix('admin/subscribers')->group(function () {
     Route::get('/', [SubscriberController::class, 'index'])->name('admin.subscribers.index');
     Route::get('/delete/{id}', [SubscriberController::class, 'destroy'])->name('admin.subscribers.delete');
 });
+
+
+Route::prefix('admin/pending-withdrawals')->group(function () {
+    Route::get('/', [PendingWithdrawalController::class, 'index'])->name('admin.pending-withdrawals.index');
+    Route::post('/{id}/approve', [PendingWithdrawalController::class, 'approve'])->name('admin.pending-withdrawals.approve');
+    Route::post('/{id}/reject', [PendingWithdrawalController::class, 'reject'])->name('admin.pending-withdrawals.reject');
+});
+
+Route::prefix('admin/approved-withdrawals')->group(function () {
+    Route::get('/', [ApprovedWithdrawalController::class, 'index'])->name('admin.approved-withdrawals');
+});
+
+Route::prefix('admin/rejected-withdrawals')->group(function () {
+    Route::get('/', [RejectedWithdrawalController::class, 'index'])->name('admin.rejected-withdrawals');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
