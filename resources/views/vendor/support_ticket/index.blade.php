@@ -194,53 +194,7 @@
             </div>
         </div>
 
-        {{-- Recent Conversions / Activity Log (Below Both) --}}
-        <div class="mt-6">
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-                <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="font-semibold text-gray-800 dark:text-white">
-                        <i class="fas fa-history text-orange-500 mr-2"></i>
-                        Recent Conversions & Activity
-                    </h2>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead class="bg-gray-50 dark:bg-gray-700">
-                            <tr>
-                                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Ticket ID</th>
-                                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Action</th>
-                                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">From</th>
-                                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">To</th>
-                                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Message</th>
-                                <th class="px-5 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400">Time</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                                <td class="px-5 py-3 text-sm text-orange-500 font-medium">#001</td>
-                                <td class="px-5 py-3">
-                                    <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">Status Updated</span>
-                                </td>
-                                <td class="px-5 py-3 text-sm text-gray-800 dark:text-white">Admin</td>
-                                <td class="px-5 py-3 text-sm text-gray-800 dark:text-white">Customer</td>
-                                <td class="px-5 py-3 text-sm text-gray-500 dark:text-gray-400">Ticket resolved successfully</td>
-                                <td class="px-5 py-3 text-sm text-gray-500 dark:text-gray-400">2 mins ago</td>
-                            </tr>
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                                <td class="px-5 py-3 text-sm text-orange-500 font-medium">#003</td>
-                                <td class="px-5 py-3">
-                                    <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700">Comment Added</span>
-                                </td>
-                                <td class="px-5 py-3 text-sm text-gray-800 dark:text-white">Customer</td>
-                                <td class="px-5 py-3 text-sm text-gray-800 dark:text-white">Support</td>
-                                <td class="px-5 py-3 text-sm text-gray-500 dark:text-gray-400">Need more details about the issue</td>
-                                <td class="px-5 py-3 text-sm text-gray-500 dark:text-gray-400">15 mins ago</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+     
     </div>
 </div>
 
