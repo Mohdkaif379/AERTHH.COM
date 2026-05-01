@@ -21,7 +21,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
 
-        $products = Product::with(['category', 'subCategory', 'subSubCategory', 'brand', 'attribute']);
+        $products = Product::with(['category', 'subCategory', 'subSubCategory', 'brand', 'attribute'])->whereNull('vendor_id');
 
         if ($request->filled('search')) {
             $products->where('product_name', 'like', '%' . $request->search . '%');
