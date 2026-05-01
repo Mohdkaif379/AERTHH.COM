@@ -24,7 +24,7 @@
     <!-- LEFT PREMIUM DARK -->
     <div class="hidden md:flex flex-col justify-center px-10 py-8 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white relative">
       <!-- Logo -->
-      <img src="https://aerthh.com/storage/app/public/company/2025-03-26-67e3da8f9b411.webp" alt="logo" class="w-12 h-12 mb-4 rounded-lg shadow-xl shadow-black/50">
+      <img src="{{ asset('logo.webp') }}" alt="logo" class="w-12 h-12 mb-4 rounded-lg shadow-xl shadow-black/50">
       <div class="absolute top-10 left-10 w-32 h-32 bg-orange-500/10 blur-3xl rounded-full"></div>
 
       <h1 class="text-4xl font-bold mb-3 leading-tight">Vendor Dashboard</h1>
