@@ -25,6 +25,9 @@ use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\Withdrawal\PendingWithdrawalController;
 use App\Http\Controllers\Admin\Withdrawal\ApprovedWithdrawalController;
 use App\Http\Controllers\Admin\Withdrawal\RejectedWithdrawalController;
+use App\Http\Controllers\Admin\OutDelivery\OutForDeliveryController;
+use App\Http\Controllers\Admin\Delivered\DeliveredController;
+use App\Http\Controllers\Admin\AllOrder\OrderController;
 use App\Http\Controllers\Vendor\Approved\ApprovedProductController as VendorOwnApprovedProductController;
 use App\Http\Controllers\Vendor\Pending\PendingProductController as VendorOwnPendingProductController;
 use App\Http\Controllers\Vendor\Product\ProductController as ProductProductController;
@@ -187,6 +190,20 @@ Route::prefix('admin/approved-withdrawals')->group(function () {
 
 Route::prefix('admin/rejected-withdrawals')->group(function () {
     Route::get('/', [RejectedWithdrawalController::class, 'index'])->name('admin.rejected-withdrawals');
+});
+
+Route::prefix('admin/out-for-delivery')->group(function () {
+    Route::get('/', [OutForDeliveryController::class, 'index'])->name('admin.out-for-delivery.index');
+    Route::get('/move/{id}', [OutForDeliveryController::class, 'move'])->name('admin.out-for-delivery.move');
+});
+
+Route::prefix('admin/delivered-orders')->group(function () {
+    Route::get('/', [DeliveredController::class, 'index'])->name('admin.delivered-orders.index');
+    Route::get('/move/{id}', [DeliveredController::class, 'move'])->name('admin.delivered-orders.move');
+});
+
+Route::prefix('admin/all-orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('admin.all-orders.index');
 });
 
 

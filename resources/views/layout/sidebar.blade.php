@@ -73,7 +73,6 @@
                     <span class="sidebar-text text-xs font-medium">Orders</span>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <span class="sidebar-text bg-cyan-100 text-cyan-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">22</span>
                     <i class="fas fa-chevron-down text-[8px] text-gray-400 transition-transform duration-200" :class="{ 'rotate-180': ordersOpen }"></i>
                 </div>
             </button>
@@ -88,12 +87,11 @@
                 x-transition:leave-end="opacity-0 translate-y-1"
                 class="pl-9 space-y-1">
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.all-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-list w-4 text-gray-400 text-[10px]"></i>
                         <span class="sidebar-text">All Orders</span>
                     </div>
-                    <span class="sidebar-text bg-gray-100 text-gray-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">22</span>
                 </a>
 
                 <a href="{{route('admin.pending-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
@@ -101,7 +99,6 @@
                         <i class="fas fa-clock w-4 text-yellow-400 text-[10px]"></i>
                         <span class="sidebar-text">Pending</span>
                     </div>
-                    <span class="sidebar-text bg-yellow-100 text-yellow-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">7</span>
                 </a>
 
                 <a href="{{route('admin.confirmed-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
@@ -109,7 +106,6 @@
                         <i class="fas fa-check-circle w-4 text-blue-400 text-[10px]"></i>
                         <span class="sidebar-text">Confirmed</span>
                     </div>
-                    <span class="sidebar-text bg-blue-100 text-blue-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">11</span>
                 </a>
 
                 <a href="{{route('admin.packaging-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
@@ -117,23 +113,20 @@
                         <i class="fas fa-box w-4 text-purple-400 text-[10px]"></i>
                         <span class="sidebar-text">Packaging</span>
                     </div>
-                    <span class="sidebar-text bg-purple-100 text-purple-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">0</span>
                 </a>
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.out-for-delivery.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-truck w-4 text-indigo-400 text-[10px]"></i>
                         <span class="sidebar-text">Out for delivery</span>
                     </div>
-                    <span class="sidebar-text bg-indigo-100 text-indigo-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">1</span>
                 </a>
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.delivered-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-check-circle w-4 text-emerald-400 text-[10px]"></i>
                         <span class="sidebar-text">Delivered</span>
                     </div>
-                    <span class="sidebar-text bg-emerald-100 text-emerald-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">3</span>
                 </a>
 
                 <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
@@ -141,7 +134,6 @@
                         <i class="fas fa-undo-alt w-4 text-orange-400 text-[10px]"></i>
                         <span class="sidebar-text">Returned</span>
                     </div>
-                    <span class="sidebar-text bg-orange-100 text-orange-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">0</span>
                 </a>
 
                 <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
@@ -149,7 +141,6 @@
                         <i class="fas fa-exclamation-circle w-4 text-rose-400 text-[10px]"></i>
                         <span class="sidebar-text">Failed to Deliver</span>
                     </div>
-                    <span class="sidebar-text bg-rose-100 text-rose-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">0</span>
                 </a>
 
                 <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
@@ -157,7 +148,6 @@
                         <i class="fas fa-times-circle w-4 text-red-400 text-[10px]"></i>
                         <span class="sidebar-text">Canceled</span>
                     </div>
-                    <span class="sidebar-text bg-red-100 text-red-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">0</span>
                 </a>
             </div>
         </div>

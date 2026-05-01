@@ -5,10 +5,10 @@
     <div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <div>
             <h3 class="text-sm font-medium text-gray-700 flex items-center space-x-2">
-                <i class="fas fa-box-open text-indigo-500 text-sm"></i>
-                <span>Packaging Orders</span>
+                <i class="fas fa-check-circle text-emerald-500 text-sm"></i>
+                <span>Delivered Orders</span>
             </h3>
-            <p class="text-[10px] text-gray-400">Browse all orders with <span class="font-medium">packaging</span> status</p>
+            <p class="text-[10px] text-gray-400">Browse all orders with <span class="font-medium text-emerald-600">delivered</span> status</p>
         </div>
 
         <div class="w-full lg:w-[360px]">
@@ -16,29 +16,29 @@
                 <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
                 <input
                     type="text"
-                    id="packagingOrderSearch"
+                    id="deliveredOrderSearch"
                     placeholder="Search order, customer, product..."
-                    class="w-full pl-8 pr-3 py-2 bg-white border border-gray-200 rounded-lg focus:border-indigo-300 focus:outline-none focus:ring-1 focus:ring-indigo-100 text-xs"
+                    class="w-full pl-8 pr-3 py-2 bg-white border border-gray-200 rounded-lg focus:border-emerald-300 focus:outline-none focus:ring-1 focus:ring-emerald-100 text-xs"
                 >
             </div>
         </div>
     </div>
 
-     {{-- Success Message --}}
-        @if(session('success'))
-        <div class="m-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-            <p class="text-xs text-green-600 flex items-center font-bold">
-                <i class="fas fa-check-circle mr-2 text-sm"></i>
-                {{ session('success') }}
-            </p>
-        </div>
-        @endif
+    {{-- Success Message --}}
+    @if(session('success'))
+    <div class="m-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+        <p class="text-xs text-green-600 flex items-center font-bold">
+            <i class="fas fa-check-circle mr-2 text-sm"></i>
+            {{ session('success') }}
+        </p>
+    </div>
+    @endif
 
-    <div class="bg-white rounded-xl border border-indigo-100/50 shadow-sm overflow-hidden">
-        <div class="px-4 sm:px-6 py-4 bg-gradient-to-r from-indigo-50 to-violet-50 border-b border-indigo-100/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+    <div class="bg-white rounded-xl border border-emerald-100/50 shadow-sm overflow-hidden">
+        <div class="px-4 sm:px-6 py-4 bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-emerald-100/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <h3 class="text-sm font-semibold text-gray-700 flex items-center space-x-2">
-                <i class="fas fa-list text-indigo-500 text-sm"></i>
-                <span>Packaging Orders List</span>
+                <i class="fas fa-list text-emerald-500 text-sm"></i>
+                <span>Delivered List</span>
             </h3>
 
             <span class="text-[10px] text-gray-500">
@@ -46,24 +46,22 @@
             </span>
         </div>
 
-       
-
         @if($orders->count() > 0)
-            <div class="md:hidden divide-y divide-gray-100" id="packagingOrderMobileList">
+            <div class="md:hidden divide-y divide-gray-100" id="deliveredOrderMobileList">
                 @foreach($orders as $index => $order)
                     @php
                         $customerName = trim(($order->customer->first_name ?? '') . ' ' . ($order->customer->last_name ?? '')) ?: 'Unknown Customer';
                         $productName = $order->product->product_name ?? 'Unknown Product';
                         $vendorName = $order->vendor->name ?? 'Unknown Vendor';
                     @endphp
-                    <div class="p-4 space-y-3 packaging-order-card" data-search="{{ strtolower($order->order_no.' '.$customerName.' '.$productName.' '.$vendorName.' '.$order->status) }}">
+                    <div class="p-4 space-y-3 delivered-order-card" data-search="{{ strtolower($order->order_no.' '.$customerName.' '.$productName.' '.$vendorName.' '.$order->status) }}">
                         <div class="flex items-start justify-between gap-3">
                             <div>
                                 <p class="text-[10px] uppercase tracking-wide text-gray-400">Order #{{ ($orders->currentPage() - 1) * $orders->perPage() + $index + 1 }}</p>
                                 <h4 class="text-sm font-semibold text-gray-800">{{ $order->order_no ?? 'N/A' }}</h4>
                             </div>
-                            <span class="px-2 py-1 rounded-full text-[10px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
-                                Packaging
+                            <span class="px-2 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 uppercase tracking-tighter shadow-sm">
+                                Delivered
                             </span>
                         </div>
 
@@ -119,7 +117,7 @@
                                 $productName = $order->product->product_name ?? 'Unknown Product';
                                 $vendorName = $order->vendor->name ?? 'Unknown Vendor';
                             @endphp
-                            <tr class="hover:bg-indigo-50/30 transition packaging-order-row" data-search="{{ strtolower($order->order_no.' '.$customerName.' '.$productName.' '.$vendorName.' '.$order->status) }}">
+                            <tr class="hover:bg-emerald-50/30 transition delivered-order-row" data-search="{{ strtolower($order->order_no.' '.$customerName.' '.$productName.' '.$vendorName.' '.$order->status) }}">
                                 <td class="px-4 py-3 text-gray-600">
                                     {{ ($orders->currentPage() - 1) * $orders->perPage() + $index + 1 }}
                                 </td>
@@ -142,11 +140,9 @@
                                     ₹{{ number_format((float) $order->total_price, 2) }}
                                 </td>
                                 <td class="px-4 py-3">
-                                    <button type="button" 
-                                            onclick="openOutForDeliveryModal({{ $order->id }}, '{{ addslashes($order->order_no ?? 'N/A') }}', '{{ addslashes($customerName) }}')"
-                                            class="px-2 py-1 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-100 uppercase tracking-tighter  hover:border-indigo-500 transition-all duration-300 shadow-sm">
-                                        {{ str_replace('_', ' ', $order->status) }}
-                                    </button>
+                                    <span class="px-2 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 uppercase tracking-tighter shadow-sm">
+                                        Delivered
+                                    </span>
                                 </td>
                                 <td class="px-4 py-3 text-gray-600">
                                     {{ optional($order->created_at)->format('d M Y, h:i A') }}
@@ -157,46 +153,20 @@
                 </table>
             </div>
 
-            <div id="packagingOrderNoResult" class="hidden px-6 py-16 text-center text-gray-400">
+            <div id="deliveredOrderNoResult" class="hidden px-6 py-16 text-center text-gray-400">
                 <i class="fas fa-search text-3xl mb-3 block text-gray-300"></i>
-                No matching packaging orders found
+                No matching delivered orders found
             </div>
 
-            <div class="px-4 sm:px-6 py-4 border-t border-gray-100" id="packagingOrderPagination">
+            <div class="px-4 sm:px-6 py-4 border-t border-gray-100" id="deliveredOrderPagination">
                 {{ $orders->links() }}
             </div>
         @else
-            <div class="px-6 py-16 text-center text-gray-400" id="packagingOrderEmptyState">
-                <i class="fas fa-inbox text-3xl mb-3 block text-gray-300"></i>
-                No packaging orders found
+            <div class="px-6 py-16 text-center text-gray-400" id="deliveredOrderEmptyState">
+                <i class="fas fa-check-circle text-3xl mb-3 block text-gray-300"></i>
+                No orders have been delivered yet
             </div>
         @endif
-    </div>
-</div>
-{{-- Out for Delivery Modal --}}
-<div id="outForDeliveryModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-    <div class="flex items-center justify-center min-h-screen px-4 py-6">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" id="outForDeliveryModalOverlay" onclick="closeOutForDeliveryModal()"></div>
-        <div class="relative bg-white rounded-xl max-w-md w-full overflow-hidden shadow-2xl transform transition-all border border-indigo-100">
-            <button type="button" onclick="closeOutForDeliveryModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition-colors">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="p-8 text-center space-y-4">
-                <div class="w-16 h-16 mx-auto bg-indigo-50 rounded-full flex items-center justify-center">
-                    <i class="fas fa-truck-fast text-indigo-500 text-3xl"></i>
-                </div>
-                <div class="space-y-1">
-                    <h3 id="outForDeliveryModalTitle" class="text-base font-bold text-gray-800 tracking-tight uppercase">Start Delivery</h3>
-                    <p id="outForDeliveryModalDesc" class="text-[11px] text-gray-500 leading-relaxed"></p>
-                </div>
-            </div>
-            <div class="bg-gray-50 px-8 py-4 flex justify-end space-x-3 rounded-b-xl border-t border-gray-100">
-                <button type="button" onclick="closeOutForDeliveryModal()" class="px-5 py-2 text-[10px] font-bold text-gray-500 hover:bg-gray-200 rounded-lg uppercase tracking-wider transition-all duration-200">Cancel</button>
-                <form id="outForDeliveryForm" method="GET">
-                    <button type="submit" class="px-5 py-2 text-[10px] font-bold text-white bg-indigo-500 hover:bg-indigo-600 rounded-lg uppercase tracking-wider shadow-lg shadow-indigo-200 transition-all duration-200">Set Out for Delivery</button>
-                </form>
-            </div>
-        </div>
     </div>
 </div>
 @endsection
@@ -204,13 +174,13 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const searchInput = document.getElementById('packagingOrderSearch');
+        const searchInput = document.getElementById('deliveredOrderSearch');
         if (!searchInput) return;
 
-        const rows = Array.from(document.querySelectorAll('.packaging-order-row'));
-        const cards = Array.from(document.querySelectorAll('.packaging-order-card'));
-        const pagination = document.getElementById('packagingOrderPagination');
-        const noResultState = document.getElementById('packagingOrderNoResult');
+        const rows = Array.from(document.querySelectorAll('.delivered-order-row'));
+        const cards = Array.from(document.querySelectorAll('.delivered-order-card'));
+        const pagination = document.getElementById('deliveredOrderPagination');
+        const noResultState = document.getElementById('deliveredOrderNoResult');
 
         const applyFilter = () => {
             const query = searchInput.value.trim().toLowerCase();
@@ -237,29 +207,5 @@
 
         searchInput.addEventListener('input', applyFilter);
     });
-
-    function openOutForDeliveryModal(id, orderNo, customerName) {
-        const modal = document.getElementById('outForDeliveryModal');
-        const title = document.getElementById('outForDeliveryModalTitle');
-        const desc = document.getElementById('outForDeliveryModalDesc');
-        const form = document.getElementById('outForDeliveryForm');
-
-        if (!modal || !title || !desc || !form) return;
-
-        title.textContent = `Start Delivery: ${orderNo}`;
-        desc.textContent = `Are you sure you want to mark ${customerName}'s order as Out for Delivery? This will move it to the delivery stage.`;
-        form.action = `{{ url('admin/out-for-delivery/move') }}/${id}`;
-        
-        modal.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-    }
-
-    function closeOutForDeliveryModal() {
-        const modal = document.getElementById('outForDeliveryModal');
-        if (modal) {
-            modal.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-        }
-    }
 </script>
 @endpush
