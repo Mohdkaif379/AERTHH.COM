@@ -254,7 +254,7 @@
                 <div class="mb-3 flex justify-center">
                     <div class="w-28 h-28 rounded-full  p-1 shadow-lg">
                         <div class="w-full h-full rounded-full bg-white overflow-hidden">
-                            <img src="https://aerthh.com/storage/app/public/company/2025-03-26-67e3da8f9b411.webp" 
+                            <img src="{{ asset('logo.webp') }}" 
                                  alt="Aerthh Logo" 
                                  class="w-full h-full object-cover"
                                  onerror="this.src='https://via.placeholder.com/150/06b6d4/ffffff?text=AERTH'">

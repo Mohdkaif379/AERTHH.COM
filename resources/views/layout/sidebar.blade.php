@@ -13,7 +13,7 @@
             {{-- Logo Image --}}
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-lg overflow-hidden shadow-md flex-shrink-0">
-                    <img src="https://aerthh.com/storage/app/public/company/2025-03-26-67e3da8f9b411.webp"
+                    <img src="{{ asset('logo.webp') }}"
                         alt="Aerthh Logo"
                         class="w-full h-full object-cover"
                         onerror="this.src='https://via.placeholder.com/40/06b6d4/ffffff?text=A'">
