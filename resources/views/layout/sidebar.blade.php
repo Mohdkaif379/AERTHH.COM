@@ -13,8 +13,7 @@
             {{-- Logo Image --}}
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-lg overflow-hidden shadow-md flex-shrink-0">
-                    <img src="{{ asset('logo.webp') }}"
-                    
+                    <img src="https://aerthh.com/storage/app/public/company/2025-03-26-67e3da8f9b411.webp"
                         alt="Aerthh Logo"
                         class="w-full h-full object-cover"
                         onerror="this.src='https://via.placeholder.com/40/06b6d4/ffffff?text=A'">
@@ -105,7 +104,7 @@
                     <span class="sidebar-text bg-yellow-100 text-yellow-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">7</span>
                 </a>
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.confirmed-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-check-circle w-4 text-blue-400 text-[10px]"></i>
                         <span class="sidebar-text">Confirmed</span>
@@ -113,7 +112,7 @@
                     <span class="sidebar-text bg-blue-100 text-blue-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">11</span>
                 </a>
 
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('admin.packaging-orders.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-box w-4 text-purple-400 text-[10px]"></i>
                         <span class="sidebar-text">Packaging</span>
@@ -370,22 +369,22 @@
                 class="pl-9 space-y-1">
 
                 {{-- New Products Requests --}}
-                <a href="{{ route('vendor.products.pending') }}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('vendor.products.pending')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-clock w-4 text-yellow-400 text-[10px]"></i>
                         <span class="sidebar-text">New Products Requests</span>
                     </div>
-                    <!-- <span class="sidebar-text bg-yellow-100 text-yellow-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">12</span> -->
+                    <span class="sidebar-text bg-yellow-100 text-yellow-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">12</span>
                 </a>
 
                 {{-- Product Update Request --}}
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-edit w-4 text-blue-400 text-[10px]"></i>
-                        <span class="sidebar-text">Product Update Request</span>
-                    </div>
-                    <!-- <span class="sidebar-text bg-blue-100 text-blue-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">5</span> -->
-                </a>
+                <!--<a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">-->
+                <!--    <div class="flex items-center space-x-2">-->
+                <!--        <i class="fas fa-edit w-4 text-blue-400 text-[10px]"></i>-->
+                <!--        <span class="sidebar-text">Product Update Request</span>-->
+                <!--    </div>-->
+                <!--    <span class="sidebar-text bg-blue-100 text-blue-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">5</span>-->
+                <!--</a>-->
 
                 {{-- Approved Products --}}
                 <a href="{{ route('vendor.products.approved') }}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
@@ -393,7 +392,7 @@
                         <i class="fas fa-check-circle w-4 text-emerald-400 text-[10px]"></i>
                         <span class="sidebar-text">Approved Products</span>
                     </div>
-                    <!-- <span class="sidebar-text bg-emerald-100 text-emerald-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">45</span> -->
+                    <span class="sidebar-text bg-emerald-100 text-emerald-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">45</span>
                 </a>
 
                 {{-- Denied Products --}}
@@ -402,7 +401,7 @@
                         <i class="fas fa-times-circle w-4 text-rose-400 text-[10px]"></i>
                         <span class="sidebar-text">Denied Products</span>
                     </div>
-                    <!-- <span class="sidebar-text bg-rose-100 text-rose-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">3</span> -->
+                    <span class="sidebar-text bg-rose-100 text-rose-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">3</span>
                 </a>
             </div>
         </div>
@@ -545,7 +544,8 @@
         </a> -->
 
         {{-- Support Ticket Button --}}
-        <a href="{{route('admin.support-ticket.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
+
+         <a href="{{route('admin.support-ticket.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
             <div class="flex items-center space-x-3">
                 <i class="fas fa-ticket-alt w-5 text-purple-500 text-sm flex-shrink-0"></i>
                 <span class="sidebar-text text-xs font-medium">Support Ticket</span>
@@ -553,14 +553,14 @@
             <span class="sidebar-text bg-purple-100 text-purple-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">3</span>
         </a>
 
-        {{-- Chat Support Button --}}
-        <a href="{{ route('admin.chats.index') }}" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 {{ request()->routeIs('admin.chats.*') ? 'active bg-gradient-to-r from-cyan-50 to-emerald-50' : '' }}">
+        <a href="{{ route('admin.chats.history') }}" class="sidebar-link flex items-center justify-between px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300">
             <div class="flex items-center space-x-3">
-                <i class="fas fa-comments w-5 text-sky-500 text-sm flex-shrink-0"></i>
-                <span class="sidebar-text text-xs font-medium">Chat Support</span>
+                 <i class="fas fa-comments w-5 text-sky-500 text-sm flex-shrink-0"></i>
+                <span class="sidebar-text text-xs font-medium">Chat Completed Query</span>
             </div>
-            <!-- Unread badge can be dynamic here later -->
         </a>
+        
+      
 
 
         {{-- REPORTS & ANALYSIS SECTION --}}
@@ -737,15 +737,15 @@
                 class="pl-9 space-y-1">
 
                 {{-- Add New Vendor --}}
-                <!-- <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-plus-circle w-4 text-emerald-400 text-[10px]"></i>
-                        <span class="sidebar-text">Add New Vendor</span>
-                    </div>
-                </a> -->
+                <!--<a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">-->
+                <!--    <div class="flex items-center space-x-2">-->
+                <!--        <i class="fas fa-plus-circle w-4 text-emerald-400 text-[10px]"></i>-->
+                <!--        <span class="sidebar-text">Add New Vendor</span>-->
+                <!--    </div>-->
+                <!--</a>-->
 
                 {{-- Vendor List --}}
-                <a href="{{ route('vendors.index') }}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{route('vendors.index')}}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-list w-4 text-cyan-400 text-[10px]"></i>
                         <span class="sidebar-text">Vendor List</span>
@@ -830,7 +830,8 @@
                         <i class="fas fa-phone w-4 text-rose-400 text-[10px]"></i>
                         <span class="sidebar-text">Emergency Contact</span>
                     </div>
-                </a>    
+                    <span class="sidebar-text bg-rose-100 text-rose-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">3</span>
+                </a>
             </div>
         </div>
 

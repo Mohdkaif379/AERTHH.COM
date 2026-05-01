@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Vendor\VendorHistory;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 
 class VendorHistoryController extends Controller
@@ -23,6 +24,11 @@ class VendorHistoryController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        return view('vendor.vendor-history.index', compact('orders'));
+        $withdrawals = Withdrawal::where('vendor_id', $vendor['id'])
+            ->whereIn('status', ['approved', 'rejected'])
+            ->latest()
+            ->get();
+
+        return view('vendor.vendor-history.index', compact('orders', 'withdrawals'));
     }
 }
