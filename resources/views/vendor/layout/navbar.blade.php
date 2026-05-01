@@ -235,7 +235,7 @@ $navVendorImage = asset('storage/' . ltrim($navVendorRawImage, '/'));
               <i class="fa fa-key w-3.5 text-red-500"></i>
               <span class="text-gray-900 dark:text-white">Password Manager</span>
             </a>
-            <a href="#" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
+            <a href="{{ route('vendor.withdrawal.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
               <i class="fa fa-money-bill-wave w-3.5 text-red-500"></i>
               <span class="text-gray-900 dark:text-white">Withdrawal</span>
             </a>
@@ -296,7 +296,10 @@ $navVendorImage = asset('storage/' . ltrim($navVendorRawImage, '/'));
     return (float) $order->total_price + (float) ($order->shipping_cost ?? 0);
     });
 
-    $navPendingPayout = 0;
+    $navPendingPayout = \App\Models\Withdrawal::where('vendor_id', $navVendor['id'])
+    ->whereIn('status', ['pending', 'approved'])
+    ->sum('amount');
+
     $navAvailableBalance = $navTotalEarnings - $navPendingPayout;
     }
     @endphp

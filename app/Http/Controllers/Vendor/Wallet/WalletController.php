@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Vendor\Wallet;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 
 class WalletController extends Controller
@@ -32,14 +33,43 @@ class WalletController extends Controller
                 return (float) $order->total_price + (float) ($order->shipping_cost ?? 0);
             });
 
-        $pendingPayout = 0;
-        $availableBalance = $totalEarnings - $pendingPayout;
+        // Pending Payout: Only show pending withdrawals
+        $pendingPayout = Withdrawal::where('vendor_id', $vendor['id'])
+            ->where('status', 'pending')
+            ->sum('amount');
+
+        // Total Withdrawn (Approved)
+        $totalWithdrawn = Withdrawal::where('vendor_id', $vendor['id'])
+            ->where('status', 'approved')
+            ->sum('amount');
+
+        // This Month Withdrawn (Approved this month)
+        $thisMonthWithdrawn = Withdrawal::where('vendor_id', $vendor['id'])
+            ->where('status', 'approved')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->sum('amount');
+
+        $availableBalance = $totalEarnings - ($pendingPayout + $totalWithdrawn);
+
+        $recentWithdrawals = Withdrawal::where('vendor_id', $vendor['id'])
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $lastWithdrawal = Withdrawal::where('vendor_id', $vendor['id'])
+            ->latest()
+            ->first();
 
         return view('vendor.wallet.index', compact(
             'totalEarnings',
             'thisMonthEarnings',
             'pendingPayout',
-            'availableBalance'
+            'totalWithdrawn',
+            'thisMonthWithdrawn',
+            'availableBalance',
+            'recentWithdrawals',
+            'lastWithdrawal'
         ));
     }
 }

@@ -298,3 +298,9 @@ Route::prefix('vendor/support-ticket')->group(function () {
 Route::prefix('vendor/my-product-reviews')->group(function () {
     Route::get('/', [\App\Http\Controllers\Vendor\MyProductReviews\MyProductReviewController::class, 'index'])->name('vendor.my-product-reviews.index');
 });
+
+Route::prefix('vendor/withdrawal')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Vendor\Withdrawal\WithdrawalController::class, 'index'])->name('vendor.withdrawal.index');
+    Route::post('/store', [\App\Http\Controllers\Vendor\Withdrawal\WithdrawalController::class, 'store'])->name('vendor.withdrawal.store');
+});
+
