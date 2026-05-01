@@ -45,8 +45,12 @@
             <!-- Profile Card -->
             <div class="lg:col-span-2 bg-white/70 dark:bg-slate-800/70 backdrop-blur-xl rounded-3xl p-6 border shadow-2xl">
                 <div class="flex items-center gap-4 mb-4">
-                    <img src="{{ $vendor->image ?? 'https://ui-avatars.com/api/?name=' . urlencode($vendor->name ?? '') . '&size=64' }}" alt="{{ $vendor->name ?? 'Vendor' }}" class="w-16 h-16 rounded-xl ring-2 ring-emerald-400/50">
-                    <div>
+                  <img 
+src="{{ $vendor->image 
+    ? asset(str_replace(['vendor/', 'storage/app/public/'], ['', 'storage/'], $vendor->image)) 
+    : 'https://ui-avatars.com/api/?name=' . urlencode($vendor->name ?? '') . '&size=64' }}" 
+alt="{{ $vendor->name ?? 'Vendor' }}" 
+class="w-16 h-16 rounded-xl ring-2 ring-emerald-400/50">  <div>
                         <h3 class="font-bold text-lg text-gray-900 dark:text-white">{{ $vendor->name }}</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400">{{ $vendor->phone ?? 'No phone' }}</p>
                         {{ $vendor->email }}
