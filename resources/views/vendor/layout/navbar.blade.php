@@ -246,8 +246,8 @@ $navVendorImage = asset('storage/' . ltrim($navVendorRawImage, '/'));
             class="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl 
              text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
 
-            <i class="fa fa-ticket-alt w-5 text-orange-500"></i>
-            <span class="text-orange-500">Support Tickets</span>
+            <i class="fa fa-ticket-alt w-5 text-orange-500 flex-shrink-0"></i>
+            <span class="text-orange-500 sidebar-text whitespace-nowrap">Support Tickets</span>
 
           </a>
 
@@ -255,8 +255,8 @@ $navVendorImage = asset('storage/' . ltrim($navVendorRawImage, '/'));
             class="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl 
             text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
 
-            <i class="fa fa-star w-5 text-orange-500"></i>
-            <span class="text-orange-500">Reviews</span>
+            <i class="fa fa-star w-5 text-orange-500 flex-shrink-0"></i>
+            <span class="text-orange-500 sidebar-text whitespace-nowrap">Reviews</span>
 
           </a>
 
@@ -264,8 +264,8 @@ $navVendorImage = asset('storage/' . ltrim($navVendorRawImage, '/'));
             class="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl 
    text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5">
 
-            <i class="fa fa-history w-5 text-orange-500"></i>
-            <span class="text-orange-500">History</span>
+            <i class="fa fa-history w-5 text-orange-500 flex-shrink-0"></i>
+            <span class="text-orange-500 sidebar-text whitespace-nowrap">History</span>
 
           </a>
         </div>
@@ -827,6 +827,3 @@ $navVendorImage = asset('storage/' . ltrim($navVendorRawImage, '/'));
     // Vendor data loaded via session (server-side auth)
     window.updateAllVendorUI();
   </script>
-</body>
-
-</html>
