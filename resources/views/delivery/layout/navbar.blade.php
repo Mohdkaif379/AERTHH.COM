@@ -211,7 +211,7 @@
 
             <!-- Navigation Menu -->
             <nav class="flex-1 p-2 space-y-0.5 overflow-y-auto sidebar-scroll">
-                <a href="{{ route('delivery.dashboard.index') }}" class="nav-item active flex items-center gap-2 px-3 py-2 rounded-lg dark:text-white light:text-gray-700 dark:bg-[#F43F5E]/10 light:bg-[#F43F5E]/8 transition-all whitespace-nowrap">
+                <a href="{{ route('delivery.dashboard') }}" class="nav-item active flex items-center gap-2 px-3 py-2 rounded-lg dark:text-white light:text-gray-700 dark:bg-[#F43F5E]/10 light:bg-[#F43F5E]/8 transition-all whitespace-nowrap">
                     <i class="fas fa-tachometer-alt w-4 text-[#FB7185] text-sm"></i>
                     <span class="sidebar-text text-xs font-medium">Dashboard</span>
                 </a>
@@ -255,7 +255,7 @@
             <!-- User Info + Logout -->
             <div class="border-t dark:border-[#22152a] light:border-gray-200 p-3">
                 <!-- Logout Button -->
-                <a href="{{route('delivery.logout')}}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-[#F43F5E] hover:bg-[#F43F5E]/10 transition-all group">
+                <a href="javascript:void(0)" onclick="openLogoutModal()" class="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-[#F43F5E] hover:bg-[#F43F5E]/10 transition-all group">
                     <i class="fas fa-sign-out-alt w-4 text-gray-500 group-hover:text-[#F43F5E] text-sm"></i>
                     <span class="sidebar-text text-xs font-medium">Logout</span>
                 </a>
@@ -391,7 +391,55 @@
         </div>
     </div>
 
+    <!-- Logout Confirmation Modal -->
+    <div id="logoutModal" class="fixed inset-0 z-[100] hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Overlay -->
+            <div id="logoutModalOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" aria-hidden="true"></div>
+
+            <!-- Modal Panel -->
+            <div class="inline-block align-bottom dark:bg-[#1A1021] bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border dark:border-[#F43F5E]/20 border-gray-100">
+                <div class="p-6">
+                    <div class="flex flex-col items-center text-center">
+                        <!-- Icon -->
+                        <div class="w-16 h-16 rounded-full bg-[#F43F5E]/10 flex items-center justify-center mb-4">
+                            <i class="fas fa-sign-out-alt text-2xl text-[#F43F5E]"></i>
+                        </div>
+                        
+                        <!-- Text -->
+                        <h3 class="text-lg font-bold dark:text-white text-gray-800 mb-2">Ready to Leave?</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Are you sure you want to log out? You'll need to log back in to manage your deliveries.</p>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="px-6 py-4 dark:bg-black/20 bg-gray-50 flex gap-3">
+                    <button type="button" onclick="closeLogoutModal()" class="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 dark:text-gray-300 text-gray-700 text-sm font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition-all">
+                        Stay
+                    </button>
+                    <a href="{{ route('delivery.logout') }}" class="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#F43F5E] to-[#BE123C] text-white text-sm font-semibold text-center hover:shadow-lg hover:shadow-[#F43F5E]/20 transition-all">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        function openLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLogoutModal() {
+            const modal = document.getElementById('logoutModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('logoutModalOverlay')?.addEventListener('click', closeLogoutModal);
+
         (function() {
             const html = document.documentElement;
             const sunIcon = document.getElementById('themeIconSun');
