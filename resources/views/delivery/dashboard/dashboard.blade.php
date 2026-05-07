@@ -1,38 +1,90 @@
 @extends('delivery.layout.navbar')
 
 @section('content')
+<style>
+    @keyframes toastSlideIn {
+        from { transform: translateY(20px); opacity: 0; filter: blur(10px); }
+        to { transform: translateY(0); opacity: 1; filter: blur(0); }
+    }
+    @keyframes toastSlideOut {
+        from { transform: translateY(0); opacity: 1; filter: blur(0); }
+        to { transform: translateY(20px); opacity: 0; filter: blur(10px); }
+    }
+    @keyframes toastProgress {
+        from { transform: scaleX(1); }
+        to { transform: scaleX(0); }
+    }
+    .animate-toast-in { animation: toastSlideIn 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+    .animate-toast-out { animation: toastSlideOut 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+</style>
+
 <script>
-    const successMsg = @json(session('success') ?? '');
-    const errorMsg = @json(session('error') ?? '');
-    
-    if (successMsg) {
-        // Bottom right toast with progress bar
-        const toast = document.createElement('div');
-        toast.className = 'fixed bottom-4 right-4 z-50 bg-green-500/95 text-white px-6 py-4 rounded-2xl shadow-2xl backdrop-blur-md border border-green-400/30 max-w-sm text-sm animate-slide-in-right';
-        toast.innerHTML = `
-            <div class="flex items-center justify-between mb-2">
-                <i class="fas fa-check-circle text-lg"></i>
-                <span class="font-medium">${successMsg}</span>
-            </div>
-            <div class="h-1 bg-green-400/50 rounded-full overflow-hidden">
-                <div class="h-full bg-green-400 rounded-full transition-all duration-4000" style="width: 100%; animation: progress 4s linear forwards;"></div>
-            </div>
-        `;
-        document.body.appendChild(toast);
+    (function() {
+        const successMsg = @json(session('success') ?? '');
+        const errorMsg = @json(session('error') ?? '');
         
-        // Auto remove with animation
-        setTimeout(() => {
-            toast.style.animation = 'slide-out-right 0.3s ease forwards';
-            setTimeout(() => toast.remove(), 300);
-        }, 3800);
-    }
-    if (errorMsg) {
-        const toast = document.createElement('div');
-        toast.className = 'fixed bottom-4 right-4 z-50 bg-red-500 text-white px-6 py-3 rounded-xl shadow-2xl backdrop-blur-md max-w-sm text-sm';
-        toast.innerHTML = `<i class="fas fa-exclamation-triangle mr-2"></i>${errorMsg}`;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 5000);
-    }
+        function createToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+            const accentColor = type === 'success' ? '#10b981' : '#f43f5e';
+            const bgClass = 'dark:bg-[#1A1021]/95 bg-white/95';
+            
+            toast.className = `fixed bottom-8 right-8 z-[100] ${bgClass} p-0 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] backdrop-blur-xl border border-gray-100 dark:border-white/5 min-w-[320px] max-w-md overflow-hidden animate-toast-in`;
+            
+            toast.innerHTML = `
+                <div class="flex items-stretch min-h-[64px]">
+                    <!-- Accent Side Bar -->
+                    <div class="w-1.5" style="background: ${accentColor}"></div>
+                    
+                    <div class="flex-1 p-3 flex items-center gap-3">
+                        <!-- Icon -->
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background: ${accentColor}15; color: ${accentColor}">
+                            <i class="fas ${icon}"></i>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="flex-1 pr-4">
+                            <h4 class="text-[11px] font-black uppercase tracking-[0.1em] mb-1" style="color: ${accentColor}">
+                                ${type === 'success' ? 'Completed' : 'Notification'}
+                            </h4>
+                            <p class="text-[13px] font-semibold dark:text-gray-200 text-gray-700 leading-tight">
+                                ${message}
+                            </p>
+                        </div>
+
+                        <!-- Close -->
+                        <button onclick="closeThisToast(this)" class="flex-shrink-0 w-8 h-8 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5 flex items-center justify-center transition-all text-gray-400 hover:text-gray-600 dark:hover:text-white">
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Progress Line -->
+                <div class="absolute bottom-0 left-0 w-full h-[3px] bg-gray-100 dark:bg-white/5">
+                    <div class="h-full origin-left" style="background: ${accentColor}; animation: toastProgress 4s linear forwards;"></div>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            window.closeThisToast = (btn) => {
+                const t = btn.closest('.animate-toast-in');
+                t.classList.remove('animate-toast-in');
+                t.classList.add('animate-toast-out');
+                setTimeout(() => t.remove(), 400);
+            };
+
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.classList.remove('animate-toast-in');
+                    toast.classList.add('animate-toast-out');
+                    setTimeout(() => toast.remove(), 400);
+                }
+            }, 4000);
+        }
+
+        if (successMsg) createToast(successMsg, 'success');
+        if (errorMsg) createToast(errorMsg, 'error');
+    })();
 </script>
 <div class="space-y-6">
     <!-- Welcome Header -->
