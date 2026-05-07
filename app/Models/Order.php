@@ -34,4 +34,9 @@ class Order extends Model
     {
         return $this->belongsTo(Vendor::class);
     }
+
+    public function deliveryMan()
+    {
+        return $this->hasMany(OrderAssign::class, 'order_id');
+    }
 }

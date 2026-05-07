@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Admin extends Model
 {
-     use HasFactory;
+    use HasFactory;
      protected $fillable = [
         'name',
         'email',
@@ -16,5 +16,9 @@ class Admin extends Model
         'phone',
         'status',
     ];  
-    //
+    
+    public function deliveryMen()
+    {
+        return $this->hasMany(DeliveryMan::class, 'created_by');
+    }
 }

@@ -147,6 +147,7 @@
                             <th class="px-4 py-3 text-left font-medium text-gray-500">Total</th>
                             <th class="px-4 py-3 text-left font-medium text-gray-500">Status</th>
                             <th class="px-4 py-3 text-left font-medium text-gray-500">Created</th>
+                            <th class="px-4 py-3 text-left font-medium text-gray-500">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -197,6 +198,19 @@
                                 <td class="px-4 py-3 text-gray-600">
                                     {{ optional($order->created_at)->format('d M Y, h:i A') }}
                                 </td>
+                                <td class="px-4 py-3">
+                                    @php
+                                        $assignedId = $order->deliveryMan->first()->delivery_man_id ?? '';
+                                    @endphp
+                                    <button 
+                                        type="button"
+                                        onclick="openAssignModal('{{ $order->id }}', '{{ $order->order_no }}', '{{ $assignedId }}')"
+                                        class="px-3 py-1 bg-slate-800 text-white text-[10px] font-bold rounded-lg hover:bg-slate-700 transition shadow-sm flex items-center space-x-1"
+                                    >
+                                        <i class="fas fa-user-plus"></i>
+                                        <span>Assign</span>
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -219,6 +233,74 @@
         @endif
     </div>
 </div>
+
+{{-- Assign Delivery Man Modal --}}
+<div id="assignModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true" onclick="closeAssignModal()"></div>
+
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+        <div class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-slate-100 sm:mx-0 sm:h-10 sm:w-10">
+                        <i class="fas fa-truck-loading text-slate-600"></i>
+                    </div>
+                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                        <h3 class="text-lg leading-6 font-bold text-gray-900" id="modal-title">
+                            Assign Delivery Man
+                        </h3>
+                        <div class="mt-2">
+                            <p class="text-xs text-gray-500">
+                                Select a delivery man for Order <span id="modalOrderNo" class="font-bold text-slate-700"></span>
+                            </p>
+                        </div>
+
+                        <form id="assignForm" action="{{ route('admin.order-assign.store') }}" method="POST" class="mt-4">
+                            @csrf
+                            <input type="hidden" name="order_id" id="modalOrderId">
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="delivery_man_id" class="block text-[10px] font-bold text-gray-700 uppercase tracking-wider mb-1">Select Delivery Man</label>
+                                    <select 
+                                        name="delivery_man_id" 
+                                        id="delivery_man_id" 
+                                        required
+                                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:border-slate-300 focus:outline-none focus:ring-1 focus:ring-slate-100 text-xs transition-all"
+                                    >
+                                        <option value="">-- Choose Delivery Man --</option>
+                                        @foreach($deliveryMen as $dm)
+                                            <option value="{{ $dm->id }}">{{ $dm->full_name }} ({{ $dm->mobile }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 flex flex-col sm:flex-row gap-2">
+                                <button 
+                                    type="submit" 
+                                    class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2.5 bg-slate-900 text-xs font-bold text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all sm:order-2"
+                                >
+                                    Assign Now
+                                </button>
+                                <button 
+                                    type="button" 
+                                    onclick="closeAssignModal()"
+                                    class="w-full inline-flex justify-center rounded-xl border border-gray-200 shadow-sm px-4 py-2.5 bg-white text-xs font-bold text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all sm:order-1"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -257,5 +339,33 @@
 
         searchInput.addEventListener('input', applyFilter);
     });
+
+    function openAssignModal(orderId, orderNo, assignedId) {
+        document.getElementById('modalOrderId').value = orderId;
+        document.getElementById('modalOrderNo').innerText = orderNo;
+        
+        // Filter dropdown
+        const select = document.getElementById('delivery_man_id');
+        const options = select.options;
+        
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value === assignedId && assignedId !== '') {
+                options[i].hidden = true;
+                options[i].disabled = true;
+                if (select.value === assignedId) select.value = '';
+            } else {
+                options[i].hidden = false;
+                options[i].disabled = false;
+            }
+        }
+
+        document.getElementById('assignModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAssignModal() {
+        document.getElementById('assignModal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
 </script>
 @endpush

@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\Withdrawal\RejectedWithdrawalController;
 use App\Http\Controllers\Admin\OutDelivery\OutForDeliveryController;
 use App\Http\Controllers\Admin\Delivered\DeliveredController;
 use App\Http\Controllers\Admin\AllOrder\OrderController;
+use App\Http\Controllers\Admin\DeliveryMan\DeliveryManController;
 use App\Http\Controllers\Admin\ReturnedOrder\ReturnedOrderController;
 use App\Http\Controllers\Admin\CancelledOrder\CancelledOrderController;
 use App\Http\Controllers\Admin\FailedDeliverOrder\FailedDeliverOrderController;
@@ -146,6 +147,13 @@ Route::prefix('admin/customers')->group(function () {
     Route::get('/delete/{customer}', [CustomerController::class, 'destroy'])->name('customers.delete');
 });
 
+Route::prefix('admin/delivery-man')->group(function () {
+    Route::get('/', [DeliveryManController::class, 'index'])->name('admin.delivery-man.index');
+    Route::get('/status/{id}/{status}', [DeliveryManController::class, 'updateStatus'])->name('admin.delivery-man.status');
+    Route::get('/delete/{id}', [DeliveryManController::class, 'destroy'])->name('admin.delivery-man.delete');
+    Route::get('/{id}', [DeliveryManController::class, 'show'])->name('admin.delivery-man.show');
+});
+
 Route::prefix('admin/pending-orders')->group(function () {
     Route::get('/', [PendingOrderController::class, 'index'])->name('admin.pending-orders.index');
 });
@@ -207,6 +215,7 @@ Route::prefix('admin/delivered-orders')->group(function () {
 
 Route::prefix('admin/all-orders')->group(function () {
     Route::get('/', [OrderController::class, 'index'])->name('admin.all-orders.index');
+    Route::post('/assign', [App\Http\Controllers\Admin\OrderAssign\OrderAssignController::class, 'store'])->name('admin.order-assign.store');
 });
 
 Route::prefix('admin/returned-orders')->group(function () {
@@ -367,3 +376,33 @@ Route::prefix('vendor/withdrawal')->group(function () {
     Route::post('/store', [\App\Http\Controllers\Vendor\Withdrawal\WithdrawalController::class, 'store'])->name('vendor.withdrawal.store');
 });
 
+
+Route::prefix('delivery/login')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Delivery\DeliveryLogin\DeliveryLoginController::class, 'index'])->name('delivery.login');
+    Route::post('/', [\App\Http\Controllers\Delivery\DeliveryLogin\DeliveryLoginController::class, 'login'])->name('delivery.login.submit');
+    Route::get('/logout', [\App\Http\Controllers\Delivery\DeliveryLogin\DeliveryLoginController::class, 'logout'])->name('delivery.logout');
+});
+
+Route::prefix('delivery/signup')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Delivery\DeliverySignup\DeliverySignupController::class, 'index'])->name('delivery.signup');
+    Route::post('/', [\App\Http\Controllers\Delivery\DeliverySignup\DeliverySignupController::class, 'store'])->name('delivery.signup.submit');
+});
+
+Route::prefix('delivery/success')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Delivery\DeliveryMan\DeliveryManSuccessController::class, 'index'])->name('delivery.success');
+});
+
+Route::prefix('delivery/dashboard')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Delivery\DeliverMan\DashboardController::class, 'index'])->name('delivery.dashboard');
+});
+
+Route::prefix('delivery/my-assigned-orders')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Delivery\MyAssignOrder\MyOrderAssignController::class, 'index'])->name('delivery.my-assigned-orders.index');
+    Route::post('/{id}/update-status', [\App\Http\Controllers\Delivery\MyAssignOrder\MyOrderAssignController::class, 'updateStatus'])->name('delivery.my-assigned-orders.update-status');
+    Route::get('/fetch-notifications', [\App\Http\Controllers\Delivery\MyAssignOrder\MyOrderAssignController::class, 'getNotifications'])->name('delivery.notifications.fetch');
+    Route::post('/order/{orderId}/update-delivery-status', [\App\Http\Controllers\Delivery\MyAssignOrder\MyOrderAssignController::class, 'updateOrderDeliveryStatus'])->name('delivery.my-assigned-orders.update-delivery-status');
+});
+
+Route::prefix('delivery/history')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Delivery\MyDeliveredHistory\MyDeliveredHistoryController::class, 'index'])->name('delivery.history.index');
+});

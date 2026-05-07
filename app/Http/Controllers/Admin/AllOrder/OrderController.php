@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\AllOrder;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\DeliveryMan;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -12,13 +13,15 @@ class OrderController extends Controller
     {
         $status = $request->query('status');
         
-        $orders = Order::with(['customer', 'product', 'vendor'])
+        $orders = Order::with(['customer', 'product', 'vendor', 'deliveryMan'])
             ->when($status && $status !== 'all', function ($query) use ($status) {
                 return $query->where('status', $status);
             })
             ->latest()
             ->paginate(15);
 
-        return view('admin.all_orders.index', compact('orders', 'status'));
+        $deliveryMen = DeliveryMan::where('status', 'approved')->orWhere('status', 'active')->get();
+
+        return view('admin.all_orders.index', compact('orders', 'status', 'deliveryMen'));
     }
 }

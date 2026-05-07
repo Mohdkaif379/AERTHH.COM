@@ -784,12 +784,12 @@
                 </a>
 
                 {{-- List --}}
-                <a href="#" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs">
+                <a href="{{ route('admin.delivery-man.index') }}" class="sidebar-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-600 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-emerald-50 transition-all duration-300 text-xs {{ request()->routeIs('admin.delivery-man.index') ? 'active' : '' }}">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-list w-4 text-cyan-400 text-[10px]"></i>
                         <span class="sidebar-text">List</span>
                     </div>
-                    <span class="sidebar-text bg-cyan-100 text-cyan-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">18</span>
+                    <span class="sidebar-text bg-cyan-100 text-cyan-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full">{{ \App\Models\DeliveryMan::count() }}</span>
                 </a>
 
                 {{-- Withdraws --}}
